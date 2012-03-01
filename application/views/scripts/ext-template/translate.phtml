@@ -1,0 +1,175 @@
+{
+  xtype: 'viewport',
+  style: 'background: #EBEEF2;',
+  maintainFlex: true,
+  renderTo : Ext.getBody(),
+  layout: 'auto',
+  items: [{
+    id: 'translateContainer',
+    xtype: 'container',
+    margin: 10,
+    style: 'text-align: center;',
+    /*height    : 600,
+    width     : 1100,*/
+    layout: {
+      align: 'center',
+      type: 'hbox'
+    },
+    items:[{
+        
+        xtype: 'container',
+        id      : 'gridHolder',
+        margin: 5,
+        layout: {
+          align: 'center',
+          type: 'fit'
+        },
+        items : [{
+            xtype   : 'grid',
+            title   : 'Translate',
+            id      : "Iddqd",
+            store   : self.scope.model.store,
+            columns : [
+              {header : 'id'               , dataIndex: 'id'},
+              {header : 'Kategória'        , dataIndex: 'category'},
+              {header : 'Változó'          , dataIndex: 'variable'},
+              {header : 'Kifejezés'        , dataIndex: 'word', renderer : this.renderer, editor : {xtype: 'textfield',allowBlank: false}},
+              {header : 'Idegen kifejezés' , dataIndex: 'foreign_word', renderer : this.renderer, editor : {xtype: 'textfield',allowBlank: false}}
+            ],
+            plugins: [self.scope.model.rowEditing],
+            /*height: 400,
+            width: 700,*/
+            flex: 1,
+            layout: {
+              align: 'center',
+              type: 'fit'
+            },
+            dockedItems: [{
+              xtype       : 'pagingtoolbar',
+              store       : self.scope.model.store,
+              dock        : 'top',
+              displayInfo : true,
+              displayMsg  : 'Találatok: {0} - {1} of {2}',
+              emptyMsg    : "Nincs találat."
+            }]    
+          }/*,{
+              xtype :'buttongroup',
+              columns:2,
+              layout:{ align:'right',type: 'fit' },
+              items: [{
+                xtype :'button',
+                text: 'add'
+              },{
+                xtype :'button',
+                text:'delete'
+              }]
+            }*/]
+        }, {
+          xtype   : 'container',
+          id      : "rightside",
+          height  : 400,
+          width   : 400,
+          margin: 5,
+          layout: {
+            align: 'right',
+            type: 'vbox'
+          },
+          items: [{
+            xtype   : 'panel',
+            title   : 'Languages',
+            height  : 200,
+            width   : 350,
+            flex    : 1,
+            layout  : {
+              type: 'vbox'
+            },
+            items: [{
+              xtype: 'combo',
+              id: 'varCombo',
+              id: 'langCombo',
+              fieldLabel: 'Choose language',
+              store: self.scope.model.langStore,
+              queryMode: 'local',
+              displayField: 'lang',
+              valueField: 'langval',
+              triggerAction : 'all'
+            },{
+              xtype :'buttongroup',
+              columns:2,
+              items: [{
+                xtype :'button',
+                id: 'langComboAdd',
+                text: 'add'
+              },{
+                xtype :'button',
+                id: 'langComboDel',
+                text:'delete'
+              }]
+            }]
+          },{
+          xtype   : 'panel',
+          title   : 'Categories',
+          height  : 100,
+          width   : 350,
+          flex    : 2,
+          layout  : {
+            type    : 'vbox'
+          },
+          columns : 2,
+          items: [{
+            xtype: 'combo',
+            id: 'catCombo',
+            fieldLabel: 'Choose category',
+            store: self.scope.model.catStore,
+            queryMode: 'local',
+            displayField: 'cat',
+            valueField: 'catval',
+            triggerAction : 'all'  
+          },{
+            xtype :'buttongroup',
+            columns:2,
+            items: [{
+              xtype :'button',
+              id: 'catComboAdd',
+              text: 'add'
+            },{
+              xtype :'button',
+              id: 'catComboDel',
+              text:'delete'
+            }]
+          }]
+        },{
+          xtype   : 'panel',
+          title   : 'Variables',
+          height  : 100,
+          width   : 350,
+          flex    : 2,
+          layout  : {
+            type    : 'vbox'
+          },
+          columns : 2,
+          items: [{
+            xtype: 'combo',
+            id: 'varCombo',
+            fieldLabel: 'Choose category',
+            store: self.scope.model.catStore,
+            queryMode: 'local',
+            displayField: 'cat',
+            valueField: 'catval',
+            triggerAction : 'all'  
+          },{
+            xtype :'buttongroup',
+            columns:2,
+            items: [{
+              xtype :'button',
+              id: 'varComboAdd',
+              text: 'add'
+            },{
+              xtype :'button',
+              id: 'varComboDel',
+              text:'delete'
+            }]
+          }]
+        }]
+      }]
+}]}

@@ -1,0 +1,102 @@
+{
+    projectName: 'maxima',
+    deployDir: '../public/js/build',
+    licenceText:'Maxima Javascript Engine Built on ExtJs 4.0, @author robThot, hirekmedia',
+    pkgs: [{
+    	name: 'Maxima Engine',
+        file: 'main.js',
+        isDebug: true,
+        fileIncludes: [{
+            text: 'ext-all.js',
+            path: '../public/js/lib/'
+        },{
+            text: 'classes.js',
+            path: '../public/js/src/classes/'
+        },{
+            text: 'groupController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'testController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'profileController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'mainController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'messagesController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'iddqdController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'iddqdTranslateController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'loginController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'logoutController.js',
+            path: '../public/js/src/controller/'
+        },{
+            text: 'groupView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'testView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'profileView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'loginView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'iddqdView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'iddqdTranslateView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'mainView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'messagesView.js',
+            path: '../public/js/src/view/'
+        },{
+            text: 'groupModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'profileModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'testModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'mainModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'messagesModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'loginModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'iddqdModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'iddqdTranslateModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'logoutModel.js',
+            path: '../public/js/src/model/'
+        },{
+            text: 'IEHH.js',
+            path: '../public/js/src/classes/'
+        },{
+            text: 'router.js',
+            path: '../public/js/src/classes/'
+        }]   
+	}],
+	resources: []
+}

@@ -1,0 +1,472 @@
+<?php /*print_r($this->lang_items);*/ ?>
+{
+  
+  xtype: 'viewport',
+  border: 0,
+  margin: 0,
+  padding: 0,
+  style: 'background: #EBEEF2;',
+  maintainFlex: true,
+  renderTo : Ext.getBody(),
+  style: 'text-align:center;',
+  layout: {
+      type: 'fit'
+  },
+  items: [{
+    id: 'Main',
+    xtype: 'container',
+    style: 'background: #EBEEF2;',
+    layout: {
+        type: 'fit'
+    },
+    items: [{
+    xtype: 'container',
+    margin: 0,
+    minHeight: 300,
+    minWidth: 1200,
+    style:'margin: 0 auto;',
+    layout: {
+        align: 'stretch',
+        type: 'hbox'
+    },
+    items: [{
+            xtype: 'container',
+            id: 'VALAMI',
+            margin: 10,
+            layout: {
+                align: 'stretch',
+                type: 'vbox'
+            },
+            flex: 1,
+            items: [
+                {
+                    xtype: 'container',
+                    height: 100,
+                    layout: {
+                        type: 'fit'
+                    },
+                    items: [
+                        {
+                            xtype: 'toolbar',
+                            items: [
+                                {
+                                    xtype: 'buttongroup',
+                                    height: 90,
+                                    style: 'background: #C9DDF6;',
+                                    title: '<?php echo $this->lang_items['kerdoivek'] ?>',
+                                    columns: 1,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['kerdoivek'] ?>'
+                                        }
+                                    ]
+                                },{
+                                    xtype: 'buttongroup',
+                                    height: 90,
+                                    style: 'background: #C9DDF6;',
+                                    title: '<?php echo $this->lang_items['tagok'] ?>',
+                                    columns: 3,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['tagok_listaja'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['tagok_importalasa'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['tagok_exportalasa'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['szurok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['alcsoportok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['tag_kereso'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['felhasznalok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['visszapattano'] ?>'
+                                        }
+                                    ]
+                                },{
+                                    xtype: 'buttongroup',
+                                    height: 90,
+                                    style: 'background: #C9DDF6;',
+                                    title: '<?php echo $this->lang_items['uzenetek'] ?>',
+                                    columns: 3,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['email_keret'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['email_tartalom'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['email_kuldo'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['email_idozito'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['email_archivum'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['sms_kuldo'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['sms_idozito'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['sms_archivum'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['kampanyok'] ?>'
+                                        }
+                                    ]
+                                },{
+                                    xtype: 'buttongroup',
+                                    height: 90,
+                                    style: 'background: #C9DDF6;',
+                                    title: '<?php echo $this->lang_items['statisztikak'] ?>',
+                                    columns: 3,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['tagok_szama'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['uj_tagok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['kerdoiv_statisztika'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['leiratkozott_tagok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['hitelesitetlen_feliratkozasok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['stat_uzenetek'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['demografiai'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['atkattintasok'] ?>'
+                                        }
+                                    ]
+                                },{
+                                    xtype: 'tbseparator'
+                                },
+                                {
+                                    xtype: 'tbfill'
+                                },
+                                {
+                                    xtype: 'tbseparator'
+                                },
+                                {
+                                    xtype: 'buttongroup',
+                                    height: 90,
+                                    style: 'background: #d6e3f2;',
+                                    title: '<?php echo $this->lang_items['hatterfeladatok'] ?>',
+                                    columns: 1,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['hatterfeladatok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['live_export'] ?>'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'buttongroup',
+                                    height: 90,
+                                    style: 'background: #d6e3f2;',
+                                    title: '<?php echo $this->lang_items['beallitasok'] ?>',
+                                    columns: 2,
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['adatok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['automatikus_emailek'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['automatikus_weboldalak'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            disabled: true,
+                                            text: '<?php echo $this->lang_items['figyelmezteto_emailek'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['adat_beallitasok'] ?>'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            text: '<?php echo $this->lang_items['adat_csoportok'] ?>'
+                                        }
+                                    ]
+                                }]
+                        }]
+                    },{
+                    xtype: 'container',
+                    height: 22,
+                    layout: {
+                        type: 'fit'
+                    },
+                    items: [
+                        {
+                            xtype: 'toolbar',
+                            style: 'background: #99bce8;',
+                            styleHtmlContent: true,
+                            items: [
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<a href="#" style="color: #000000;">főoldal</a>'
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<font style="color: #000000;">&raquo</font>'
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<a href="#" style="color: #000000;">permission B2C</a>'
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<font style="color: #000000;">&raquo</font>'
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<a href="#" style="color: #000000;">kérdőívek</a>'
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<font style="color: #000000;">&raquo</font>'
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    text: '<font style="color: #000000; font-weight: bold;">Egyperces nyereményjáték 5.</font>'
+                                }
+                            ]
+                        }
+                    ]
+                },{
+                    xtype: 'container',
+                    height: 250,
+                    layout: {
+                        type: 'fit'
+                    },
+                    flex: 1,
+                    items: [
+                        {
+                            xtype: 'panel',
+                            border: 1,
+                            layout: {
+                                type: 'accordion'
+                            },
+                            frameHeader: false,
+                            items: [
+                                {
+                                    xtype: 'panel',
+                                    id:'groupsGridContainer',
+                                    style: 'text-align: center;',
+                                    styleHtmlContent: true,
+                                    collapsed: true,
+                                    title: '<?php echo $this->lang_items['csoportok'] ?>',
+                                    layout: {
+                                      align: 'stretch',
+                                      type: 'hbox'
+                                    },
+                                    items: []
+                                },
+                                {
+                                    xtype: 'panel',
+                                    style: 'text-align: center;',
+                                    styleHtmlContent: true,
+                                    collapsed: false,
+                                    title: '<?php echo $this->lang_items['adatbazisok'] ?>',
+                                    items: []
+                                },
+                                {
+                                    xtype: 'panel',
+                                    style: 'text-align: center;',
+                                    styleHtmlContent: true,
+                                    collapsed: true,
+                                    title: '<?php echo $this->lang_items['futo_folyamatok'] ?>',
+                                    items: []
+                                }
+                            ]
+                        }
+                    ]
+                }]
+                
+                
+                },{
+            xtype: 'container',
+            id:'rigthSide',
+            autoShow: true,
+            margin: '10 10 10 0',
+            width: 200,
+            layout: {
+                align: 'stretch',
+                type: 'vbox'
+            },
+            items: [
+                {
+                    xtype: 'container',
+                    height: 100,
+                    id:'rightSideInnerWrapper',
+                    style: 'text-align: center;',
+                    styleHtmlContent: true,
+                    items: [
+                        {
+                            xtype: 'image',
+                            id:'imageHold',
+                            margin: '30 auto 0 auto',
+                            src: 'http://demo.hirekmedia.hu/maxima/maxima-170x38.png'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'container',
+                    id:'userProfile',
+                    height: 170,
+                    layout: {
+                        type: 'fit'
+                    },
+                    margins: '0 0 20 0',
+                    items: [
+                        {
+                            xtype: 'toolbar',
+                            id: 'profileToolbar',
+                            vertical: true,
+                            items: [
+                                {
+                                    xtype: 'tbtext',
+                                    style: 'background: #C2D8F0;\ntext-align: center;',
+                                    text: '<font style="color: #3E6AAA;"><?php echo $this->lang_items['felhasznalo'] ?>:</font>'
+                                },{
+								    xtype: 'hiddenfield',
+								    id: 'lang_elements',
+								    name:'lang_elements',
+								    style:'display:none;',
+								    value:'<?php echo $this->lang_items['json'] ?>'
+							    },{
+                                    xtype: 'splitbutton',
+                                    id: 'profileName',
+                                    height: 40,
+                                    width: 194,
+                                    text: 'Tóth Tamás<br /><font style="color: #888888;">(toth.tamas@hirekmedia.hu)</font>'
+                                },{
+                                    xtype: 'splitbutton',
+                                    id: 'logout',
+                                    text: '<?php echo $this->lang_items['kilepes'] ?>',
+                                    handler: self.scope.logout
+                                },
+                                {
+                                    xtype: 'tbtext',
+                                    style: 'background: #C2D8F0;\ntext-align: center;',
+                                    text: '<font style="color: #3E6AAA;"><?php echo $this->lang_items['adminisztracio'] ?></font>'
+                                },
+                                {
+                                    xtype: 'splitbutton',
+                                    id: 'languages',
+                                    /*text: '<?php echo $this->lang_items['current_nyelv'] ?>',*/
+                                    handler: self.getLang
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    xtype: 'container',
+                    layout: {
+                        type: 'fit'
+                    },
+                    flex: 1,
+                    items: [
+                        {
+                            xtype: 'fieldset',
+                            style: 'background: #F2E9D8;\n',
+                            layout: {
+                                type: 'fit'
+                            },
+                            title: '<b><?php echo $this->lang_items['sugo'] ?></b>'
+                        }
+                    ]
+                },
+                {
+                    xtype: 'container',
+                    height: 28,
+                    layout: {
+                        type: 'fit'
+                    },
+                    items: [
+                        {
+                            xtype: 'toolbar',
+                            items: [
+                                {
+                                    xtype: 'button',
+                                    width: 194,
+                                    text: '<?php echo $this->lang_items['szerkeszt'] ?>'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }]
+}
+]
+  }]
+}

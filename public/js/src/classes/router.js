@@ -19,10 +19,12 @@ Ext.define('Router', {
     init      	      : function() {
       
       try {
-        window.console.log();
+        console.log();
       }catch(e){
-        if(e)
-          window.console.log = function() {}
+        if(e) {
+          window.console      = {};
+          window.console.log  = function() {}
+        }
       };
       
       if(!Array.indexOf) {

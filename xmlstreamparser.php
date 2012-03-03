@@ -47,7 +47,7 @@ abstract class xmlStreamParser {
   public function __construct($file, $rootElement, $children = array()) {
     $this->file       = $file;
     $this->xml_parser = xml_parser_create();
-    $this->children     = $children;
+    $this->children   = $children;
     $this->rootEl     = $rootElement;
     xml_set_element_handler($this->xml_parser, array (&$this, 'startTag'), array (&$this, 'endTag'));
     xml_set_character_data_handler($this->xml_parser, array (&$this, 'contents'));

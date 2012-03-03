@@ -5,8 +5,8 @@
 */
 // class xmlStreamer extends xmlStreamParser {
 //   public function doJob($xmlArray) {
-// 		do somethin here...
-//     	print_r($xmlArray);
+//    do somethin here...
+//      print_r($xmlArray);
 //   }
 // }
 
@@ -61,8 +61,6 @@ abstract class xmlStreamParser {
   */
   abstract public function doJob($xmlArray);
   
-  
-  
   public function xmlOpen() {
     $this->fp = fopen($this->file, 'r');
     while ($data = fread($this->fp, 1024)) {
@@ -88,7 +86,7 @@ abstract class xmlStreamParser {
       $this->state = 'ended';
       
       /*
-        rootElement is at the end, abstract method doJob gets the current xml part
+        current node is at the end, abstract method doJob gets the current xml part
       */
       $this->doJob($this->current);
     } else if($tag != $this->rootEl && $this->state == 'started') {

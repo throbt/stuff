@@ -102,10 +102,7 @@ abstract class xmlStreamParser {
         if(getType($this->current[$this->currentTag]) == 'array') {
           $this->current[$this->currentTag][] = $data;
         } else {
-          $arr = array();
-          $arr[] = $this->current[$this->currentTag];
-          $arr[] = $data;
-          $this->current[$this->currentTag] = $arr;
+          $this->current[$this->currentTag] = array($this->current[$this->currentTag],$data);
         }
       } else {
         $this->current[$this->currentTag] = $data;

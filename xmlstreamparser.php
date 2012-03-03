@@ -44,10 +44,10 @@ abstract class xmlStreamParser {
   public $currentTag;
   public $currentTagState;
   
-  public function __construct($file, $rootElement, $childs = array()) {
+  public function __construct($file, $rootElement, $children = array()) {
     $this->file       = $file;
     $this->xml_parser = xml_parser_create();
-    $this->childs     = $childs;
+    $this->children     = $children;
     $this->rootEl     = $rootElement;
     xml_set_element_handler($this->xml_parser, array (&$this, 'startTag'), array (&$this, 'endTag'));
     xml_set_character_data_handler($this->xml_parser, array (&$this, 'contents'));
@@ -74,7 +74,7 @@ abstract class xmlStreamParser {
       $this->state = 'started';
       $this->current = array();
     } else if($tag != $this->rootEl && $this->state == 'started') {
-      if (in_array($tag, $this->childs)) {
+      if (in_array($tag, $this->children)) {
         $this->currentTagState  = 'open';
         $this->currentTag       = $tag;
       }
@@ -90,14 +90,14 @@ abstract class xmlStreamParser {
       */
       $this->doJob($this->current);
     } else if($tag != $this->rootEl && $this->state == 'started') {
-      if (in_array($tag, $this->childs)) {
+      if (in_array($tag, $this->children)) {
         $this->currentTagState  = 'closed';
       }
     }
   }
   
   public function contents($parser, $data){
-    if (in_array($this->currentTag, $this->childs) && $this->currentTagState == 'open') {
+    if (in_array($this->currentTag, $this->children) && $this->currentTagState == 'open') {
       if(isset($this->current[$this->currentTag])) {
         if(getType($this->current[$this->currentTag]) == 'array') {
           $this->current[$this->currentTag][] = $data;

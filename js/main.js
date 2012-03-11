@@ -170,6 +170,11 @@
           o.attachEvent(["on",e].join(""), f);
         }
       },
+      /*
+        @e(event)     {string}
+        @o(object)    {object}
+        @f(function)  {string}
+      */
       remove: function(e,f,o) {
         if(o.removeEventListener) {
           o.removeEventListener(e,f,false);
@@ -413,7 +418,7 @@
           el        = (this.cache[cfg[0]] ? this.cache[cfg[0]] : self.getDom(["div[id=",cfg[0],"]"].join(""))),
           css       = cfg[1],
           dur       = (cfg[2] ? {duration: cfg[2]} : {duration: 800}),
-          callback  = (typeof cfg[3] != "undefined" ? cfg[3] : '');
+          callback  = (cfg[3] ? cfg[3] : '');
           
       emile(el, css, dur, callback);
     }

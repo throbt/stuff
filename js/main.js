@@ -284,14 +284,14 @@
 
 
     /*
-      method get - wrapper for ajax.ajaxRequest
+      method get - wrapper for ajax.request
       @url          {string}
       @qstr         {hash/object|string}
       @callback     {string}
     */
     get         : function(url,qstr,callback) {
       var self = this;
-      self.ajax.ajaxRequest(
+      self.ajax.request(
         url,
         'get',
         true,
@@ -305,14 +305,14 @@
 
 
     /*
-      method get - wrapper for ajax.ajaxRequest
+      method get - wrapper for ajax.request
       @url          {string}
       @qstr         {hash/object|string}
       @callback     {string}
     */
     post        : function(url,qstr,callback) {
       var self = this;
-      self.ajax.ajaxRequest(
+      self.ajax.request(
         url,
         'post',
         true,
@@ -364,7 +364,7 @@
         @callback     {string}
         @charSet      {string}
       */
-      ajaxRequest: function(url,method,asynch,queryString,callback,charSet) { 
+      request: function(url,method,asynch,queryString,callback,charSet) { 
         var queryString = queryString || '',
             charSet     = charSet     || 'utf8',
             asynch      = asynch      || 'true',

@@ -32,7 +32,9 @@
     
     
     
-    
+    /*
+      @fn {string}
+    */
     domLoaded: function(fn) {
       if(typeof fn != 'undefined')
         fn();
@@ -59,7 +61,9 @@
 
 
 
-
+    /*
+      @selectorStr {string}
+    */
     getDom  : function(selectorStr) {
       if(document.querySelector) {
         return document.body.querySelector(selectorStr);
@@ -98,7 +102,13 @@
 
 
 
-
+    /*
+      @el             {object}
+      @type           {string}
+      @prop           {string}
+      @name           {string}
+      @stopCondition  {integer}
+    */
     getParent: function(el,type,prop,name,stopCondition) {
     
       var self          = this,
@@ -135,7 +145,10 @@
 
 
 
-    
+    /*
+      @el   {object}
+      @attr {string}
+    */
     getCssProperty : function(el,attr) {
       return (window.getComputedStyle ? window.getComputedStyle(el,null)[attr] : el.currentStyle[attr]);
     },
@@ -145,6 +158,11 @@
 
 
     events  : {
+      /*
+        @e(event)     {string}
+        @o(object)    {object}
+        @f(function)  {string}
+      */
       add: function(e,f,o) {
         if(o.addEventListener) {
           o.addEventListener(e,f,false);
@@ -164,7 +182,20 @@
 
 
 
-
+    /*
+      dom builder
+      
+      @thisParent {object}
+      @cfg (array) {
+        @id       {string}
+        @cls      {string}
+        @style    {string}
+        @arr      {array}
+        @html     {string}
+        @command  {array}
+        @tag      {string}
+      }
+    */
     createEl: function(cfg,thisParent) {
 
       var parent  = thisParent || document.body,
@@ -226,7 +257,12 @@
 
 
 
+    /*
+      delete a given element from the html and cache
 
+      @element  {object}
+      @id       {string}
+    */
     remove: function(element,id) {
       var thisEl, searchedEl = o.getDom(["div[id=",id,"]"].join(""));
       for(var i in element.childNodes) {
@@ -308,6 +344,10 @@
         }
         return obj;
       },
+
+      /*
+        @hash {object/hash}
+      */
       getQueryStringByHash: function(hash) {
         var qstr = '';
         for(var i in hash) {
@@ -315,6 +355,15 @@
         }
         return qstr.substring(1,qstr.length);
       },
+
+      /*
+        @url          {string}
+        @method       {string}
+        @asynch       {boolean}
+        @queryString  {string|object/hash}
+        @callback     {string}
+        @charSet      {string}
+      */
       ajaxRequest: function(url,method,asynch,queryString,callback,charSet) { 
         var queryString = queryString || '',
             charSet     = charSet     || 'utf8',
@@ -351,13 +400,21 @@
 
     /*
       simple wrapper for the css effect library of Thomas Fuchs's emile
+      
+      @cfg (array) {
+        @el       {object}  - current element
+        @css      {string}  - css property(s)
+        @dur      {integer} - duration of the animation
+        @callback {string}  - callback
+      }
     */
     anim        : function(cfg) {
-      var el, css, dur, callback, self = this;
-      this.cache[cfg[0]] ? el = this.cache[cfg[0]] : el = self.getDom(["div[id=",cfg[0],"]"].join(""));
-      css = cfg[1];
-      cfg[2].duration ? dur = cfg[2] : dur = {duration: 800};
-      typeof cfg[3] != "undefined" ? callback = cfg[3] : callback = "";
+      var self      = this,
+          el        = (this.cache[cfg[0]] ? this.cache[cfg[0]] : self.getDom(["div[id=",cfg[0],"]"].join(""))),
+          css       = cfg[1],
+          dur       = (cfg[2] ? {duration: cfg[2]} : {duration: 800}),
+          callback  = (typeof cfg[3] != "undefined" ? cfg[3] : '');
+          
       emile(el, css, dur, callback);
     }
   }

@@ -37,39 +37,36 @@ var Builder = {
 }
 
 
-
-window.$ = MainFrame;
-
 $.domLoaded(function() {
   Builder.build();
   Snake.init();
 
-  $.anim([
-    'test',
-    'left:600px;',
-    400,
-    function() {
-      $.anim([
-        'test',
-        'top:300px;',
-        1000,
-        function() {
+    $.anim([
+      'test',
+      'left:1100px;top:200px;',
+      600,
+      function() {
           $.anim([
             'test',
-            'left:0px;',
-            2000,
+            'top:300px;left:500px;',
+            100,
             function() {
-              $.anim([
-                'test',
-                'top:0px;',
-                600,
-                ''
-              ]);
+                $.anim([
+                  'test',
+                  'left:0px;top:150px;',
+                  100,
+                  function() {
+                      $.anim([
+                        'test',
+                        'top:0px;left:0px;',
+                        1500,
+                        ''
+                      ]);
+                  }
+                ]);
             }
           ]);
-        }
-      ]);
-    }
-  ]);
-  
+      }
+    ]);
+
 });

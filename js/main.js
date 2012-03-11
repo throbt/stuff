@@ -510,7 +510,7 @@
     }
   }
   
-  
+  window.$ = window.MainFrame;
   window.addEventListener("load",MainFrame.initialise,false);
   
 })(window);

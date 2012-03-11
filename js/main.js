@@ -245,7 +245,7 @@ var MainFrame = {
   /*
     method get - wrapper for ajax.ajaxRequest
     @url          {string}
-    @queryString  {hash/object|string}
+    @qstr         {hash/object|string}
     @callback     {string}
   */
   get         : function(url,qstr,callback) {
@@ -266,7 +266,7 @@ var MainFrame = {
   /*
     method get - wrapper for ajax.ajaxRequest
     @url          {string}
-    @queryString  {hash/object|string}
+    @qstr         {hash/object|string}
     @callback     {string}
   */
   post        : function(url,qstr,callback) {

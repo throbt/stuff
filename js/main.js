@@ -241,7 +241,109 @@ var MainFrame = {
 
 
 
+
+  /*
+    method get - wrapper for ajax.ajaxRequest
+    @url          {string}
+    @queryString  {hash/object|string}
+    @callback     {string}
+  */
+  get         : function(url,qstr,callback) {
+    var self = this;
+    self.ajax.ajaxRequest(
+      url,
+      'get',
+      true,
+      qstr,
+      callback,
+      ''
+    );
+  },
+
+
+
+
+  /*
+    method get - wrapper for ajax.ajaxRequest
+    @url          {string}
+    @queryString  {hash/object|string}
+    @callback     {string}
+  */
+  post        : function(url,qstr,callback) {
+    var self = this;
+    self.ajax.ajaxRequest(
+      url,
+      'post',
+      true,
+      qstr,
+      callback,
+      ''
+    );
+  },
+
+
+
+
+
+  ajax        : {
+    getXmlHttpObject  : function() {
+      var obj = null;
+      if(window.XMLHttpRequest) {
+        try {
+          obj = new XMLHttpRequest();
+        } catch (e) {}
+      } else if(window.ActiveXObject) {
+        try {
+          obj = new ActiveXObject('Msxml2.XMLHTTP');
+        } catch (e) {
+          try {
+            obj = new ActiveXObject('Microsoft.XMLHTTP');
+          } catch (e) {}
+        }
+      }
+      return obj;
+    },
+    getQueryStringByHash: function(hash) {
+      var qstr = '';
+      for(var i in hash) {
+        qstr = [qstr,'&',i,'=',[i]].join('');
+      }
+      return qstr.substring(1,qstr.length);
+    },
+    ajaxRequest: function(url,method,asynch,queryString,callback,charSet) { 
+      var queryString = queryString || '',
+          charSet     = charSet     || 'utf8',
+          asynch      = asynch      || 'true',
+          self        = this,
+          obj         = self.getXmlHttpObject();
+      
+      switch(method) {
+        case 'get':
+          if(typeof queryString == 'string' && queryString != '')
+            url = [url,'?',queryString].join('');
+          else if(typeof queryString == 'object')
+            url = [url,'?',self.getQueryStringByHash(queryString)].join('');
+        break;
+        case 'post':
+          if(typeof queryString == 'object')
+            queryString = self.getQueryStringByHash(queryString);
+        break;
+      }
+
+      obj.open(method,url,asynch);
+      obj.setRequestHeader('Content-type',['application/x-www-form-urlencoded,charset=',charSet].join(''));            
+      obj.send(queryString);
+      obj.onreadystatechange = function(){
+        if(obj.readyState == 4)
+          if(obj.status == 200)
+            callback(obj.responseText);
+      }
+    }
+  },
   
+
+
+
 
   /*
     simple wrapper for the css effect library of Thomas Fuchs's emile

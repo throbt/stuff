@@ -377,7 +377,7 @@
 
     DEPO: [],
 
-    CASH: 0,
+    counter: 0,
 
     intervalId: 0,
 
@@ -395,10 +395,10 @@
 
 
     listener: function() {
-      timer.CASH == 9999 ? timer.CASH = 0 : timer.CASH++;
+      timer.counter == 999 ? timer.counter = 0 : timer.counter++;
       var thisRemainder, thisMethod, thisObject;
       for (var i = 0, l = timer.DEPO.length; i < l; i++) {
-        thisRemainder = timer.CASH % timer.DEPO[i]["interval"];
+        thisRemainder = timer.counter % timer.DEPO[i]["interval"];
         if (thisRemainder == 0) {
           thisMethod = timer.DEPO[i]["method"];
           thisMethod()

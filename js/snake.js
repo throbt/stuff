@@ -1,27 +1,17 @@
 var Snake = {
   
   init: function() {
-    window.$ = MainFrame;
-    $.initialise();
-//    console.log($.getWindowSize());
-    Builder.build();
-    
-    /*
-      @url {string}
-      @queryString {hash/object|string}
-      @callback {string}
-    */
-    $.post(
-      'test.php',
-      { 'valami'    : 'masvalami',
-        'masvalami' : 'tokmindegy',
-        'barmi'     : 42 },
-      Snake.test1
-    );
-    // timer.add({
-    //   "method"    : Snake.test,
-    //   "interval"  : 100
-    // });
+//    $.post(
+//      'test.php',
+//      { 'valami'    : 'masvalami',
+//        'masvalami' : 'tokmindegy',
+//        'barmi'     : 42 },
+//      Snake.test1
+//    );
+//     timer.add({
+//       "method"    : Snake.test,
+//       "interval"  : 100
+//     });
   },
 
   test: function() {
@@ -38,7 +28,7 @@ var Builder = {
     $.createEl({
       tag: 'div',
       id: 'test',
-      style: 'width:200px;height:50px;background:red;',
+      style: 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;',
       command : ['click', function(e){
         (e ? e : window.event).stopProp();
       }]
@@ -46,4 +36,40 @@ var Builder = {
   }
 }
 
-window.onload = Snake.init;
+
+
+window.$ = MainFrame;
+
+$.domLoaded(function() {
+  Builder.build();
+  Snake.init();
+
+  $.anim([
+    'test',
+    'left:600px;',
+    400,
+    function() {
+      $.anim([
+        'test',
+        'top:300px;',
+        1000,
+        function() {
+          $.anim([
+            'test',
+            'left:0px;',
+            2000,
+            function() {
+              $.anim([
+                'test',
+                'top:0px;',
+                600,
+                ''
+              ]);
+            }
+          ]);
+        }
+      ]);
+    }
+  ]);
+  
+});

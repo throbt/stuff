@@ -331,7 +331,7 @@ var MainFrame = {
       }
 
       obj.open(method,url,asynch);
-      obj.setRequestHeader('Content-type',['application/x-www-form-urlencoded,charset=',charSet].join(''));            
+      obj.setRequestHeader('Content-type','application/x-www-form-urlencoded',['charset=',charSet].join(''));            
       obj.send(queryString);
       obj.onreadystatechange = function(){
         if(obj.readyState == 4)

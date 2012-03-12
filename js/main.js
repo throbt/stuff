@@ -269,7 +269,7 @@
       @id       {string}
     */
     remove: function(element,id) {
-      var thisEl, searchedEl = o.getDom(["div[id=",id,"]"].join(""));
+      var self = this,thisEl,searchedEl = self.getDom(["div[id=",id,"]"].join(""));
       for(var i in element.childNodes) {
         thisEl = element.childNodes[i];
         if(thisEl == searchedEl) {

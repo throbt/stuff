@@ -59,9 +59,7 @@
         return document.body.querySelector(selectorStr);
       } else {   
         /**
-          working only with the (\[id\=)(.*)(\]) formula
-
-          TODO refact! - use the iglue fallback, btw we dont need that stuff
+          TODO refact!
         */
         if(selectorStr.match(/\[.*\=.*\]/)) {
           var matches = selectorStr.match(/(.*)(\[)(.*)(\=)(.*)(\])/);
@@ -81,7 +79,7 @@
           }
         }
         /*
-          in this case hopefully its a simple tag ... TODO refact!
+          TODO refact!
         */
         else {
           return document.getElementsByTagName(selectorStr);

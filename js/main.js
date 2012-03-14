@@ -88,11 +88,11 @@
     },
     
     /*
-      @el             {object}
-      @type           {string}
-      @prop           {string}
-      @name           {string}
-      @stopCondition  {integer}
+      @el             {object}  - element
+      @type           {string}  - tagName
+      @prop           {string}  - attribute
+      @name           {string}  - value of attribute
+      @stopCondition  {integer} - depth of the iteration
     */
     getParent: function(el,type,prop,name,stopCondition) {
     
@@ -113,10 +113,10 @@
       for(var i = 0; i < stopCondition; i++) {
         if(current.tagName != 'HTML') {
           if(!prop && type == current.tagName) {
-            return current
+            return current;
           } else if(typeof self.getAttrib(current,prop) != 'undefined') {
             if(self.getAttrib(current,prop) == name) {
-              return current
+              return current;
             }
           }
         } else {

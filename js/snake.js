@@ -26,10 +26,10 @@ var Snake = {
 var Builder = {
   build: function() {
     $.createEl({
-      tag: 'div',
+      type: 'div',
       id: 'test',
       style: 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;',
-      command : ['click', function(e){
+      cmd : ['click', function(e){
         (e ? e : window.event).stopProp();
       }]
     });

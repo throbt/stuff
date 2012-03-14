@@ -5,15 +5,7 @@
 (function(window) {
   window.MainFrame = {
 
-
-
-
-
     cache   : {},
-
-
-
-
 
     initialise: function() {
       var self = this;
@@ -29,9 +21,6 @@
       MainFrame.domLoaded();
     },
     
-    
-    
-    
     /*
       @fn {string}
     */
@@ -39,10 +28,6 @@
       if(typeof fn != 'undefined')
         fn();
     },
-
-
-
-
 
     getWindowSize: function() {
       var arr = [];
@@ -57,9 +42,6 @@
       }
       return arr;
     },
-
-
-
 
     /*
       @selectorStr {string}
@@ -99,9 +81,6 @@
       }
     },
     
-
-
-
     /*
       @el             {object}
       @type           {string}
@@ -142,9 +121,6 @@
       return null;
     },
     
-
-
-
     /*
       @el   {object}
       @attr {string}
@@ -153,10 +129,6 @@
       return (window.getComputedStyle ? window.getComputedStyle(el,null)[attr] : el.currentStyle[attr]);
     },
     
-
-
-
-
     events  : {
       /*
         @e(event)     {string}
@@ -184,21 +156,18 @@
       }
     },
 
-
-
-
     /*
       dom builder
       
       @thisParent {object}
       @cfg (array) {
-        @id       {string}
-        @cls      {string}
-        @style    {string}
-        @arr      {array}
-        @html     {string}
-        @command  {array}
-        @tag      {string}
+        @id       {string} - id
+        @cls      {string} - claasName
+        @style    {string} - style attrib
+        @arr      {array}  - children
+        @html     {string} - element.innerHtml
+        @cmd      {array}  - command, use getParent to catch the current element
+        @type     {string} - tagName
       }
     */
     createEl: function(cfg,thisParent) {
@@ -228,9 +197,9 @@
           break;
           case "html":
           break;
-          case "command":
+          case "cmd":
           break;
-          case "tag":
+          case "type":
           break;
           default:
             thisEl.setAttribute(i,cfg[i]);
@@ -252,15 +221,12 @@
         thisEl.innerHTML = cfg.html;
       }
       
-      if(cfg.command) {
-        self.events.add(cfg.command[0], cfg.command[1], this.cache[cfg.id]);
+      if(cfg.cmd) {
+        self.events.add(cfg.cmd[0], cfg.cmd[1], this.cache[cfg.id]);
       }
 
       return thisEl;
     },
-
-
-
 
     /*
       delete a given element from the html and cache
@@ -285,9 +251,6 @@
       }
     },
 
-
-
-
     /*
       method get - wrapper for ajax.request
       @url          {string}
@@ -306,9 +269,6 @@
       );
     },
 
-
-
-
     /*
       method get - wrapper for ajax.request
       @url          {string}
@@ -326,10 +286,6 @@
         ''
       );
     },
-
-
-
-
 
     ajax        : {
       getXmlHttpObject  : function() {
@@ -400,9 +356,6 @@
       }
     },
 
-
-
-
     /*
       simple wrapper for the css effect library of Thomas Fuchs's emile
       
@@ -431,36 +384,18 @@
     |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/
     */
   
-
-
-
   /*
     Class timer - controlling multiple processes
   */
   window.timer = {
 
-
-
-
-
     DEPO: [],
-
     counter: 0,
-
     intervalId: 0,
-
-
-
-
-
 
     counter: function(){
       timer.intervalId = setInterval(timer.listener, 1);
     },
-
-
-
-
 
     listener: function() {
       timer.counter == 999 ? timer.counter = 0 : timer.counter++;
@@ -474,16 +409,9 @@
       }
     },
 
-
-
-
-
     stopListener: function() {
       clearInterval(timer.intervalId)
     },
-
-
-
 
     /*
       @arr (array) {
@@ -509,9 +437,6 @@
         }
       }
     },
-
-
-
 
     /*
       @method       {string}

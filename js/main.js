@@ -1,8 +1,11 @@
 /*
-  @author    robThot
-  @Copyright (c) robThot
+  @author    robThot (robthot@gmail.com)
+  licensed under the terms of WFTPL (http://en.wikipedia.org/wiki/WTFPL)
 */
 (function(window) {
+  /*
+    class MainFrame - doing some needed stuff, a collection
+  */
   window.MainFrame = {
 
     cache   : {},
@@ -30,13 +33,16 @@
     },
     
     /*
-      @fn {string}
+      @fn {string} - not exactly the domloaded event, its just coming after the window onload
     */
     domLoaded: function(fn) {
       if(typeof fn != 'undefined')
         fn();
     },
 
+    /*
+      return the browser independent window size to set the viewport
+    */
     getWindowSize: function() {
       var arr = [];
       if (document.body && document.body.offsetWidth) {
@@ -88,10 +94,12 @@
     },
     
     /*
+      getting a parent element
+    
       @el             {object}  - element
       @type           {string}  - tagName
       @prop           {string}  - attribute
-      @name           {string}  - value of attribute
+      @name           {string}  - value
       @stopCondition  {integer} - depth of the iteration
     */
     getParent: function(el,type,prop,name,stopCondition) {
@@ -166,7 +174,7 @@
       dom builder
       
       @thisParent {object}
-      @cfg (array) {
+      @cfg (hash) {
         @id       {string} - id
         @cls      {string} - claasName
         @style    {string} - style attrib
@@ -241,7 +249,10 @@
       @id       {string}
     */
     remove: function(element,id) {
-      var self = this,thisEl,searchedEl = self.getDom(["div[id=",id,"]"].join(""));
+      var self        = this,
+          thisEl,
+          searchedEl  = self.getDom(["div[id=",id,"]"].join(""));
+
       for(var i in element.childNodes) {
         thisEl = element.childNodes[i];
         if(thisEl == searchedEl) {
@@ -260,7 +271,7 @@
     /*
       method get - wrapper for ajax.request
       @url          {string}
-      @qstr         {hash/object|string}
+      @qstr         {hash|string}
       @callback     {string}
     */
     get         : function(url,qstr,callback) {
@@ -276,9 +287,9 @@
     },
 
     /*
-      method get - wrapper for ajax.request
+      method post - wrapper for ajax.request
       @url          {string}
-      @qstr         {hash/object|string}
+      @qstr         {hash|string}
       @callback     {string}
     */
     post        : function(url,qstr,callback) {
@@ -327,7 +338,7 @@
         @url          {string}
         @method       {string}
         @asynch       {boolean}
-        @queryString  {string|object/hash}
+        @queryString  {hash|string}
         @callback     {string}
         @charSet      {string}
       */
@@ -365,7 +376,7 @@
     /*
       simple wrapper for the css effect library of Thomas Fuchs's emile
       
-      @cfg (array) {
+      @cfg (hash) {
         @el       {object}  - current element
         @css      {string}  - css property(s)
         @dur      {integer} - duration of the animation
@@ -391,7 +402,7 @@
     */
   
   /*
-    Class timer - controlling multiple processes
+    class timer - controlling multiple processes
   */
   window.timer = {
 
@@ -472,6 +483,8 @@
 */
 
 /*
+  the most fuckin fastest tool
+
   emile.js (c) 2009 Thomas Fuchs
   Licensed under the terms of the MIT license.
 */

@@ -188,7 +188,7 @@
 
       var parent  = thisParent || document.body,
           self    = this,
-          thisEl  = document.createElement(cfg.tag); 
+          thisEl  = document.createElement(cfg.type); 
 
       for(var i in cfg) {
         switch(i) {

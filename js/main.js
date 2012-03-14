@@ -21,7 +21,7 @@
 
       try {
         console.log();
-      }catch(e){
+      } catch(e) {
         window.console      = {};
         window.console.log  = function() {}
       };

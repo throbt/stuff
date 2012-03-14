@@ -430,7 +430,13 @@
     | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /
     |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/
     */
+  
 
+
+
+  /*
+    Class timer - controlling multiple processes
+  */
   window.timer = {
 
 
@@ -479,7 +485,12 @@
 
 
 
-
+    /*
+      @arr (array) {
+        @method       {string}
+        @interval     {string}
+      }
+    */
     add: function(arr) {
       if (timer.DEPO.length == 0) {
         timer.counter()
@@ -502,7 +513,9 @@
 
 
 
-
+    /*
+      @method       {string}
+    */
     remove: function(method) {
       for (var i = (timer.DEPO.length - 1); i >= 0; i--) {
         if (timer.DEPO[i]["method"] == method) {

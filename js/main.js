@@ -18,6 +18,14 @@
           this.stopPropagation();
         }
       }
+
+      try {
+        console.log();
+      }catch(e){
+        window.console      = {};
+        window.console.log  = function() {}
+      };
+
       MainFrame.domLoaded();
     },
     

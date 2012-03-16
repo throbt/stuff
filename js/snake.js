@@ -1,17 +1,21 @@
 var Snake = {
   
   init: function() {
-//    $.post(
-//      'test.php',
-//      { 'valami'    : 'masvalami',
-//        'masvalami' : 'tokmindegy',
-//        'barmi'     : 42 },
-//      Snake.test1
-//    );
-//     timer.add({
-//       "method"    : Snake.test,
-//       "interval"  : 100
-//     });
+   // $.post(
+   //   'test.php',
+   //   { 'valami'    : 'masvalami',
+   //     'masvalami' : 'tokmindegy',
+   //     'barmi'     : 42 },
+   //   Snake.test1
+   // );
+
+    timer.add({
+      "method"    : Snake.test,
+      "interval"  : 100
+    });
+
+    timer.remove(Snake.test);
+
   },
 
   test: function() {
@@ -26,16 +30,16 @@ var Snake = {
 var Builder = {
   build: function() {
     $.createEl({
-      type: 'div',
-      id: 'test',
-      style: 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;',
-      cmd : ['click', function(e){
+      type  : 'div',
+      id    : 'test',
+      cls   : 'anyClass',
+      style : 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;',
+      cmd   : ['click', function(e){
         (e ? e : window.event).stopProp();
       }]
     });
   }
 }
-
 
 $.domLoaded(function() {
   Builder.build();
@@ -59,8 +63,9 @@ $.domLoaded(function() {
                       $.anim([
                         'test',
                         'top:0px;left:0px;',
-                        1500,
-                        ''
+                        300,
+                        function() {
+                        }
                       ]);
                   }
                 ]);

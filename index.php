@@ -11,16 +11,21 @@
   var thisScript 	= document.getElementsByTagName('script')[0].parentNode,
 	main 						= document.createElement('script'),
 	snake 					= document.createElement('script'),
+  emile           = document.createElement('script'),
   thisStyle 			= document.createElement('link');
   thisStyle.setAttribute("type", "text/css");
   thisStyle.setAttribute("href", "css/style.css");
   thisStyle.setAttribute("rel", "stylesheet");
   main.setAttribute("type", "text/javascript");
   main.setAttribute("src", "js/main.js");
+  emile.setAttribute("type", "text/javascript");
+  emile.setAttribute("src", "js/emile.js");
   snake.setAttribute("type", "text/javascript");
   snake.setAttribute("src", "js/snake.js");
   thisScript.appendChild(thisStyle);
+  thisScript.appendChild(emile);
   thisScript.appendChild(main);
   thisScript.appendChild(snake)
 })();
 </script>
+

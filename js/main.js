@@ -3,23 +3,74 @@
   licensed under the terms of WFTPL (http://en.wikipedia.org/wiki/WTFPL)
 */
 (function(window) {
+
   /*
     class MainFrame - doing some needed stuff, a collection
   */
+
   window.MainFrame = {
 
     cache   : {},
 
-    initialise: function() {
+    /*
+      @el   {object}
+      @attr {string}
+    */
+    getCssProperty: new Function(
+      'el',
+      'attr',
+      window.getComputedStyle ?
+        'return window.getComputedStyle(el,null)[attr];' : 'return el.currentStyle[attr];'
+    ),
+
+    getClassName: new Function(
+      navigator.appVersion.match(/MSIE/) ?
+        'return el.className;' : 'return el.getAttribute("class");'
+    ),
+
+    setClassName: new Function(
+      'el',
+      'value',
+      navigator.appVersion.match(/MSIE/) ?
+        'el.setAttribute("className",value);' : 'el.setAttribute("class",value);'
+    ),
+
+    setStyleAttr: new Function(
+      'el',
+      'value',
+      navigator.appVersion.match(/MSIE/) ?
+        'el.setAttribute("cssText",value);' : 'el.setAttribute("style",value);'
+    ),
+
+    initialize: function() {
       var self = this;
+
       if(navigator.appVersion.match(/MSIE/))
         self.ie = 1;
-      (typeof Event != 'undefined' ? Event : window.event).prototype.stopProp = function() {
-        if(window.event) {
-          this.cancelBubble = true;
-        } else {
-          this.stopPropagation();
+
+      (typeof Event != 'undefined' ? Event : window.event).prototype.stopProp = new Function(
+        window.event ? 'this.cancelBubble = true;' : 'this.stopPropagation();'
+      )
+
+      if(!Array.indexOf) {
+        Array.prototype.indexOf = function(obj) {
+          for(var i=0,l=this.length; i<l; i++) {
+            if(this[i]==obj) {
+              return i;
+            }
+          }
+          return -1;
         }
+      }
+
+      Array.prototype.isEqual = function(arr) {
+        if(this.length != arr.length)
+          return false;
+        for (var i = 0, l = this.length; i < l; i++) {
+          if(this[i] != arr[i])
+            return false;
+        }
+        return true;
       }
 
       try {
@@ -31,7 +82,7 @@
 
       MainFrame.domLoaded();
     },
-    
+
     /*
       @fn {string} - not exactly the domloaded event, its just coming after the window onload
     */
@@ -70,14 +121,14 @@
         if(selectorStr.match(/\[.*\=.*\]/)) {
           var matches = selectorStr.match(/(.*)(\[)(.*)(\=)(.*)(\])/);
           switch(matches[3]) {
-            case "id":
+            case 'id':
               return document.getElementById(matches[5]);
             break;
-            case "class":
+            case 'class':
               var arr       = [],
                   elements  = document.getElementsByTagName(matches[1]);
               for(var i = 0,len = elements.length; i < len;i++) {
-                if( (elements[i].className ? elements[i].className : elements[i].getAttribute("class") ) == matches[5])
+                if( (elements[i].className ? elements[i].className : elements[i].getAttribute('class') ) == matches[5])
                   arr.push(elements[i]);
               }
               return arr;
@@ -111,9 +162,9 @@
       if(typeof self.getAttrib == 'undefined')
         self.getAttrib = function(el, prop) {
           if(prop == 'class')
-            return (el.className ? el.className : el.getAttribute(prop))
+            return self.getClassName();
           else
-            return el.getAttribute(prop)
+            return el.getAttribute(prop);
         };
       
       if(!type) return el.parentNode;
@@ -134,15 +185,7 @@
       }
       return null;
     },
-    
-    /*
-      @el   {object}
-      @attr {string}
-    */
-    getCssProperty : function(el,attr) {
-      return (window.getComputedStyle ? window.getComputedStyle(el,null)[attr] : el.currentStyle[attr]);
-    },
-    
+
     events  : {
       /*
         @e(event)     {string}
@@ -153,7 +196,7 @@
         if(o.addEventListener) {
           o.addEventListener(e,f,false);
         } else if(o.attachEvent) {
-          o.attachEvent(["on",e].join(""), f);
+          o.attachEvent(['on',e].join(''), f);
         }
       },
       /*
@@ -165,7 +208,7 @@
         if(o.removeEventListener) {
           o.removeEventListener(e,f,false);
         } else if(o.detachEvent) {
-          o.detachEvent(["on",e].join(""), f);
+          o.detachEvent(['on',e].join(''), f);
         }
       }
     },
@@ -180,7 +223,7 @@
         @style    {string} - style attrib
         @arr      {array}  - children
         @html     {string} - element.innerHtml
-        @cmd      {array}  - command, use getParent to catch the current element
+        @cmd      {array}  - command, use getParent to catch the right element
         @type     {string} - tagName
       }
     */
@@ -192,28 +235,22 @@
 
       for(var i in cfg) {
         switch(i) {
-          case "id":
-            thisEl.setAttribute("id",cfg[i]);
+          case 'id':
+            thisEl.setAttribute('id',cfg[i]);
           break;
-          case "cls":
-            if(self.ie != undefined)
-              thisEl.setAttribute("className",cfg[i]);
-            else
-              thisEl.setAttribute("class",cfg[i]);
+          case 'cls':
+            self.setClassName(thisEl,cfg[i]);
           break;
-          case "style":
-            if(self.ie != undefined)
-              thisEl.style.setAttribute("cssText",cfg[i]);
-            else
-              thisEl.setAttribute("style",cfg[i]);
+          case 'style':
+            self.setStyleAttr(thisEl,cfg[i]);
           break;
-          case "arr":
+          case 'arr':
           break;
-          case "html":
+          case 'html':
           break;
-          case "cmd":
+          case 'cmd':
           break;
-          case "type":
+          case 'type':
           break;
           default:
             thisEl.setAttribute(i,cfg[i]);
@@ -251,7 +288,7 @@
     remove: function(element,id) {
       var self        = this,
           thisEl,
-          searchedEl  = self.getDom(["div[id=",id,"]"].join(""));
+          searchedEl  = self.getDom(['div[id=',id,']'].join(''));
 
       for(var i in element.childNodes) {
         thisEl = element.childNodes[i];
@@ -385,7 +422,7 @@
     */
     anim        : function(cfg) {
       var self      = this,
-          el        = (this.cache[cfg[0]] ? this.cache[cfg[0]] : self.getDom(["div[id=",cfg[0],"]"].join(""))),
+          el        = (this.cache[cfg[0]] ? this.cache[cfg[0]] : self.getDom(['div[id=',cfg[0],']'].join(''))),
           css       = cfg[1],
           dur       = (cfg[2] ? {duration: cfg[2]} : {duration: 800}),
           callback  = (cfg[3] ? cfg[3] : '');
@@ -407,27 +444,29 @@
   window.timer = {
 
     DEPO: [],
-    counter: 0,
+    c: 0,
     intervalId: 0,
 
     counter: function(){
-      timer.intervalId = setInterval(timer.listener, 1);
+      var self = this;
+      self.intervalId = setInterval(self.listener, 1);
     },
 
     listener: function() {
-      timer.counter == 999 ? timer.counter = 0 : timer.counter++;
+      timer.c == 999 ? timer.c = 0 : timer.c++;
       var thisRemainder, thisMethod, thisObject;
       for (var i = 0, l = timer.DEPO.length; i < l; i++) {
-        thisRemainder = timer.counter % timer.DEPO[i]["interval"];
+        thisRemainder = timer.c % timer.DEPO[i]['interval'];
         if (thisRemainder == 0) {
-          thisMethod = timer.DEPO[i]["method"];
+          thisMethod = timer.DEPO[i]['method'];
           thisMethod()
         }
       }
     },
 
     stopListener: function() {
-      clearInterval(timer.intervalId)
+      var self = this;
+      clearInterval(self.intervalId)
     },
 
     /*
@@ -437,20 +476,25 @@
       }
     */
     add: function(arr) {
-      if (timer.DEPO.length == 0) {
-        timer.counter()
+
+      var self      = this,
+          listener  = 0;
+
+      if (self.DEPO.length == 0) {
+        self.counter()
       }
-      var listener = 0;
-      for (var i = 0, l = timer.DEPO.length; i < l; i++) {
-        if (timer.DEPO[i]["method"] == arr["method"]) {
+
+      for (var i = 0, l = self.DEPO.length; i < l; i++) {
+        if (self.DEPO[i]['method'] == arr['method']) {
           listener++;
           break;
         }
       }
+
       if (listener == 0) {
-        timer.DEPO[timer.DEPO.length] = {
-          "method"  : arr['method'],
-          "interval": arr['interval']
+        self.DEPO[self.DEPO.length] = {
+          'method'  : arr['method'],
+          'interval': arr['interval']
         }
       }
     },
@@ -459,81 +503,21 @@
       @method       {string}
     */
     remove: function(method) {
-      for (var i = (timer.DEPO.length - 1); i >= 0; i--) {
-        if (timer.DEPO[i]["method"] == method) {
-            timer.DEPO.splice(i, 1)
+      var self = this;
+
+      for (var i = (self.DEPO.length - 1); i >= 0; i--) {
+        if (self.DEPO[i]['method'] == method) {
+            self.DEPO.splice(i, 1)
         }
       }
-      if (timer.DEPO.length == 0) {
-        timer.stopListener()
+
+      if (self.DEPO.length == 0) {
+        self.stopListener()
       }
     }
   }
   
   window.$ = window.MainFrame;
-  window.addEventListener("load",MainFrame.initialise,false);
+  window.addEventListener('load',MainFrame.initialize,false);
   
 })(window);
-
-/*
-  |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\
-  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\
-  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /
-  |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/
-*/
-
-/*
-  the most fuckin fastest tool
-
-  emile.js (c) 2009 Thomas Fuchs
-  Licensed under the terms of the MIT license.
-*/
-
-(function(emile, container) {
-  var parseEl = document.createElement('div'),
-    props = ('backgroundColor borderBottomColor borderBottomWidth borderLeftColor borderLeftWidth '+
-    'borderRightColor borderRightWidth borderSpacing borderTopColor borderTopWidth bottom color fontSize '+
-    'fontWeight height left letterSpacing lineHeight marginBottom margelement.onmousemoveinLeft marginRight marginTop maxHeight '+
-    'maxWidth minHeight minWidth opacity outlineColor outlineOffset outlineWidth paddingBottom paddingLeft '+
-    'paddingRight paddingTop right textIndent top width wordSpacing zIndex').split(' ');
-
-  function interpolate(source,target,pos) { return (source+(target-source)*pos).toFixed(3); }
-  function s(str, p, c) { return str.substr(p,c||1); }
-  function color(source,target,pos) {
-    var i = 2, j, c, tmp, v = [], r = [];
-    while(j=3,c=arguments[i-1],i--)
-      if(s(c,0)=='r') { c = c.match(/\d+/g); while(j--) v.push(~~c[j]); } else {
-        if(c.length==4) c='#'+s(c,1)+s(c,1)+s(c,2)+s(c,2)+s(c,3)+s(c,3);
-        while(j--) v.push(parseInt(s(c,1+j*2,2), 16)); }
-    while(j--) { tmp = ~~(v[j+3]+(v[j]-v[j+3])*pos); r.push(tmp<0?0:tmelement.onmousemovep>255?255:tmp); }
-    return 'rgb('+r.join(',')+')';
-  }
-
-  function parse(prop) {
-    var p = parseFloat(prop), q = prop.replace(/^[\-\d\.]+/,'');
-    return isNaN(p) ? { v: q, f: color, u: ''} : { v: p, f: interpolate, u: q };
-  }
-
-  function normalize(style) {
-    var css, rules = {}, i = props.length, v;
-    parseEl.innerHTML = '<div style="'+style+'"></div>';
-    css = parseEl.childNodes[0].style;
-    while(i--) if(v = css[props[i]]) rules[props[i]] = parse(v);
-    return rules;
-  }
-
-  container[emile] = function(el, style, opts, after) {
-    el = typeof el == 'string' ? document.getElementById(el) : el;
-    opts = opts || {};
-    var target = normalize(style), comp = el.currentStyle ? el.currentStyle : getComputedStyle(el, null),
-      prop, current = {}, start = +new Date, dur = opts.duration||200, finish = start+dur, interval,
-      easing = opts.easing || function(pos) { return (-Math.cos(pos*Math.PI)/2) + 0.5; };
-    for(prop in target) current[prop] = parse(comp[prop]);
-    interval = setInterval(function() {
-      var time = +new Date, pos = time>finish ? 1 : (time-start)/dur;
-      for(prop in target)
-        el.style[prop] = target[prop].f(current[prop].v,target[prop].v,easing(pos)) + target[prop].u;
-      if(time>finish) { clearInterval(interval); opts.after && opts.after(); after && setTimeout(after,1); }
-    },10);
-  }
-})('emile', this);

@@ -470,12 +470,12 @@
     },
 
     /*
-      @arr (array) {
+      @hash (hash) {
         @method       {string}
         @interval     {string}
       }
     */
-    add: function(arr) {
+    add: function(hash) {
 
       var self      = this,
           listener  = 0;
@@ -485,7 +485,7 @@
       }
 
       for (var i = 0, l = self.DEPO.length; i < l; i++) {
-        if (self.DEPO[i]['method'] == arr['method']) {
+        if (self.DEPO[i]['method'] == hash['method']) {
           listener++;
           break;
         }
@@ -493,8 +493,8 @@
 
       if (listener == 0) {
         self.DEPO[self.DEPO.length] = {
-          'method'  : arr['method'],
-          'interval': arr['interval']
+          'method'  : hash['method'],
+          'interval': hash['interval']
         }
       }
     },

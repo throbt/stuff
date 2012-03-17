@@ -12,6 +12,8 @@
 
     cache   : {},
 
+    ie: (navigator.appVersion.match(/MSIE/) ? true : false),
+
     /*
       @el   {object}
       @attr {string}
@@ -24,29 +26,26 @@
     ),
 
     getClassName: new Function(
-      navigator.appVersion.match(/MSIE/) ?
+      this.ie ?
         'return el.className;' : 'return el.getAttribute("class");'
     ),
 
     setClassName: new Function(
       'el',
       'value',
-      navigator.appVersion.match(/MSIE/) ?
+      this.ie ?
         'el.setAttribute("className",value);' : 'el.setAttribute("class",value);'
     ),
 
     setStyleAttr: new Function(
       'el',
       'value',
-      navigator.appVersion.match(/MSIE/) ?
+      this.ie ?
         'el.setAttribute("cssText",value);' : 'el.setAttribute("style",value);'
     ),
 
     initialize: function() {
       var self = this;
-
-      if(navigator.appVersion.match(/MSIE/))
-        self.ie = 1;
 
       (typeof Event != 'undefined' ? Event : window.event).prototype.stopProp = new Function(
         window.event ? 'this.cancelBubble = true;' : 'this.stopPropagation();'
@@ -54,8 +53,8 @@
 
       if(!Array.indexOf) {
         Array.prototype.indexOf = function(obj) {
-          for(var i=0,l=this.length; i<l; i++) {
-            if(this[i]==obj) {
+          for(var i = 0, l = this.length; i < l; i++) {
+            if(this[i] == obj) {
               return i;
             }
           }
@@ -89,6 +88,10 @@
     domLoaded: function(fn) {
       if(typeof fn != 'undefined')
         fn();
+    },
+
+    evalJSON: function(str) {
+      return (new Function(['return ',str].join('')))();
     },
 
     /*

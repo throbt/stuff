@@ -23,7 +23,8 @@ var Snake = {
     console.log( timer.DEPO );
   },
   test1: function(resp) {
-    alert(resp);
+    console.log(resp);
+    console.log( $.evalJSON( resp ) );
   }
 };
 
@@ -64,7 +65,7 @@ $.domLoaded(function() {
                         'test',
                         'top:0px;left:0px;',
                         300,
-                        function() {
+                        function() { 
                         }
                       ]);
                   }

@@ -23,7 +23,7 @@ window.component = {
 
 
 window.grid = $.apply(window.component, {
-	
+
 	data: {
 		fields: [],
 		items: []
@@ -32,16 +32,16 @@ window.grid = $.apply(window.component, {
 	render: function() {
 		var self = this;
 		if(this.data.items.length > 1)
-			self.build();
+		self.build();
 	},
 
 	build: function() {
 		$.createEl({
-      type  : 'table',
-      id    : 'test',
-      cls   : 'anyClass',
-      style : 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;'
-    });
+			type  : 'table',
+			id    : 'test',
+			cls   : 'anyClass',
+			style : 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;'
+		});
 	}
 });
 

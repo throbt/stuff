@@ -1,33 +1,3 @@
-var Snake = {
-  
-  init: function() {
-   // $.post(
-   //   'test.php',
-   //   { 'valami'    : 'masvalami',
-   //     'masvalami' : 'tokmindegy',
-   //     'barmi'     : 42 },
-   //   Snake.test1
-   // );
-
-    timer.add({
-      "method"    : Snake.test,
-      "interval"  : 100
-    });
-
-    timer.remove(Snake.test);
-
-  },
-
-  test: function() {
-    console.log("asdasdsad");
-    console.log( timer.DEPO );
-  },
-  test1: function(resp) {
-    console.log(resp);
-    console.log( $.evalJSON( resp ) );
-  }
-};
-
 var Builder = {
   build: function() {
     $.createEl({
@@ -42,37 +12,19 @@ var Builder = {
   }
 }
 
-$.domLoaded(function() { console.log(timer.prototype);
-  Builder.build();
-  Snake.init();
+$.domLoaded(function() {
 
-    // $.anim([
-    //   'test',
-    //   'left:1100px;top:200px;',
-    //   600,
-    //   function() {
-    //       $.anim([
-    //         'test',
-    //         'top:300px;left:500px;',
-    //         100,
-    //         function() {
-    //             $.anim([
-    //               'test',
-    //               'left:0px;top:150px;',
-    //               100,
-    //               function() {
-    //                   $.anim([
-    //                     'test',
-    //                     'top:0px;left:0px;',
-    //                     300,
-    //                     function() { 
-    //                     }
-    //                   ]);
-    //               }
-    //             ]);
-    //         }
-    //       ]);
-    //   }
-    // ]);
+  window.grid.data = {
+    fields: ['person','date'],
+    items: [
+      {'személy':   'évszám'},
+      {'valaki':    1992},
+      {'masValaki': 1540},
+      {'bárki':     1992},
+      {'netuddki':  1992}
+    ]
+  }
+
+  window.grid.initialize();
 
 });

@@ -45,7 +45,8 @@
     ),
 
     initialize: function() {
-      var self = this;
+
+      var self      = this;
 
       (typeof Event != 'undefined' ? Event : window.event).prototype.stopProp = new Function(
         window.event ? 'this.cancelBubble = true;' : 'this.stopPropagation();'
@@ -80,6 +81,33 @@
       };
 
       MainFrame.domLoaded();
+    },
+
+    events: {
+      /*
+        @e(event)     {string}
+        @o(object)    {object}
+        @f(function)  {string}
+      */
+      add: new Function(
+        'e',
+        'f',
+        'o',
+        window.addEventListener ?
+          'o.addEventListener(e,f,false);' : (window.attachEvent ? 'o.attachEvent(["on",e].join(""),f);' : null)
+      ),
+      /*
+        @e(event)     {string}
+        @o(object)    {object}
+        @f(function)  {string}
+      */
+      remove: new Function(
+        'e',
+        'f',
+        'o',
+        window.addEventListener ?
+          'o.removeEventListener(e,f,false);' : (window.attachEvent ? 'o.detachEvent(["on",e].join(""),f);' : null)
+      )
     },
 
     /*
@@ -187,33 +215,6 @@
         var current = current.parentNode;
       }
       return null;
-    },
-
-    events  : {
-      /*
-        @e(event)     {string}
-        @o(object)    {object}
-        @f(function)  {string}
-      */
-      add: function(e,f,o) {
-        if(o.addEventListener) {
-          o.addEventListener(e,f,false);
-        } else if(o.attachEvent) {
-          o.attachEvent(['on',e].join(''), f);
-        }
-      },
-      /*
-        @e(event)     {string}
-        @o(object)    {object}
-        @f(function)  {string}
-      */
-      remove: function(e,f,o) {
-        if(o.removeEventListener) {
-          o.removeEventListener(e,f,false);
-        } else if(o.detachEvent) {
-          o.detachEvent(['on',e].join(''), f);
-        }
-      }
     },
 
     /*

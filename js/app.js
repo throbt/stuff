@@ -9,8 +9,8 @@ $.domLoaded(function() {
     items: [
       {'valaki':    1992},
       {'masValaki': 1540},
-      {'bárki':     1992},
-      {'netuddki':  1992}
+      {'bárki':     1386},
+      {'netuddki':  1749}
     ]
   }
 

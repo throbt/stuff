@@ -84,12 +84,13 @@
     },
 
     /*
-      @method apply
+      @method apply - it clones an object to another one
       @dest   {object}
       @source {object}
     */
-    apply: function(dest, source){
-      for (var v in source) dest[v] = source[v];
+    apply: function(dest, source) {
+      for (var i in source)
+        dest[i] = source[i];
       return dest;
     },
 

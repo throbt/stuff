@@ -36,7 +36,12 @@ window.grid = $.apply(window.component, {
 	},
 
 	build: function() {
-		
+		$.createEl({
+      type  : 'table',
+      id    : 'test',
+      cls   : 'anyClass',
+      style : 'width:50px;height:50px;background:red;position:absolute;top:0px;left:0px;'
+    });
 	}
 });
 

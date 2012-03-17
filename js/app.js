@@ -42,37 +42,37 @@ var Builder = {
   }
 }
 
-$.domLoaded(function() {
+$.domLoaded(function() { console.log(timer.prototype);
   Builder.build();
   Snake.init();
 
-    $.anim([
-      'test',
-      'left:1100px;top:200px;',
-      600,
-      function() {
-          $.anim([
-            'test',
-            'top:300px;left:500px;',
-            100,
-            function() {
-                $.anim([
-                  'test',
-                  'left:0px;top:150px;',
-                  100,
-                  function() {
-                      $.anim([
-                        'test',
-                        'top:0px;left:0px;',
-                        300,
-                        function() { 
-                        }
-                      ]);
-                  }
-                ]);
-            }
-          ]);
-      }
-    ]);
+    // $.anim([
+    //   'test',
+    //   'left:1100px;top:200px;',
+    //   600,
+    //   function() {
+    //       $.anim([
+    //         'test',
+    //         'top:300px;left:500px;',
+    //         100,
+    //         function() {
+    //             $.anim([
+    //               'test',
+    //               'left:0px;top:150px;',
+    //               100,
+    //               function() {
+    //                   $.anim([
+    //                     'test',
+    //                     'top:0px;left:0px;',
+    //                     300,
+    //                     function() { 
+    //                     }
+    //                   ]);
+    //               }
+    //             ]);
+    //         }
+    //       ]);
+    //   }
+    // ]);
 
 });

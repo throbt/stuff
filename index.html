@@ -10,8 +10,9 @@
 (function () {
   var thisScript 	= document.getElementsByTagName('script')[0].parentNode,
 	main 						= document.createElement('script'),
-	snake 					= document.createElement('script'),
+	app 					  = document.createElement('script'),
   emile           = document.createElement('script'),
+  comp            = document.createElement('script'),
   thisStyle 			= document.createElement('link');
   thisStyle.setAttribute("type", "text/css");
   thisStyle.setAttribute("href", "css/style.css");
@@ -20,12 +21,16 @@
   main.setAttribute("src", "js/main.js");
   emile.setAttribute("type", "text/javascript");
   emile.setAttribute("src", "js/emile.js");
-  snake.setAttribute("type", "text/javascript");
-  snake.setAttribute("src", "js/snake.js");
+  app.setAttribute("type", "text/javascript");
+  app.setAttribute("src", "js/app.js");
+  comp.setAttribute("type", "text/javascript");
+  comp.setAttribute("src", "js/components.js");
   thisScript.appendChild(thisStyle);
   thisScript.appendChild(emile);
   thisScript.appendChild(main);
-  thisScript.appendChild(snake)
+  thisScript.appendChild(comp);
+  thisScript.appendChild(app);
+
 })();
 </script>
 

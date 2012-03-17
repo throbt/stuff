@@ -83,6 +83,16 @@
       MainFrame.domLoaded();
     },
 
+    /*
+      @method apply
+      @dest   {object}
+      @source {object}
+    */
+    apply: function(dest, source){
+      for (var v in source) dest[v] = source[v];
+      return dest;
+    },
+
     events: {
       /*
         @e(event)     {string}

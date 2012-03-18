@@ -46,7 +46,7 @@
 
     initialize: function() {
 
-      var self      = this;
+      var self = this;
 
       (typeof Event != 'undefined' ? Event : window.event).prototype.stopProp = new Function(
         window.event ? 'this.cancelBubble = true;' : 'this.stopPropagation();'
@@ -88,10 +88,96 @@
       @dest   {object}
       @source {object}
     */
-    apply: function(dest, source) {
-      for (var i in source)
+    apply: function(source, dest) {
+      for (var i in source) {
         dest[i] = source[i];
+      }
       return dest;
+    },
+
+    /*
+      @method override
+      @origclass {object} - the original class
+      @overrides {object} - the overrides
+    */
+    override : function(origclass, overrides){
+      var self = this;
+      if(overrides){
+        var p = origclass.prototype;
+        self.apply(p, overrides);
+        if(self.ie && overrides.toString != origclass.toString){
+          p.toString = overrides.toString;
+        }
+      }
+    },
+
+    // extendT : function(){
+    //   // inline overrides
+    //   var io = function(o){
+    //       for(var m in o){
+    //           this[m] = o[m];
+    //       }
+    //   };
+    //   var oc = Object.prototype.constructor;
+
+    //   return function(sb, sp, overrides){
+    //       if(sp && typeof sp == 'object'){
+    //           overrides = sp;
+    //           sp = sb;
+    //           sb = overrides.constructor != oc ? overrides.constructor : function(){sp.apply(this, arguments);};
+    //       }
+    //       var F = function(){},
+    //           sbp,
+    //           spp = sp.prototype;
+
+    //       F.prototype = spp;
+    //       sbp = sb.prototype = new F();
+    //       sbp.constructor=sb;
+    //       sb.superclass=spp;
+    //       if(spp.constructor == oc){
+    //           spp.constructor=sp;
+    //       }
+    //       sb.override = function(o){
+    //           this.override(sb, o);
+    //       };
+    //       sbp.superclass = sbp.supr = (function(){
+    //           return spp;
+    //       });
+    //       sbp.override = io;
+    //       in4.override(sb, overrides);
+    //       sb.extend = function(o){in4.extend(sb, o);};
+    //       return sb;
+    //   };
+    // }(),
+
+    /*
+      @method extend
+      @source {object}
+      @dest   {object}
+    */
+    extend: function(source,dest) {
+      var self        = this,
+          target      = function() {},
+          thisParent  = new source();
+
+      self.apply(dest,thisParent);
+      self.override(source,thisParent);
+      target.prototype = thisParent;  //console.log( target.prototype.render );
+
+      // target.superclass = function() {
+      //   return new source().prototype;
+      // }
+
+      // return target;
+
+      // target.superclass = (function(){
+      //   return new source();
+      // });
+
+      return function(target) {
+        return target;
+      }
+
     },
 
     events: {

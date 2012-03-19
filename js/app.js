@@ -27,6 +27,8 @@ $.domLoaded(function() {
   });
 
 
+// console.log(instance);
+
   // instance.init();
 // {
 //     'valami': 'barmi',

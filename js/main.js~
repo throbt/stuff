@@ -159,14 +159,14 @@
       var self        = this,
           target      = function() {};
 
+          console.log(source.toString());
+
       source.prototype = dest;
-      // source.constructor = function() { return source.apply(this, arguments); }
       target.prototype = new source();
 
-      target.initialize = function() {target.apply(this,arguments)}
+          console.log(dest.toString());
 
-      // ClassA.apply(this,arguments);
-      // sb = overrides.constructor != oc ? overrides.constructor : function(){sp.apply(this, arguments);};
+          console.log(target.toString());
 
       return target;
     },

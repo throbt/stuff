@@ -33,6 +33,28 @@ var instance = new wm.Grid({
   'masValami': 'barmiMas'
 });
 
+// console.log(instance);
+
+// wm.Grid.superclass({
+//   'valami': 'barmi',
+//   'masValami': 'barmiMas'
+// });
+
+// for(var i in instance) {
+
+//   console.log(i, instance[i]);
+
+// }
+
+// console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+
+// for(var i in wm.Grid) {
+
+//   console.log(i, wm.Grid[i]);
+
+// }
+// instance.superclass();
 
 // console.log(instance);
 

@@ -1,37 +1,18 @@
 var wm = {};
 
 wm.Component = function(config){
-	this.config = config;
-	this.init(this.config);
+	this.init(config);
 };
 
-$.extend(wm.Component, {
-
-	init: function(config) { //alert('asdasd');
-		
-	}
-});
-
-// console.log(wm.Component);
-
-wm.Grid = $.extend(wm.Component, {
+wm.Grid = $.componentExtend(wm.Component, {
 
 	type: 'grid',
 
 	dataStore: {},
 
-
 	init: function(config) {
-
-		// if(typeof config != 'undefined') {
-		// 	console.log(config);
-		// }
-
-		alert('asdasd');
+		console.log('masodik');
 		console.log(config);
-
-		//this.superclass.call(this,arguments);
-
 		this.build();
 	},
 

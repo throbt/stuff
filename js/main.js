@@ -116,97 +116,14 @@
       @source {object}
       @dest   {object}
     */
-    extend: function(source,dest) {
-      var self    = this,
-          target  = function() {};
+    componentExtend: function(source,dest) {
+      var self        = this,
+          target      = /*function() {}*/ source;
 
-      // dest.superclass = function() {
-      //   return source.init.apply(this,arguments);
-      // }
-
-      // self.override(source,dest);
-
-      // dest.superclass = function(){
-      //   source.apply(target,arguments);
-      // };
-
-      // dest.superclass = source;
-
-      
-
-      // dest.superclass = function(){
-      //   return source.apply(this,arguments);
-      // };
-
-      // dest.prototype = new source();  
-
-      // self.override(source,dest);
-
-      dest.superclass = function() {
-        return source.apply(this, arguments);
-      };    
-
-      
-
-      source.prototype = dest;
-      // self.override(dest,source);
-      
-      
-
-      target.prototype = new source();
-
-      // target.prototype = function() {
-      //   return source.apply(target,arguments); 
-      // }
-      
-
-      
-
-      // target.superclass();
-
-      // target.superclass = source;
-      
+      source.prototype  = dest;
+      self.apply(dest,target);
       return target;
     },
-    // extendT : function(){
-    //   // inline overrides
-    //   var io = function(o){
-    //       for(var m in o){
-    //           this[m] = o[m];
-    //       }
-    //   };
-    //   var oc = Object.prototype.constructor;
-
-    //   return function(sb, sp, overrides){
-    //       if(sp && typeof sp == 'object'){
-    //           overrides = sp;
-    //           sp = sb;
-    //           sb = overrides.constructor != oc ? overrides.constructor : function(){sp.apply(this, arguments);};
-    //       }
-    //       var F = function(){},
-    //           sbp,
-    //           spp = sp.prototype;
-
-    //       F.prototype = spp;
-    //       sbp = sb.prototype = new F();
-    //       sbp.constructor=sb;
-    //       sb.superclass=spp;
-    //       if(spp.constructor == oc){
-    //           spp.constructor=sp;
-    //       }
-    //       sb.override = function(o){
-    //           this.override(sb, o);
-    //       };
-    //       sbp.superclass = sbp.supr = (function(){
-    //           return spp;
-    //       });
-    //       sbp.override = io;
-    //       in4.override(sb, overrides);
-    //       sb.extend = function(o){in4.extend(sb, o);};
-    //       return sb;
-    //   };
-    // }(),
-
 
     events: {
       /*

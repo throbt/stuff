@@ -37,9 +37,10 @@ wm.DataStore = $.componentExtend(wm.Grid, {
 
     // console.log(this.build);
 
-    // console.log(cfg);
-
     this.build();
+    console.log(cfg);
+
+    
   }
 });
 

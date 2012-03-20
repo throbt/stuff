@@ -40,39 +40,39 @@ var instance = new wm.DataStore({
 //   'masValami': 'barmiMas'
 // });
 
-// console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+console.log('instance xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-// for(var i in instance) {
+for(var i in instance) {
 
-//   console.log(i, instance[i]);
+  console.log(i, instance[i]);
 
-// }
+}
 
-// console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+console.log('Component xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-// for(var i in wm.Component) {
+for(var i in wm.Component) {
 
-//   console.log(i, instance[i]);
+  console.log(i, wm.Component[i]);
 
-// }
+}
 
-// console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-
-// for(var i in wm.Grid) {
-
-//   console.log(i, wm.Grid[i]);
-
-// }
-
-// console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+console.log('Grid xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
 
-// for(var i in wm.DataStore) {
+for(var i in wm.Grid) {
 
-//   console.log(i, wm.Grid[i]);
+  console.log(i, wm.Grid[i]);
 
-// }
+}
+
+console.log('DataStore xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+
+for(var i in wm.DataStore) {
+
+  console.log(i, wm.DataStore[i]);
+
+}
 // instance.superclass();
 
 // console.log(instance);

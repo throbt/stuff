@@ -113,16 +113,20 @@
 
     /*
       @method extend
+        workin like an oo inheritance, but its just a merge,
+        first class must be a function because the function has new construktor
+
       @source {object}
       @dest   {object}
     */
     componentExtend: function(source,dest) {
       var self        = this,
           target      = /*function() {}*/ source;
-          
+
       target.prototype  = dest;
       target.prototype  = source;
       self.apply(dest,target);
+      
       return target;
     },
 

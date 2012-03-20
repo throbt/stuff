@@ -1,8 +1,7 @@
 var wm = {};
 
-wm.Component = function(config){
-  console.log('elso');
-  this.init(config);
+wm.Component = function(cfg){
+	this.init(cfg);
 };
 
 wm.Grid = $.componentExtend(wm.Component, {
@@ -11,9 +10,7 @@ wm.Grid = $.componentExtend(wm.Component, {
 
   dataStore: {},
 
-  init: function(config) {
-    console.log('masodik');
-    console.log(config);
+  init: function(cfg) {
     this.build();
   },
 
@@ -35,12 +32,14 @@ wm.DataStore = $.componentExtend(wm.Grid, {
 
   items: [],
 
-  init: function(config) {
-    console.log('harmadik');
+  init: function(cfg) {
+    // console.log('harmadik');
 
-    console.log(this.build);
+    // console.log(this.build);
 
-    console.log(config);
+    // console.log(cfg);
+
+    this.build();
   }
 });
 

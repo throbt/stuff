@@ -2,8 +2,17 @@ var wm = {};
 
 wm.Component = function(config){
 	this.config = config;
-	this.init.call(this, this.config);
+	this.init(this.config);
 };
+
+$.extend(wm.Component, {
+
+	init: function(config) { //alert('asdasd');
+		
+	}
+});
+
+// console.log(wm.Component);
 
 wm.Grid = $.extend(wm.Component, {
 
@@ -11,19 +20,17 @@ wm.Grid = $.extend(wm.Component, {
 
 	dataStore: {},
 
-	render: function() {
-		var self = this;
-		if(this.data.items.length > 1)
-		self.build();
-	},
 
-	initialize: function() {
-		console.log(arguments);
-	},
+	init: function(config) {
 
-	init: function(config) { console.log(arguments);
-		// this.init();
-		// wm.Grid.superclass.init.call(this, config);
+		// if(typeof config != 'undefined') {
+		// 	console.log(config);
+		// }
+
+		alert('asdasd');
+		console.log(config);
+
+		//this.superclass.call(this,arguments);
 
 		this.build();
 	},

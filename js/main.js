@@ -111,6 +111,63 @@
       }
     },
 
+    /*
+      @method extend
+      @source {object}
+      @dest   {object}
+    */
+    extend: function(source,dest) {
+      var self    = this,
+          target  = function() {};
+
+      // dest.superclass = function() {
+      //   return source.init.apply(this,arguments);
+      // }
+
+      // self.override(source,dest);
+
+      // dest.superclass = function(){
+      //   source.apply(target,arguments);
+      // };
+
+      // dest.superclass = source;
+
+      
+
+      // dest.superclass = function(){
+      //   return source.apply(this,arguments);
+      // };
+
+      // dest.prototype = new source();  
+
+      // self.override(source,dest);
+
+      dest.superclass = function() {
+        return source.apply(this, arguments);
+      };    
+
+      
+
+      source.prototype = dest;
+      // self.override(dest,source);
+      
+      
+
+      target.prototype = new source();
+
+      // target.prototype = function() {
+      //   return source.apply(target,arguments); 
+      // }
+      
+
+      
+
+      // target.superclass();
+
+      // target.superclass = source;
+      
+      return target;
+    },
     // extendT : function(){
     //   // inline overrides
     //   var io = function(o){
@@ -150,26 +207,6 @@
     //   };
     // }(),
 
-    /*
-      @method extend
-      @source {object}
-      @dest   {object}
-    */
-    extend: function(source,dest) {
-      var self        = this,
-          target      = function() {};
-
-      source.prototype = dest;
-      // source.constructor = function() { return source.apply(this, arguments); }
-      target.prototype = new source();
-
-      target.initialize = function() {target.apply(this,arguments)}
-
-      // ClassA.apply(this,arguments);
-      // sb = overrides.constructor != oc ? overrides.constructor : function(){sp.apply(this, arguments);};
-
-      return target;
-    },
 
     events: {
       /*

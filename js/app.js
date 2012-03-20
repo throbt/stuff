@@ -18,13 +18,20 @@ $.domLoaded(function() {
 
   // console.log(wm.Grid);
 
-  // console.log(wm.Component);
+  
+
+// var thisComponent = new wm.Component({
+//   'valami': 'barmi',
+//   'masValami': 'barmiMas'
+// });
+
+// console.log(thisComponent);
 
 
-  var instance = new wm.Grid({
-    'valami': 'barmi',
-    'masValami': 'barmiMas'
-  });
+var instance = new wm.Grid({
+  'valami': 'barmi',
+  'masValami': 'barmiMas'
+});
 
 
 // console.log(instance);

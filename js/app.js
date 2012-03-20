@@ -1,97 +1,43 @@
 
 $.domLoaded(function() {
 
-  // wm.Grid.data = {
-  //   fields: [
-  //     {'person':  'személy'},
-  //     {'date':    'dátum'}
-  //   ],
-  //   items: [
-  //     {'valaki':    1992},
-  //     {'masValaki': 1540},
-  //     {'bárki':     1386},
-  //     {'netuddki':  1749}
-  //   ]
-  // }
+  var thisStore = new wm.DataStore({
 
-  // wm.grid.initialize();
+    type: 'datastore',
 
-  // console.log(wm.Grid);
+    fields: [
+      {'field':'person','name':'személy','sortable':true,'editable':true},
+      {'field':'date','name':'dátum','sortable':true,'editable':true},
+      {'field':'desc','name':'megjegyzés','sortable':true,'editable':true}
+    ],
 
-  
+    items: [
+      { 'person':'valaki',
+        'date':1992,
+        'desc':'hmmm' },
+      { 'person':'masValaki',
+        'date':1540,
+        'desc':'nemáá' },
+      { 'person':'bárki',
+        'date':1386,
+        'desc':'azta' },
+      { 'person':'netuddki',
+        'date':1749,
+        'desc':'pfuj' }
+    ]
 
-// var thisComponent = new wm.Component({
-//   'valami': 'barmi',
-//   'masValami': 'barmiMas'
-// });
+  });
 
-// console.log(thisComponent);
-
-
-var instance = new wm.DataStore({
-  'valami': 'barmi',
-  'masValami': 'barmiMas'
-});
-
-// console.log(instance);
-
-// wm.Grid.superclass({
-//   'valami': 'barmi',
-//   'masValami': 'barmiMas'
-// });
-
-console.log('instance xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-for(var i in instance) {
-
-  console.log(i, instance[i]);
-
-}
-
-console.log('Component xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-for(var i in wm.Component) {
-
-  console.log(i, wm.Component[i]);
-
-}
-
-console.log('Grid xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-
-for(var i in wm.Grid) {
-
-  console.log(i, wm.Grid[i]);
-
-}
-
-console.log('DataStore xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-
-for(var i in wm.DataStore) {
-
-  console.log(i, wm.DataStore[i]);
-
-}
-// instance.superclass();
-
-// console.log(instance);
-
-  // instance.init();
-// {
-//     'valami': 'barmi',
-//     'masValami': 'barmiMas'
-//   }
-
-
-// console.log(instance);
-
-  // instance.init();
-
-
-
-  // for(var i in ttt) {
-  //   console.log(i);
-  // }
-
+  var thisGrid = new wm.Grid({
+    type: 'grid',
+    id: 'thisGrid',
+    cls: 'anyGrid',
+    datastore: thisStore,
+    parent: $.createEl({
+        type  : 'div',
+        id    : 'gridContainer',
+        cls   : 'anyClass',
+        style : ''
+      })
+  });
 });

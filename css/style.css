@@ -1,0 +1,18 @@
+.grid_head {
+  color:blue;
+  cursor:pointer;
+}
+.anyGrid {
+  border: 1px solid grey;
+  border-color: grey grey white white;
+  border-spacing: 0;
+}
+.tr {
+  border-spacing: 0;
+  /*border-style: solid;*/
+}
+.td {
+  border: 1px solid grey;
+  border-spacing: 0;
+  border-color: white white grey grey;
+}

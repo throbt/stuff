@@ -92,7 +92,6 @@
       for (var i in source) {
         dest[i] = source[i];
       }
-      return dest;
     },
 
     /*
@@ -114,8 +113,7 @@
     /*
       @method extend
         workin like an oo inheritance, but its just a merge,
-        first class must be a function because the function has new construktor
-
+        first class must be a function because we need the new construktor of it
       @source {object}
       @dest   {object}
     */
@@ -123,10 +121,10 @@
       var self        = this,
           target      = /*function() {}*/ source;
 
-      target.prototype  = dest;
-      target.prototype  = source;
+      target.prototype = source;
       self.apply(dest,target);
-      
+      self.apply(source,target);
+
       return target;
     },
 
@@ -239,19 +237,24 @@
       
       if(typeof self.getAttrib == 'undefined')
         self.getAttrib = function(el, prop) {
-          if(prop == 'class')
-            return self.getClassName();
-          else
-            return el.getAttribute(prop);
+          if(typeof prop != 'undefined' && typeof el != 'undefined') {
+            if(prop == 'class')
+              return self.getClassName();
+            else
+              return el.getAttribute(prop);
+          } else {
+            return null;
+          }
+          
         };
       
       if(!type) return el.parentNode;
       
       for(var i = 0; i < stopCondition; i++) {
         if(current.tagName != 'HTML') {
-          if(!prop && type == current.tagName) {
+          if(typeof prop == 'undefined' && type == current.tagName) {
             return current;
-          } else if(typeof self.getAttrib(current,prop) != 'undefined') {
+          } else if(self.getAttrib(current,prop) != null /*|| self.getAttrib(current,prop) != 'null'*/) {
             if(self.getAttrib(current,prop) == name) {
               return current;
             }

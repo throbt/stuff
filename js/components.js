@@ -1,7 +1,7 @@
 var wm = {};
 
 wm.Component = function(config){
-	console.log('elso');
+  console.log('elso');
   this.init(config);
 };
 

@@ -28,7 +28,7 @@ $.domLoaded(function() {
 // console.log(thisComponent);
 
 
-var instance = new wm.Grid({
+var instance = new wm.DataStore({
   'valami': 'barmi',
   'masValami': 'barmiMas'
 });
@@ -40,11 +40,13 @@ var instance = new wm.Grid({
 //   'masValami': 'barmiMas'
 // });
 
-// for(var i in instance) {
+console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-//   console.log(i, instance[i]);
+for(var i in instance) {
 
-// }
+  console.log(i, instance[i]);
+
+}
 
 // console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 

@@ -119,8 +119,9 @@
     componentExtend: function(source,dest) {
       var self        = this,
           target      = /*function() {}*/ source;
-
+          
       source.prototype  = dest;
+      target.prototype  = source;
       self.apply(dest,target);
       return target;
     },

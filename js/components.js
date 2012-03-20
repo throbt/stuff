@@ -1,6 +1,7 @@
 var wm = {};
 
 wm.Component = function(config){
+	console.log('elso');
   this.init(config);
 };
 
@@ -26,18 +27,22 @@ wm.Grid = $.componentExtend(wm.Component, {
   }
 });
 
-// vm.DataStore = $.extend(wm.Component, {
+wm.DataStore = $.componentExtend(wm.Grid, {
 
-// 	type: 'datastore',
+  type: 'datastore',
 
-// 	fields: [],
+  fields: [],
 
-// 	items: []
+  items: [],
 
-// 	init: function(cfg) {
-// 		this.initialize.call(this, cfg);
-// 	}
-// });
+  init: function(config) {
+    console.log('harmadik');
+
+    console.log(this.build);
+
+    console.log(config);
+  }
+});
 
 
 

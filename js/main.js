@@ -112,8 +112,10 @@
 
     /*
       @method extend
-        workin like an oo inheritance, but its just a merge,
-        first class must be a function because we need the new construktor of it
+
+      . workin like an oo inheritance, but its just a merge,
+      . first class must be a function because we need the new construktor of it
+      
       @source {object}
       @dest   {object}
     */
@@ -339,19 +341,19 @@
       @element  {object}
       @id       {string}
     */
-    remove: function(element,id) {
+    remove: function(element,selector) {
       var self        = this,
           thisEl,
-          searchedEl  = self.getDom(['div[id=',id,']'].join(''));
+          searchedEl  = self.getDom(selector);
 
       for(var i in element.childNodes) {
         thisEl = element.childNodes[i];
         if(thisEl == searchedEl) {
           element.removeChild(thisEl);
-          for(var c in o.cache) {
-            if(o.cache[c] == searchedEl) {
-              o.cache[c] = null;
-              delete o.cache[c];
+          for(var c in self.cache) {
+            if(self.cache[c] == searchedEl) {
+              self.cache[c] = null;
+              delete self.cache[c];
               return;
             }
           }

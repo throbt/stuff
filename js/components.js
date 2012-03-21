@@ -1,14 +1,14 @@
 var wm = {};
 
-wm.Component = function(cfg) {
-	this.cfg 	= cfg;
-	this.type = cfg.type;
-	this.init(this.cfg);
+wm.Component = function (cfg) {
+  this.cfg  = cfg;
+  this.type = cfg.type;
+  this.init(this.cfg);
 };
 
-wm.Store = function(cfg) {
-	this.type = cfg.type;
-	this.init(cfg);
+wm.Store = function (cfg) {
+  this.type = cfg.type;
+  this.init(cfg);
 };
 
 wm.Grid = $.componentExtend(wm.Component, {
@@ -17,79 +17,79 @@ wm.Grid = $.componentExtend(wm.Component, {
 
   datastore: {},
 
-  init: function(cfg) {
-  	this.datastore = cfg.datastore;
-    this.build();
+  init: function (cfg) {
+    this.datastore = cfg.datastore;
+    this.build(this.datastore.items);
   },
 
-  build: function() {
+  build: function (items) {
 
-		var tr 			= {},
-				self 		= this,
-				items 	= this.datastore.items,
-				fields 	= this.datastore.fields;
+    $.remove($.getDom('div[id=gridContainer]'),['table[id=',this.cfg.id,']'].join(''));
+
+    var tr    = {},
+      self    = this,
+      items   = items || [] /*this.datastore.items*/,
+      fields  = this.datastore.fields;
 
     this.table = $.createEl({
-      type  : 'table',
-      id    : this.cfg.id,
-      cls   : this.cfg.cls,
-      style : ''
-		},(this.cfg.parent ? this.cfg.parent : document.body));
+      type: 'table',
+      id: this.cfg.id,
+      cls: this.cfg.cls,
+      style: ''
+    }, (this.cfg.parent ? this.cfg.parent : document.body));
 
-		for(var iter = 0, l = items.length; iter <= l; iter++) {
+    for (var iter = 0, l = items.length; iter <= l; iter++) {
 
-			tr = $.createEl({
+      tr = $.createEl({
 
-				type  : 'tr',
-	      id    : ['tr_',iter].join(''),
-	      cls   : 'tr',
-	      style : ''
+        type: 'tr',
+        id: ['tr_', iter].join(''),
+        cls: 'tr',
+        style: ''
 
-			},this.table);
+      }, this.table);
 
-			for(var i = 0, len = fields.length; i < len; i++) {
+      for (var i = 0, len = fields.length; i < len; i++) {
 
-				/*
-					head
-				*/
-				if(iter == 0) {
+        /*
+          head
+        */
+        if (iter == 0) {
 
-					$.createEl({
+          $.createEl({
 
-						type  : 'td',
-			      id    : ['td_',i].join(''),
-			      rel 	: fields[i].field,
-			      cls   : 'grid_head td',
-			      style : '',
-			      html 	: fields[i].name,
-			      cmd   : ['click', function(e,obj) {
-			      	if(thisTarget = $.getParent(e.currentTarget, 'TD')) {
-			      			self.datastore.sort(thisTarget.getAttribute('rel'));
-			      	}
-			      }]
+            type: 'td',
+            id: ['td_', i].join(''),
+            rel: fields[i].field,
+            cls: 'grid_head td',
+            style: '',
+            html: fields[i].name,
+            cmd: ['click', function (e, obj) {
+              if (thisTarget = $.getParent(e.currentTarget, 'TD')) {
+                self.build(self.datastore.sort(thisTarget.getAttribute('rel')));
+              }
+            }]
 
-					},tr);
+          }, tr);
 
-				/*
-					body
-				*/
-				} else {
+        /*
+          body
+        */
+        } else {
 
-					$.createEl({
+          $.createEl({
 
-						type  : 'td',
-			      id    : ['td_',i].join(''),
-			      rel 	: [fields.field,'_',(iter-1),'_',i].join(''),
-			      cls   : 'grid_body td',
-			      style : '',
-			      html 	: items[iter-1][fields[i].field]
+            type: 'td',
+            id: ['td_', i].join(''),
+            rel: [fields.field, '_', (iter - 1), '_', i].join(''),
+            cls: 'grid_body td',
+            style: '',
+            html: items[iter - 1][fields[i].field]
 
-					},tr);
-
-				}
-			}
-
-		}
+          }, tr);
+        }
+      }
+    }
   }
 });
 
@@ -99,21 +99,45 @@ wm.DataStore = $.componentExtend(wm.Store, {
 
   type: 'datastore',
 
-  fields: [],
-  cache: [],
-  items: [],
+  fields      : [],
+  cache       : [],
+  items       : [],
 
-  init: function(cfg) {
-  	this.fields = cfg.fields;
-  	this.items 	= cfg.items;
-  	this.cache 	= cfg.items;
+  init: function (cfg) {
+    this.fields = cfg.fields;
+    this.items  = cfg.items;
+    this.cache  = cfg.items;
   },
 
-  sort: function(field) {
-  	alert(field);
+  sort: function (field) {
+    this.currentField = field;
+    if(!this[field]) {
+      this[field] = [];
+      for(var i = 0, l = this.items.length; i < l; i++) {
+        this[field].push(this.items[i][field]);
+      }
+      this[field].sort();
+    } else {
+      this[field].reverse();
+    }
+    return this.sortObject(this[field], this.items);
+  },
+
+  sortObject: function(arr, obj) {
+    var res = [],field = this.currentField;
+    for(var i = 0, l = arr.length; i < l; i++) {
+      res.push(this.getCurrentHashEl(field,arr[i]));
+    }
+    return res;
+  },
+
+  getCurrentHashEl: function(field, val) {
+    var hash = this.items;
+    for(var i in hash) {
+      if(hash[i][field] === val) {
+        return hash[i];
+        break;
+      }
+    }
   }
 });
-
-
-
-

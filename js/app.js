@@ -34,10 +34,10 @@ $.domLoaded(function() {
     cls: 'anyGrid',
     datastore: thisStore,
     parent: $.createEl({
-        type  : 'div',
-        id    : 'gridContainer',
-        cls   : 'anyClass',
-        style : ''
-      })
+              type  : 'div',
+              id    : 'gridContainer',
+              cls   : 'anyClass',
+              style : ''
+            })
   });
 });

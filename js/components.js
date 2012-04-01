@@ -1,143 +1,146 @@
-var wm = {};
+$.outerInit(function() {
 
-wm.Component = function (cfg) {
-  this.cfg  = cfg;
-  this.type = cfg.type;
-  this.init(this.cfg);
-};
+  window.wm = {};
 
-wm.Store = function (cfg) {
-  this.type = cfg.type;
-  this.init(cfg);
-};
+  window.wm.Component = function (cfg) {
+    this.cfg  = cfg;
+    this.type = cfg.type;
+    this.init(this.cfg);
+  };
 
-wm.Grid = $.componentExtend(wm.Component, {
+  window.wm.Store = function (cfg) {
+    this.type = cfg.type;
+    this.init(cfg);
+  };
 
-  type: 'grid',
+  window.wm.Grid = $.extend(wm.Component, {
 
-  datastore: {},
+    type: 'grid',
 
-  init: function (cfg) {
-    this.datastore = cfg.datastore;
-    this.build(this.datastore.items);
-  },
+    datastore: {},
 
-  build: function (items) {
+    init: function (cfg) {
+      this.datastore = cfg.datastore;
+      this.build(this.datastore.items);
+    },
 
-    $.remove($.getDom('div[id=gridContainer]'),['table[id=',this.cfg.id,']'].join(''));
+    build: function (items) {
 
-    var tr    = {},
-      self    = this,
-      items   = items || [] /*this.datastore.items*/,
-      fields  = this.datastore.fields;
+      $.remove($.getDom('div[id=gridContainer]'),['table[id=',this.cfg.id,']'].join(''));
 
-    this.table = $.createEl({
-      type: 'table',
-      id: this.cfg.id,
-      cls: this.cfg.cls,
-      style: ''
-    }, (this.cfg.parent ? this.cfg.parent : document.body));
+      var tr    = {},
+        self    = this,
+        items   = items || [] /*this.datastore.items*/,
+        fields  = this.datastore.fields;
 
-    for (var iter = 0, l = items.length; iter <= l; iter++) {
-
-      tr = $.createEl({
-
-        type: 'tr',
-        id: ['tr_', iter].join(''),
-        cls: 'tr',
+      this.table = $.createEl({
+        type: 'table',
+        id: this.cfg.id,
+        cls: this.cfg.cls,
         style: ''
+      }, (this.cfg.parent ? this.cfg.parent : document.body));
 
-      }, this.table);
+      for (var iter = 0, l = items.length; iter <= l; iter++) {
 
-      for (var i = 0, len = fields.length; i < len; i++) {
+        tr = $.createEl({
 
-        /*
-          head
-        */
-        if (iter == 0) {
+          type: 'tr',
+          id: ['tr_', iter].join(''),
+          cls: 'tr',
+          style: ''
 
-          $.createEl({
+        }, this.table);
 
-            type: 'td',
-            id: ['td_', i].join(''),
-            rel: fields[i].field,
-            cls: 'grid_head td',
-            style: '',
-            html: fields[i].name,
-            cmd: ['click', function (e, obj) {
-              if (thisTarget = $.getParent(e.currentTarget, 'TD')) {
-                self.build(self.datastore.sort(thisTarget.getAttribute('rel')));
-              }
-            }]
+        for (var i = 0, len = fields.length; i < len; i++) {
 
-          }, tr);
+          /*
+            head
+          */
+          if (iter == 0) {
 
-        /*
-          body
-        */
-        } else {
+            $.createEl({
 
-          $.createEl({
+              type: 'td',
+              id: ['td_', i].join(''),
+              rel: fields[i].field,
+              cls: 'grid_head td',
+              style: '',
+              html: fields[i].name,
+              cmd: ['click', function (e, obj) {
+                if (thisTarget = $.getParent(e.currentTarget, 'TD')) {
+                  self.build(self.datastore.sort(thisTarget.getAttribute('rel')));
+                }
+              }]
 
-            type: 'td',
-            id: ['td_', i].join(''),
-            rel: [fields.field, '_', (iter - 1), '_', i].join(''),
-            cls: 'grid_body td',
-            style: '',
-            html: items[iter - 1][fields[i].field]
+            }, tr);
 
-          }, tr);
+          /*
+            body
+          */
+          } else {
+
+            $.createEl({
+
+              type: 'td',
+              id: ['td_', i].join(''),
+              rel: [fields.field, '_', (iter - 1), '_', i].join(''),
+              cls: 'grid_body td',
+              style: '',
+              html: items[iter - 1][fields[i].field]
+
+            }, tr);
+          }
         }
       }
     }
-  }
-});
+  });
 
 
 
-wm.DataStore = $.componentExtend(wm.Store, {
+  window.wm.DataStore = $.extend(wm.Store, {
 
-  type: 'datastore',
+    type: 'datastore',
 
-  fields      : [],
-  cache       : [],
-  items       : [],
+    fields      : [],
+    cache       : [],
+    items       : [],
 
-  init: function (cfg) {
-    this.fields = cfg.fields;
-    this.items  = cfg.items;
-    this.cache  = cfg.items;
-  },
+    init: function (cfg) {
+      this.fields = cfg.fields;
+      this.items  = cfg.items;
+      this.cache  = cfg.items;
+    },
 
-  sort: function (field) {
-    this.currentField = field;
-    if(!this[field]) {
-      this[field] = [];
-      for(var i = 0, l = this.items.length; i < l; i++) {
-        this[field].push(this.items[i][field]);
+    sort: function (field) {
+      this.currentField = field;
+      if(!this[field]) {
+        this[field] = [];
+        for(var i = 0, l = this.items.length; i < l; i++) {
+          this[field].push(this.items[i][field]);
+        }
+        this[field].sort();
+      } else {
+        this[field].reverse();
       }
-      this[field].sort();
-    } else {
-      this[field].reverse();
-    }
-    return this.sortObject(this[field], this.items);
-  },
+      return this.sortObject(this[field], this.items);
+    },
 
-  sortObject: function(arr, obj) {
-    var res = [],field = this.currentField;
-    for(var i = 0, l = arr.length; i < l; i++) {
-      res.push(this.getCurrentHashEl(field,arr[i]));
-    }
-    return res;
-  },
+    sortObject: function(arr, obj) {
+      var res = [],field = this.currentField;
+      for(var i = 0, l = arr.length; i < l; i++) {
+        res.push(this.getCurrentHashEl(field,arr[i]));
+      }
+      return res;
+    },
 
-  getCurrentHashEl: function(field, val) {
-    var hash = this.items;
-    for(var i in hash) {
-      if(hash[i][field] === val) {
-        return hash[i];
-        break;
+    getCurrentHashEl: function(field, val) {
+      var hash = this.items;
+      for(var i in hash) {
+        if(hash[i][field] === val) {
+          return hash[i];
+          break;
+        }
       }
     }
-  }
+  });
 });

@@ -1,6 +1,5 @@
 
 $.domLoaded(function() {
-
   var thisStore = new wm.DataStore({
 
     type: 'datastore',

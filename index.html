@@ -17,18 +17,20 @@
       ref         = null,
       thisScript  = document.getElementsByTagName('script')[0].parentNode;
 
-  for(var i = 0, l = styles.length; i < l; i++) {
-    ref = document.createElement('link');
-    ref.setAttribute("type", "text/css");
-    ref.setAttribute("href", ["css/",styles[i],".css"].join(''));
-    ref.setAttribute("rel", "stylesheet");
-    thisScript.appendChild(ref);
-  }
+  
 
   for(var i = 0, l = scripts.length; i < l; i++) {
     ref = document.createElement('script');
     ref.setAttribute("type", "text/javascript");
     ref.setAttribute("src", ["js/",scripts[i],".js"].join(''));
+    thisScript.appendChild(ref);
+  }
+
+  for(var i = 0, l = styles.length; i < l; i++) {
+    ref = document.createElement('link');
+    ref.setAttribute("type", "text/css");
+    ref.setAttribute("href", ["css/",styles[i],".css"].join(''));
+    ref.setAttribute("rel", "stylesheet");
     thisScript.appendChild(ref);
   }
 

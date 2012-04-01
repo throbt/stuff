@@ -80,6 +80,7 @@
         window.console.log  = function() {}
       };
 
+      MainFrame.outerInit();
       MainFrame.domLoaded();
     },
 
@@ -88,46 +89,32 @@
       @dest   {object}
       @source {object}
     */
-    apply: function(source, dest) {
+    apply: function(dest, source) { 
       for (var i in source) {
         dest[i] = source[i];
       }
     },
 
     /*
-      @method override
-      @origclass {object} - the original class
-      @overrides {object} - the overrides
-    */
-    override : function(origclass, overrides){
-      var self = this;
-      if(overrides){
-        var p = origclass.prototype;
-        self.apply(p, overrides);
-        if(self.ie && overrides.toString != origclass.toString){
-          p.toString = overrides.toString;
-        }
-      }
-    },
-
-    /*
       @method extend
-
-      . workin like an oo inheritance, but its just a merge,
-      . first class must be a function because we need the new construktor of it
-      
       @source {object}
       @dest   {object}
     */
-    componentExtend: function(source,dest) {
-      var self        = this,
-          target      = /*function() {}*/ source;
+    extend: function(source,dest) {
+      var target = function () {
+         return wm.Component.apply(this, arguments);  
+      }
 
-      target.prototype = source;
-      self.apply(dest,target);
-      self.apply(source,target);
-
+      this.apply(target,source);
+      this.apply(target,dest);
+      target.prototype = dest;
       return target;
+    },
+
+    debug: function (obj) {
+      for(var i in obj) {
+        console.log(i, obj[i]);
+      }
     },
 
     events: {
@@ -161,6 +148,11 @@
       @fn {string} - not exactly the domloaded event, its just coming after the window onload
     */
     domLoaded: function(fn) {
+      if(typeof fn != 'undefined')
+        fn();
+    },
+
+    outerInit: function(fn) {
       if(typeof fn != 'undefined')
         fn();
     },

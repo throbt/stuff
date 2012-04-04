@@ -1,0 +1,49 @@
+.domains #editor {
+  width           : 200px;
+  height          : 20px;
+}
+.domains .editable {
+  width           : 350px;
+  height          : 30px;
+}
+.users .editable {
+  width           : 300px;
+  height          : 30px;
+  cursor          : pointer;
+}
+.users #editor {
+  width           : 150px;
+  height          : 25px;
+}
+#head {
+}
+#profile {
+  float           : right;
+  width           : 400px;
+  height          : 25px;
+  padding-top     : 15px;
+}
+#profileName, #profileName a {
+  font-size       : 12px;
+  color           : #888888;
+  float           : right;
+  padding         : 0px;
+  margin-left     : 10px;
+}
+#logoutLink {
+  font-size       : 12px;
+  color           : #FFFFFF;
+  float           : right;
+  padding         : 0px;
+/*  text-decoration : none;*/
+  margin-left     : 10px;
+}
+.profile {
+  width           : 500px;
+  float           : left;
+}
+.profile_pass {
+  width           : 150px;
+  float           : left;
+}
+

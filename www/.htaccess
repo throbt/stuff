@@ -1,0 +1,26 @@
+Options +FollowSymLinks +ExecCGI
+
+  RewriteEngine on
+
+  # bazis
+  # RewriteBase /netambulancia.hu/www
+#AuthName "Protected Area"
+#AuthType Basic
+#AuthUserFile /wwwhome/www.f1race.hu/www/.htpasswd
+#require valid-user
+
+  # attiras
+  
+  RewriteCond %{REQUEST_URI} !(.*)/js/(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/css/(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/img/(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/rss.php(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/test.php(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/upload/(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/myadmin/(.*)$
+  RewriteCond %{REQUEST_URI} ^(.*)$
+  RewriteRule ^(.*)$ index.php?$1=$2 [QSA,L]
+
+# error
+ErrorDocument 500 "<h2> Rossz kérelem </h2>"
+ErrorDocument 404 404.php

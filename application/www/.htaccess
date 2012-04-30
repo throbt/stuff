@@ -1,0 +1,15 @@
+  Options +FollowSymLinks +ExecCGI
+  RewriteEngine on
+
+  SetEnv env development
+  
+  RewriteCond %{REQUEST_URI} !(.*)/js/(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/css/(.*)$
+  RewriteCond %{REQUEST_URI} !(.*)/img/(.*)$
+  
+  RewriteCond %{REQUEST_URI} ^(.*)$
+  RewriteRule ^(.*)$ index.php?$1=$2 [QSA,L]
+
+# error
+ErrorDocument 500 "<h2> 500 </h2>"
+ErrorDocument 404 404.php

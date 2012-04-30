@@ -12,46 +12,38 @@ class getConfig {
 
 class Config {
 
-  public $vars = array();
-  
   function __construct($iniPath) {
 	
 		$this->env = $_SERVER['env'];
 	
-		try { 
-			$ini = parse_ini_file($iniPath, true);
-		} catch (Exception $e) { 
-			echo "wrong filepath"; 
+		if(file_exists($iniPath)) {
+			$ini 				= parse_ini_file($iniPath, true);
+			$this->cfg 	= $ini[$this->env];
+		} else {
+			echo "wrong application.ini path or the file(application.ini) does not exist";
+			die();
 		}
-
-		print_r($ini);
 		
-    $this->scope = $scope;
-    $this->vars['db'] = array(
-      "host"  => "localhost",
-      "db"    => "tent",
-      "user"  => "root",
-      "psw"   => ""
-    );
-    
-    define('ROOT',          trim(shell_exec("cd ..; echo `pwd`;")));
-    define('CLASSES',       ROOT . '/classes/');
-    define('SAMPLE',        ROOT . '/sample/');
-    define('SAMPLEFILE',    'sample.tar'); //'sample.tar.gz'
-    define('DOMAINS',       ROOT . '/www/domains/');
-    define('THIRDPARTY',    ROOT . '/3rdparty/');
-    define('ADODB',         THIRDPARTY . '/adodb5/');
-    define('CONTROLLERS',   ROOT . '/controllers/');
-    define('MODELS',        ROOT . '/models/');
-    define('TPL',           ROOT . '/tpl/');
-    define('WWW',           ROOT . '/www/');
-    define('CSS',           WWW . '/css/');
-    define('JS',            WWW . '/js/');
-    define('IMG',           WWW . '/img/');
-    
-    define('ACCOUNT',       'conf/felhasznalok.php');
-    
-    define('HOST',          $_SERVER['HTTP_HOST']);
+		if(isset($this->cfg)) {
+			$this->vars['db'] = array(
+	      "host"  => $this->cfg['db.host'],
+	      "db"    => $this->cfg['db.dbname'],
+	      "user"  => $this->cfg['db.username'],
+	      "psw"   => $this->cfg['db.password']
+	    );
+		
+			define('HOST',          $this->cfg['host']);
+	    define('ROOT',          $this->cfg['doc_root']);
+	
+	    define('APPLICATION',   ROOT 				. 'application' . DIRECTORY_SEPARATOR);
+	    define('CONTROLLERS',   APPLICATION . 'controllers' . DIRECTORY_SEPARATOR);
+			define('MODELS',        APPLICATION . 'models' 			. DIRECTORY_SEPARATOR);
+			define('VIEWS',        	APPLICATION . 'views' 			. DIRECTORY_SEPARATOR);
+	    define('WWW',           ROOT 				. 'www' 				. DIRECTORY_SEPARATOR);
+	    define('CSS',           WWW 				. 'css' 				. DIRECTORY_SEPARATOR);
+	    define('JS',            WWW 				. 'js' 					. DIRECTORY_SEPARATOR);
+	    define('IMG',           WWW 				. 'img' 				. DIRECTORY_SEPARATOR);
+		}
   }
   
   public function get($key) {

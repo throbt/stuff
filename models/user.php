@@ -1,15 +1,48 @@
 <?php
 
 class User extends Model {
-
-#  function __construct() {
-#    parent::__construct();
-#  }
   
-  public function getAll() {
+  public function getAll($key = '') {
+  
+    $key    = urldecode(urlencode($key));
+    $where  = '';
+    
+    if($key != '') {
+      $where = " where u.name like :name or u.email like :email ";
+      $thisParams = new stdClass();
+      $thisParams->name = "%{$key}%";
+      $thisParams->email = "%{$key}%";
+    }
+    
+    $currentPage  = isset($_GET['page']) ? $_GET['page'] : 1;
+    $pagePerItem  = $this->pagePerItem;
+    $queryArr[0]  = "
+      select
+          count(u.id) as counter
+      from
+        users u
+      join
+        users_roles ur
+      on
+        u.id = ur.uid
+      join
+        roles r
+      on
+        ur.role = r.id
+      {$where};
+    ";
+    
+    $queryArr[1]  = (isset($thisParams) ? $thisParams : array());
+    
+    $paginator    = $this->paginator($queryArr,$pagePerItem,$currentPage);
+    
     $res = $this->select("
         select
-          *
+          ur.uid,
+          u.email,
+          u.name,
+          u.psw,
+          r.role
         from
           users u
         join
@@ -19,12 +52,19 @@ class User extends Model {
         join
           roles r
         on
-          ur.role = r.id;
-      "
+          ur.role = r.id
+        {$where}
+        {$paginator['limit']};
+      ",
+      (isset($thisParams) ? $thisParams : array())
     );
     
     if(gettype($res) == 'array' && count($res) > 0) {
-      return $res;
+      return array(
+        'result'  => $res,
+        'all'     => $paginator['allPages'],
+        'current' => $currentPage
+      );
     } else {
       return false;
     }
@@ -34,7 +74,7 @@ class User extends Model {
     $res = $this->select("
         select
           u.*,
-          r.id    as role_id,
+          r.id   as role_id,
           r.role as role
         from
           users u
@@ -97,15 +137,62 @@ class User extends Model {
   }
   
   public function changePassword($password,$id) {
+    $md5 = md5($password);
     $this->query("
         update
           users
         set
-          password = ?
+          password  = ?,
+          psw       = ?
         where
           id = ?
       ",
-      array($password,$id)
+      array($md5,$password,$id)
+    );
+  }
+  
+  public function update($id,$role_id) {
+    $this->query("
+        update
+          users_roles
+        set
+          role = ?
+        where
+          uid = ?
+      ",
+      array($role_id,$id)
+    );
+  }
+  
+  public function delete($id) {
+    $this->query("
+        delete
+          from
+            users_roles
+        where
+          uid = ?
+      ",
+      array($id)
+    );
+    
+    $this->query("
+        delete
+          from
+            users
+        where
+          id = ?
+      ",
+      array($id)
+    );
+    
+    $this->query("
+        delete
+          from
+            users_domains
+        where
+          uid = ?
+      ",
+      array($id)
     );
   }
   
@@ -114,11 +201,11 @@ class User extends Model {
         insert
           into
             users
-        (email,password,name)
+        (email,password,psw,name)
           values
-        (?,?,?);
+        (?,md5(?),?,?);
       ",
-      array($email,$password,$name)
+      array($email,$password,$password,$name)
     );
     $id = $this->db->lastInsertId();
     return $id;

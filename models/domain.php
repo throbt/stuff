@@ -4,13 +4,13 @@ class Domain extends Model {
   
   public function getDirs() {
     $dirs = array();
-    $res = $this->db->query("
+    $res = $this->select("
         select
           distinct(dir)
         from
           domains;
       "
-    )->fetchAll(PDO::FETCH_ASSOC);
+    );
     
     if(gettype($res) == 'array' && count($res) > 0) {
       foreach($res as $dir) {
@@ -22,40 +22,110 @@ class Domain extends Model {
     }
   }
   
-  public function getAll() {
+  public function dirState($id) {
+    $arr      = $this->get($id);
+    $thisDir  = "{$arr[0]['dir']}/";
     
-#    $r = $this->select("
-#      select
-#          *
-#        from
-#      domains
-#        where
-#      dir like ?
-#        or
-#      dir like ?;
-#    ",array('%f41.halation%','%f42.halatio%'));
-#    
-#    print_r($r); //die();
+    if(file_exists(DOMAINS.$thisDir.'builded'))
+      return true;
+    else
+      return false;
+  }
+  
+  public function getDomainForOwner($id) {
+    $res = $this->select("
+        select
+          *
+        from
+          domains
+        where
+          id in(
+        
+          select
+            domain_id
+          from
+            users_domains
+          where
+            uid = ?
+        
+        )
+        and id = ?;
+      ",
+      array($_SESSION['sessionUser']->id,$id)
+    );
+    
+    if(gettype($res) == 'array' && count($res) > 0) {
+      return $res;
+    } else {
+      return false;
+    }
+  }
+  
+  public function get($id) {
+    $res = $this->select("
+        select
+          *
+        from
+          domains
+        where
+          id = ?
+        order by domain asc;
+      ",
+      array($id)
+    );
+    
+    if(gettype($res) == 'array' && count($res) > 0) {
+      return $res;
+    } else {
+      return false;
+    }
+  }
+  
+  public function getByOwner() {
+    $res = $this->select("
+        select
+          *
+        from
+          domains d
+        join
+          users_domains ud
+        on d.id = ud.domain_id
+        where
+          ud.uid = ?;
+      ",
+      array($_SESSION['sessionUser']->id)
+    );
+    
+    if(gettype($res) == 'array') {
+      return $res;
+    } else {
+      return false;
+    }
+  }
+  
+  public function getAll() {
     
     $currentPage  = isset($_GET['page']) ? $_GET['page'] : 1;
     $pagePerItem  = $this->pagePerItem;
-    $getAllQuery  = "
+    $queryArr[0]  = "
       select
           count(*) as counter
         from
       domains;
     ";
+    $queryArr[1] = array();
     
-    $paginator = $this->paginator($getAllQuery, $pagePerItem,$currentPage);
+    $paginator = $this->paginator($queryArr, $pagePerItem,$currentPage);
   
-    $res = $this->db->query("
+    $res = $this->select("
         select
           *
         from
           domains
+        order by domain asc
         {$paginator['limit']};
       "
-    )->fetchAll(PDO::FETCH_ASSOC);
+    );
     
     if(gettype($res) == 'array' && count($res) > 0) {
       return array(
@@ -69,38 +139,50 @@ class Domain extends Model {
   }
   
   public function update($domain,$dir,$id) {
-    $this->db->query("
-        update
-          domains
-        set
-          domain  = '{$domain}',
-          dir     = '{$dir}'
-        where
-          id = {$id};
-      "
+    $this->query("
+      update
+        domains
+      set
+        domain  = ?,
+        dir     = ?
+      where
+        id = ?;
+    ",
+    array($domain,$dir,$id)
     );
   }
   
   public function add($domain,$dir) {
-    $this->db->query("
+    $this->query("
         insert
           into
             domains
         (domain,dir)
           values
-        ('{$domain}','{$dir}');
-      "
+        (?,?);
+      ",
+    array($domain,$dir)    //mysql_escape_string
     );
   }
   
   public function delete($id) {
-    $this->db->query("
+    $this->query("
         delete
           from
             domains
         where
-          id = {$id};
-      "
+          id = ?;
+      ",
+      array($id)
+    );
+    $this->query("
+        delete
+          from
+            users_domains
+        where
+          domain_id = ?;
+      ",
+      array($id)
     );
   }
   
@@ -108,27 +190,33 @@ class Domain extends Model {
   
     $currentPage  = isset($_GET['page']) ? $_GET['page'] : 1;
     $pagePerItem  = $this->pagePerItem;
-    $getAllQuery  = "
+    
+    $queryArr = array(
+      "
       select
           count(*) as counter
         from
       domains
         where
-          (domain like '%{$key}%' || dir like '%{$key}%');
-    ";
+          domain like ?;
+      ",
+      array("%{$key}%")
+    );
     
-    $paginator = $this->paginator($getAllQuery, $pagePerItem,$currentPage);
+    $paginator = $this->paginator($queryArr, $pagePerItem,$currentPage);
   
-    $res = $this->db->query("
+    $res = $this->select("
         select
           *
         from
           domains
         where
-          (domain like '%{$key}%' || dir like '%{$key}%')
+          domain like ?
+        order by domain asc
         {$paginator['limit']};
-      "
-    )->fetchAll(PDO::FETCH_ASSOC);
+      ",
+      array("%{$key}%")
+    );
     
     if(gettype($res) == 'array' && count($res) > 0) {
       return array(

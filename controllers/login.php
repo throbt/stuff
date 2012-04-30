@@ -7,9 +7,18 @@ class Login {
   }
   
   public function index() {
-    $this->router->render  = 'true';
-    $this->router->tpl     = 'login';
-    $this->router->render();
+#    session_destroy();
+#    session_unset();
+#    unset($_SESSION['sessionUser']);
+    if(isset($_SESSION['sessionUser'])) {
+      $this->router->nextRoute = 'domainss';
+      $this->router->goToRoute();
+    } else {
+      $this->router->session->setToken();
+      $this->router->tpl     = 'login';
+      $this->router->title   = 'bejelentkezés';
+      $this->router->render();
+    }
   }
   
   public function logout() {
@@ -18,14 +27,16 @@ class Login {
     $this->sendBack();
   }
   
-  public function process() {
+  public function process() { 
     $this->session = getSession::get();
     if(!$this->session->checkToken($_POST['token'])) {
       $this->sendBack();
     }
     
     $this->user = $this->router->loader->get('User','model');
-    $user       = $this->user->getByForm($_POST['user'],$_POST['password']);
+    $user       = $this->user->getByForm($_POST['user'],$_POST['password']);  
+    
+    
     
     if($user) {
       $_SESSION['sessionUser'] = new stdClass();
@@ -34,8 +45,8 @@ class Login {
       }
       $_SESSION['sessionUser']->lastCheck = time();
       
-      $this->router->nextRoute = 'home';
-      $this->router->goTo();
+      $this->router->nextRoute = 'domainss';
+      $this->router->goToRoute();
       die();
     } else {
       $this->sendBack();
@@ -46,8 +57,8 @@ class Login {
     ez megy a controllerbe, TODO refact!
   */
   public function sendBack() {
-    $this->router->nextRoute = 'login';
-    $this->router->goTo();
+    $this->router->nextRoute = '';
+    $this->router->goToRoute();
     die();
   }
 }

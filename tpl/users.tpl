@@ -1,47 +1,23 @@
 <?php
-  //print_r($this->var);
+  //print_r(count($this->var));
 ?>
-
 <script type="text/javascript">
-  var insertInput = function() {
-    var clickedCache = '',
-        thisSelect = function(id) {
-          return [
-            '<select id="editor" rel="',id,'">',
-            '<option value="fejlesztő">fejlesztő</option>',
-            '<option value="admin">admin</option>',
-            '<option value="tulajdonos">tulajdonos</option>',
-            '<option value="new user">new user</option>',
-            '</select>'
-          ].join('');
-        };
-    $('.editable').click(function() {
-      if(clickedCache != '') {
-        writeCell();
-      }
-      var thisContent = $(this).html();
-      if(this.id != clickedCache) {
-        $(this).html(thisSelect(this.id));
-        $('#editor').val(thisContent);
-        $('#editor').focus();
-        clickedCache = this.id;
-      } else {
-        writeCell(this);
-        clickedCache = '';
-      }
-    });
-    var writeCell = function(obj) {
-      $(['#',clickedCache].join('')).html($('#editor').val());
-    }
-  }
   $(document).ready(function() {
+    var selectValues = {
+      'fejlesztő'   : 1,
+      'admin'       : 2,
+      'tulajdonos'  : 3,
+      'new user'    : 1000
+    };
     document.onkeydown = function(e) {
       if(typeof e == 'undefined' && window.event)
         e = window.event;
       if(e.keyCode == 13) {
-          if($('#key').val() != '')
-            $('#searchForm').submit();
-          return false;
+        if($('#key').val() != '') {
+          $('#searchForm').attr('action',[$('#searchForm').attr('action'),'?key=',thisUrlEncode(Utf8.encode($('#key').val()))].join(''));
+          $('#searchForm').submit();
+        }
+        return false;
       }
     }
     $('.delete').click(function() {
@@ -56,12 +32,11 @@
       }
       var id = $(this).attr('rel');
       $('#updateId').val(id);
-      $('#updateDomain').val($(['#domain_',id].join('')).html());
-      $('#updateDir').val($(['#dir_',id].join('')).html());
+      $('#updateRole').val(selectValues[$(['#role_',id].join('')).html()]);
       $('#updateForm').submit();
       return false;
     });
-    insertInput();
+    insertInput('select',selectValues);
   });	
 </script>
 
@@ -72,8 +47,7 @@
 <form action="/users/update" method="post" id="updateForm">
   <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
   <input type="hidden" name="updateId" id="updateId" value="" />
-  <input type="hidden" name="updateEmail" id="updateEmail" value="" />
-  <input type="hidden" name="updateName" id="updateName" value="" />
+  <input type="hidden" name="updateRole" id="updateRole" value="" />
 </form>
 
 <form action="/users/add" method="post">
@@ -101,7 +75,7 @@
   
 </form>
 
-<form action="/users/search" method="post" id="searchForm">
+<form action="/users" method="post" id="searchForm">
   <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
   <div class="grid_4">
 	  <p>
@@ -122,25 +96,40 @@
 			<th colspan="2" width="10%">opciók</th>
 		</tr>
 		</thead>
-		<!--tfoot>
+		<tfoot>
 		  <tr>
-			  <td colspan="5" class="pagination">
-				  <span class="active curved">1</span><a href="#" class="curved">2</a><a href="#" class="curved">3</a><a href="#" class="curved">4</a> ... <a href="#" class="curved">10 million</a>
-			  </td>
+			  <?php if(isset($this->var['all'])): ?>
+		      <?php if($this->var['all'] > 1): ?>
+			      <td colspan="5" class="pagination">
+			        <?php for($i = 1;$i <= $this->var['all']; $i++): ?>
+			            <?php if($i == $this->var['current']): ?>
+			              <span class="active curved"><?php echo $i; ?></span>
+			            <?php else: ?>
+			              <a href="<?php echo $this->var['link']; ?>page=<?php echo $i; ?>" class="curved"><?php echo $i; ?></a>
+			            <?php endif; ?>
+			        <?php endfor; ?>
+			      </td>
+			    <?php endif; ?>
+		    <?php endif; ?>
 		  </tr>
 	  </tfoot>
-		<tbody-->
-		<?php foreach($this->var as $user): ?>
-		    <tr>
-		      <td><?php echo $user['uid'] ?></td>
-		      <td id="email_<?php echo $user['uid'] ?>" rel="" class=""><?php echo $user['email'] ?></td>
-		      <td id="name_<?php echo $user['uid'] ?>" rel="" class=""><?php echo $user['name'] ?></td>
-		      <td id="role_<?php echo $user['uid'] ?>" rel="" class="editable"><?php echo $user['role'] ?></td>
-		      <td>
-		        <a href="" rel="<?php echo $user['uid'] ?>" class="edit">elküld</a>
-		        <a href="" rel="<?php echo $user['uid'] ?>" class="delete">töröl</a>
-		      </td>
-		    </tr>
-		<?php endforeach; ?>
+		<tbody>
+		
+		
+		<?php if(isset($this->var['result'])): ?>
+		  <?php foreach($this->var['result'] as $user): ?>
+		      <tr>
+		        <td><?php echo $user['uid'] ?></td>
+		        <td id="email_<?php echo $user['uid'] ?>" rel="" class=""><a href="/profile/<?php echo $user['uid'] ?>"><?php echo $user['email'] ?></a></td>
+		        <td id="name_<?php echo $user['uid'] ?>" rel="" class=""><?php echo $user['name'] ?></td>
+		        <td id="role_<?php echo $user['uid'] ?>" rel="" class="editable"><?php echo $user['role'] ?></td>
+		        <td>
+		          <a href="" rel="<?php echo $user['uid'] ?>" class="edit">elküld</a>
+		          <a href="" rel="<?php echo $user['uid'] ?>" class="delete">töröl</a>
+		        </td>
+		      </tr>
+		  <?php endforeach; ?>
+		<?php endif; ?>
+		
 		</tbody>
 </table>

@@ -3,28 +3,6 @@
 ?>
 
 <script type="text/javascript">
-
-  var insertInput = function() {
-    var clickedCache = '';
-    $('.editable').click(function() {
-      if(clickedCache != '') {
-        $(['#',clickedCache].join('')).html($('#editor').val());
-      }
-      var thisContent = $(this).html();
-      if(this.id != clickedCache) {
-        $(this).html(['<input type="text" rel="',this.id,'" id="editor" />'].join(''));
-        $('#editor').val(thisContent);
-        $('#editor').focus();
-        clickedCache = this.id;
-      } else {
-        writeCell(this);
-        clickedCache = '';
-      }
-    });
-    var writeCell = function(obj) {
-      $(['#',clickedCache].join('')).html($('#editor').val());
-    }
-  }
   $(document).ready(function() {
     document.onkeydown = function(e) {
       $('.edit').click(function() {
@@ -51,34 +29,37 @@
       }
     }
     $('.delete').click(function() {
-      $('#deleteId').val($(this).attr('rel'));
-      $('#deleteForm').submit();
+      $('#deleteId').val($(this).attr('rel')); 
+      var answer = confirm("Biztosan törölni szeretné?");
+      if (answer) {
+		    $('#deleteForm').submit();
+	    }
       return false;
     });
     insertInput();
   });	
 </script>
 
-<form action="/domains/delete" method="post" id="deleteForm">
+<form action="/domainss/delete" method="post" id="deleteForm">
   <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
   <input type="hidden" name="deleteId" id="deleteId" value="" />
 </form>
-<form action="/domains/update" method="post" id="updateForm">
+<form action="/domainss/update" method="post" id="updateForm">
   <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
   <input type="hidden" name="updateId" id="updateId" value="" />
   <input type="hidden" name="updateDomain" id="updateDomain" value="" />
   <input type="hidden" name="updateDir" id="updateDir" value="" />
 </form>
 
-<form action="/domains/add" method="post">
+<form action="/domainss/add" method="post">
   <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
   <div class="grid_4">
 	  <p>
-		  <label>domain név</label>
+		  <label>domain név <small>(www nélkül)</small></label>
 		  <input type="text" name="newdomain" id="newdomain" />
 	  </p>
   </div>
-  <div class="grid_5">
+  <!--div class="grid_5">
 					  <p>
 						  <label>könyvtár</label>
 						  <select name="dir" id="dir">
@@ -87,7 +68,7 @@
 						    <?php endforeach; ?>
 						  </select>
 					  </p>
-				  </div>
+  </div-->
   <div class="grid_2">
 	  <p style="width:200px;">
 		  <label>&nbsp;</label>
@@ -97,7 +78,7 @@
   
 </form>
 
-<form action="/domains/search" method="post" id="searchForm">
+<form action="/domainss/search" method="post" id="searchForm">
   <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>" />
   <div class="grid_4">
 	  <p>
@@ -112,37 +93,54 @@
 	<thead>
 		<tr>
 			<th>id</th>
-			<th>domain név</th>
-			<th>könyvtár</th>
+			<th>domain tulajdonság</th>
+			<th>domain link</th>
+			<!--th>könyvtár</th-->
 			<th colspan="2" width="10%">opciók</th>
 		</tr>
 		</thead>
 		<tfoot>
 		  <tr>
-		    <?php if($this->var['all'] > 1): ?>
-			    <td colspan="5" class="pagination">
-			      <?php for($i = 1;$i <= $this->var['all']; $i++): ?>
-			          <?php if($i == $this->var['current']): ?>
-			            <span class="active curved"><?php echo $i; ?></span>
-			          <?php else: ?>
-			            <a href="<?php echo $this->var['link']; ?>page=<?php echo $i; ?>" class="curved"><?php echo $i; ?></a>
-			          <?php endif; ?>
-			      <?php endfor; ?>
-			    </td>
-			  <?php endif; ?>
+		    <?php if(isset($this->var['all'])): ?>
+		      <?php if($this->var['all'] > 1): ?>
+			      <td colspan="5" class="pagination">
+			        <?php for($i = 1;$i <= $this->var['all']; $i++): ?>
+			            <?php if($i == $this->var['current']): ?>
+			              <span class="active curved"><?php echo $i; ?></span>
+			            <?php else: ?>
+			              <a href="<?php echo $this->var['link']; ?>page=<?php echo $i; ?>" class="curved"><?php echo $i; ?></a>
+			            <?php endif; ?>
+			        <?php endfor; ?>
+			      </td>
+			    <?php endif; ?>
+		    <?php endif; ?>
 		  </tr>
 	  </tfoot>
 		<tbody>
-		<?php foreach($this->var['result'] as $domain): ?>
-		    <tr>
-		      <td><?php echo $domain['id'] ?></td>
-		      <td id="domain_<?php echo $domain['id'] ?>" rel="" class=""><?php echo $domain['domain'] ?></td>
-		      <td id="dir_<?php echo $domain['id'] ?>" rel="" class=""><?php echo $domain['dir'] ?></td>
-		      <td>
-		        <!--a href="" rel="<?php echo $domain['id'] ?>" class="edit">elküld</a-->
-		        <a href="" rel="<?php echo $domain['id'] ?>" class="delete">töröl</a>
-		      </td>
-		    </tr>
-		<?php endforeach; ?>
+		
+    <?php if(isset($this->var['result'])): ?>
+		  <?php foreach($this->var['result'] as $domain): ?>
+		      <tr>
+		        <td><?php echo $domain['id'] ?></td>
+		        <td id="domain_<?php echo $domain['id'] ?>" rel="" class="">
+		          <a href="/domainss/<?php echo $domain['id'] ?>">
+	              <?php echo $domain['domain']; ?>
+	            </a>
+	          </td>
+	          
+	          <td id="link_<?php echo $domain['id'] ?>" rel="" class="">
+		          <a target="_blank" href="/linkto/<?php echo $domain['id'] ?>?uid=<?php echo $_SESSION['sessionUser']->id; ?>">
+	              <?php echo $domain['domain']; ?>
+	            </a>
+	          </td>
+	          
+		        <!--td id="dir_<?php echo $domain['id'] ?>" rel="" class=""><?php echo $domain['dir'] ?></td-->
+		        <td>
+		          <!--a href="" rel="<?php echo $domain['id'] ?>" class="edit">elküld</a-->
+		          <a href="" rel="<?php echo $domain['id'] ?>" class="delete">töröl</a>
+		        </td>
+		      </tr>
+		  <?php endforeach; ?>
+		<?php endif; ?>
 		</tbody>
 </table>

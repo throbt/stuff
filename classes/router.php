@@ -17,31 +17,56 @@ class Router {
     $this->session    = $this->loader->get('Session','class');
     $this->model      = $this->loader->get('Model','class');
     $this->controller = $this->loader->get('Controller','class',$this);
+    $this->title      = '';
+    $this->show       = true;
     $this->setRoute();
   }
   
   private function setRoute() {
     $this->setUrlParts();
     
+    $this->static = array(
+      'cegunkrol',
+      'termsofuse',
+      'about_us'
+    );
+    
     /*
-      checking if its a simple request for auth
+      static pages
+    */
+    if($this->urlParts[0] == '') {
+      $this->nextRoute = 'cegunkrol';
+      $this->goToRoute();
+      die();
+    } else if(in_array($this->urlParts[0],$this->static)) {
+      $this->thisController = $this->loader->get('Statically','controller',$this);
+      die();
+    }
+    
+    /*
+      checking if its a simple request for auth (redirect loop by checkProfile is the reason)
     */
     if($this->urlParts[0] == 'login') {
       $login = $this->loader->get('Login','controller',$this);
       if(isset($this->urlParts[1]) && !method_exists($login,$this->urlParts[1])) {
         $this->nextRoute = 'login';
-        $this->goTo();
+        $this->goToRoute();
       } else if(!isset($this->urlParts[1])) {
         $login->index();
       } else {
         $method = $this->urlParts[1];
         $login->$method();
       }
+      
+    /*
+      routing
+    */  
     } else {
       $this->checkProfile();
       $this->route  = $this->loader->get('Route','model');
       $routes       = $this->route->get($_SESSION['sessionUser']->role_id);
       $this->menu   = $routes[1];
+      $this->title  = $this->getTitle($this->urlParts[0],$routes[1]);
       if(in_array($this->urlParts[0],$routes[0])) {
         $this->thisRoute      = $this->urlParts[0];
         $this->thisController = $this->loader->get($this->thisRoute,'controller',$this);
@@ -50,27 +75,44 @@ class Router {
             $this->thisController->show($this->urlParts[1]);
           } else {
             $this->nextRoute = $this->thisRoute;
-            $this->goTo(); 
+            $this->goToRoute(); 
           }
-        } else if(isset($this->urlParts[1]) && method_exists($this->thisController,$this->urlParts[1])){
+        } else if(isset($this->urlParts[1]) && method_exists($this->thisController,$this->urlParts[1])) {
           $method = $this->urlParts[1];
           $this->thisController->$method();
-        } else {
+        } else { 
           $this->thisController->index();
-          $this->render();
+          if($this->show)
+            $this->render();
         }
       } else {
         if($_SESSION['sessionUser']->role_id == 1000) {
           $this->nextRoute = "profile/{$_SESSION['sessionUser']->id}";
         } else {
-          $this->nextRoute = 'home'; 
+          $this->nextRoute = ''; 
         }
-        $this->goTo();
+        $this->goToRoute();
       }
     }
     
   }
   
+  public function getTitle($route,$thisRoutes) {
+    foreach($thisRoutes as $thisRoute) {
+      if($thisRoute['route'] == $route)
+        return $thisRoute['name'];
+    }
+  }
+  
+  /*
+    we dont separate the view,
+    only three methods we need:
+      * renderTemplate
+      * render
+      * setTemplate
+      
+    a part of view 
+  */
   public function renderTemplate($var, $template) {
     $this->var  = $var;
     $content    = '';
@@ -86,31 +128,7 @@ class Router {
     require_once(TPL.$template.'.tpl');
   }
   
-  private function setUrlParts() {
-    $arr            = explode('?',$_SERVER['REQUEST_URI']);
-    $this->urlParts = array_slice(explode('/',$arr[0]),1);
-  }
-  
-  public function getUrlParts() {
-    return $this->urlParts;
-  }
-  
-  public function checkProfile() {
-    if(!$this->session->checkProfile()) {
-      $this->nextRoute = 'login';
-      $this->goTo();
-    }
-  }
-  
-  public function goTo($nextRoute = '') {
-    $route = ($nextRoute != '' ? $nextRoute : (isset($this->nextRoute) ? $this->nextRoute : 'home'));
-    header("location: /{$route}");
-  }
-  
   public function render() {
-    /*
-      $this->menu is overwritable, anytime, before the render, all other item is writable of course
-    */
     $this->menu     = $this->urlParts[0] == 'login' ? '' : $this->renderTemplate($this->menu, 'menu');
     $this->content  = !isset($this->content)  ? $this->renderTemplate($this->session->setToken(), $this->tpl) : $this->content;
     $this->header   = !isset($this->header)   ? $this->renderTemplate('', 'header') : $this->header;
@@ -123,5 +141,36 @@ class Router {
     ), 'frame');
     
     echo $this->frame;
+  }
+  
+  /*
+    end of view
+  */
+  
+  private function setUrlParts() {
+    $arr            = explode('?',$_SERVER['REQUEST_URI']);
+    $this->urlParts = array_slice(explode('/',$arr[0]),1);
+  }
+  
+  public function getUrlParts() {
+    return $this->urlParts;
+  }
+  
+  public function checkProfile() {
+    if(!$this->session->checkProfile()) {
+      unset($_POST);
+      unset($_GET);
+      $this->nextRoute = 'login';
+      $this->goToRoute();
+      die();
+    }
+  }
+  
+  /*
+    goTo is reserved in 5.3
+  */
+  public function goToRoute($nextRoute = '') {
+    $route = ($nextRoute != '' ? $nextRoute : (isset($this->nextRoute) ? $this->nextRoute : 'home'));
+    header("location: /{$route}");
   }
 }

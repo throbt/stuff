@@ -21,22 +21,26 @@ class Session {
     } else {
     
       /*
-        set up for ten minutes
+        ten minutes
       */
       if(time() - $_SESSION['sessionUser']->lastCheck > 600) {
         session_destroy();
         session_unset();
+        unset($_SESSION['sessionUser']);
         return false;
       } else {
         $_SESSION['sessionUser']->lastCheck = time();
         return true;
       }
-    }
+    } /*else {
+      return true;
+    }*/
   }
   
   public function setToken() {
     $_SESSION['token'] = md5(time());
   }
+  
   public function checkToken($token) {
     if(isset($_SESSION['token'])) {
       if($_SESSION['token'] == $token) {

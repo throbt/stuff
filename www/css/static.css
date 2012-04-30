@@ -1,0 +1,252 @@
+body {
+	background:#7F7F7F url(bg_body.jpg) repeat-y fixed top center;
+	background-color: black;
+	
+}
+/*
+div:hover {
+    border: 1px dashed pink;
+}
+*/
+body, div, p {
+	font-family:  Arial, sans-serif;
+	margin: 0px;
+	padding: 0px;
+	font-size: 13px;
+	text-align: justify;
+		color: #222222;
+}
+
+p {
+	background-color: transparent;
+	padding-bottom: 10px;
+    line-height:150%
+}
+
+a {
+	text-decoration: none;
+	font-family: arial;
+	color: #5ab701;
+}
+
+img {
+	border: none;
+	vertical-align: middle;
+}
+h2, h3 {
+}
+
+div.top_sav {
+	width:100%;
+	height: 55px;
+	background: white;
+	position: fixed;
+	z-index: -10;
+}
+div.top_sav2 {
+	width:100%;
+	height: 55px;
+	background: url(top_sav.png);
+	position: fixed;
+	z-index: 10;
+}
+img.www_logo {
+	float: right;
+	margin-bottom: 30px;
+	margin-right: 38px;
+}
+div.bal {
+	width: 255px;
+	margin-top: 10px;
+	padding-top: 0px;
+	padding-bottom: 20px;
+	position: fixed;
+	z-index: 10;
+}
+
+ul#fomenu {
+	list-style-type:none;
+		text-align: right;
+	padding:0;
+}
+ul#fomenu li {
+	padding: 5px 0;
+}
+a.fomenu {
+	padding: 0px ;
+	margin-right: 0px;
+	color: white;
+	font-weight: bold;
+	font-size: 16px; 
+	background: url(zoldgomb.png) no-repeat center right;
+}
+ul#fomenu a:hover {
+}
+ul#fomenu li:hover div.almenu {
+	display: block;
+}
+div.almenu {
+	padding: 10px 0;
+	display: none;
+	position: absolute;
+	margin-left: 220px;
+	background: black;
+	opacity: .9;
+    filter: alpha(opacity=90);
+    z-index: 10;
+    text-align: left;
+}
+div.almenu p {
+	padding: 8px 32px;
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
+	margin: 0;
+	
+}
+div.almenu p:hover {
+	background: #222222;
+}
+div.almenu p:hover a {
+	color: #61dd01;
+}
+div.almenu a {
+	color: white;
+}
+div.nyelv {
+    padding-top: 6px;
+    width: 100px;
+    float: right;
+}
+div#alsodiv {
+    margin-top:400px;
+    margin-left:35px;
+    width: 211px;
+	position: fixed;
+	z-index: -1;
+}
+div#alsodiv img {
+margin: 5px;
+    
+}
+div.alap {
+	margin: 0px auto;
+	width: 880px;
+}
+div.kereso {
+	background: url(kereso.png);
+	width: 290px;
+	height: 53px;
+	position: fixed;
+	z-index: 10;
+	float: right;
+	margin-left: 580px;
+}
+input.keresosav {
+	background: transparent;
+	border: none;
+	margin: 14px 14px;
+	width: 225px;
+	height: 18px;
+	color: white;
+}
+input.keresogomb {
+    background: transparent;
+    border: none;
+	margin: 14px 0;
+	width: 25px;
+	height: 25px;
+}
+div.lap_arnyek_top {
+    border: none;
+	margin-left: 260px;
+	width: 620px;
+	height: 20px;
+}
+div.lap_arnyek_top2 {
+	
+	margin-left: 260px;
+	width: 600px;
+	text-align: right;
+	font-size: 20px;
+	padding: 0 10px 8px;
+	color: #61dd01;
+	font-style: italic;
+	font-family: "Arial";
+}
+div.lap_arnyek {
+	margin-left: 260px;
+	width: 600px;
+	background: url(arnyek.png);
+	padding: 0 10px;
+}
+div.lap_arnyek_bottom {
+	margin-bottom: 10px;
+	margin-left: 260px;
+	width: 620px;
+	height: 10px;
+	
+	
+}
+div.lap {
+	background: white;
+	width: 600px;
+	border-bottom:solid silver 1px;
+/*		background: #eeeeee;*/
+
+}
+div.fokep {
+	/*
+	border-bottom: 3px solid #61dd01;
+	border-top: 3px solid #61dd01;
+	*/
+	width: 600px;
+	height:240px;
+}
+div.tartalom {
+	border-top: 1px solid gray;
+	width: 550px;
+	padding: 0 25px 20px;
+	min-height: 100px;
+	
+}
+div.tartalom a:hover {
+	text-decoration: underline;
+	
+}
+div.labjegyzet
+{	float: right;
+	text-align: right;
+	color: white;
+	margin-right: 10px;
+}
+div.labjegyzet a
+{	color: #61dd01;
+	
+	
+}
+div.labjegyzet a:hover 
+{	text-decoration: underline;
+	/*color: white;*/
+}
+
+textarea.szerk
+{
+    width: 100%;
+    height: 600px;
+}
+table.referencia td {
+    border-bottom: silver 1px solid;
+}
+
+form.webseo label
+{	width:150px;
+	display:block;
+	float:left;
+	clear:left;
+}
+form.webseo input
+{	width:300px;
+	display:block;
+	float:left;
+}

@@ -1,1 +1,7 @@
-<?php echo $this->var; ?>
+<?php //echo $this->var; ?>
+
+<h2>Lorem ipsum</h2>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse urna elit, pellentesque id tincidunt eget, tincidunt eu sem. Curabitur dignissim cursus sem, vitae rhoncus lorem ultricies sit amet. Fusce semper, lorem at porttitor porttitor, eros est ornare elit, sit amet faucibus eros arcu eu ante. Nam eleifend neque at dolor sagittis tincidunt. Aenean fringilla accumsan eros, ut fermentum erat dignissim eget. Nam lectus arcu, dignissim aliquet blandit quis, commodo sed lectus. Phasellus placerat ullamcorper ipsum, id scelerisque dolor faucibus at. Vivamus egestas purus quis odio auctor non ornare tellus suscipit. Vestibulum vehicula, purus et commodo tristique, neque tellus imperdiet quam, vel congue eros dui nec nibh. Integer aliquam, arcu in bibendum consequat, quam nulla volutpat dolor, sed rhoncus purus nibh nec dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+Phasellus elit dui, porttitor nec lobortis nec, ultrices non risus. Vivamus hendrerit consectetur laoreet. Phasellus non magna vitae lacus luctus pretium a ac justo. Phasellus ac pretium lorem. Vivamus felis lorem, fermentum a luctus in, convallis quis velit. Duis lobortis vulputate augue, ac sollicitudin eros ornare vehicula. Donec molestie blandit erat sit amet dignissim. Suspendisse potenti. Vivamus malesuada faucibus fringilla. Etiam neque elit, consectetur placerat euismod non, imperdiet dignissim ante. Etiam laoreet, nunc ut tempus feugiat, elit enim pulvinar elit, at fringilla tellus purus sed metus.

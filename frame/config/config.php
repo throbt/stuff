@@ -14,11 +14,11 @@ class Config {
 
   function __construct($iniPath) {
 	
-		$this->env = $_SERVER['env'];
+		$this->vars['env'] = $_SERVER['env'];
 	
 		if(file_exists($iniPath)) {
 			$ini 				= parse_ini_file($iniPath, true);
-			$this->cfg 	= $ini[$this->env];
+			$this->cfg 	= $ini[$this->vars['env']];
 		} else {
 			echo "wrong application.ini path or the file(application.ini) does not exist";
 			die();

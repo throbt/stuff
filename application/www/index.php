@@ -10,6 +10,9 @@
 	ini_set('display_errors',$config->cfg['display_errors']);
 	
 	$loader = getLoader::get();
+	$router = $loader->get('Router');
+	
+	print_r($router->getParams());
   
   
   //session_start();

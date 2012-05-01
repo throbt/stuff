@@ -16,7 +16,7 @@ class Loader {
 		global $config;
   }
   
-  public function get($className,$type,$scope='') {
+  public function get($className,$type = '') {
     switch($type) {
       case 'controller':
         $path = CONTROLLERS . strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
@@ -24,10 +24,18 @@ class Loader {
       case 'model':
         $path = MODELS      . strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
       break;
-      case 'class':
+      case 'views':
         $path = VIEWS     	. strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
       break;
+			
+			/*
+				using the include_path directive, loading from mainframe
+			*/
+			default:
+        $path = strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
+      break;
     }
+
     require_once($path);
     $str      	= "get{$className}";
     $thisClass  = false;

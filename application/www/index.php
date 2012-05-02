@@ -11,21 +11,5 @@
 	
 	$loader = getLoader::get();
 	$router = $loader->get('Router');
-	
-	// try {
-	// 		    $dd = $loader->get('fhfghfghfhg');
-	// 		} catch (Exception $e) {
-	// 		    // echo 'Caught exception: ',  $e->getMessage(), "\n";
-	// 		print_r($e->getMessage());
-	// 		}
-	
-	//print_r($router->getParams() );
-  
-  
-  //session_start();
-  
-  /*require_once('../classes/loader.php');
-  $loader = getLoader::get();
-  $router = $loader->get('Router','class');*/
   
 ?>

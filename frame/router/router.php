@@ -23,6 +23,7 @@ class Router {
 		global $loader;
 		$this->loader = $loader;
 		$this->loader->get('Controller');
+		$this->loader->get('Model');
 		$this->params = new stdClass();
 		$this->setParams();
 		$this->setOrder();
@@ -45,7 +46,7 @@ class Router {
 		}
 		
 		/*
-			we dont look deeper than 2 level at this point, the controller will do the rest of the work
+			C R U D
 		*/
 		switch($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
@@ -58,18 +59,35 @@ class Router {
 				}
 			break;
 			case 'POST':
+				if($this->params->post) {
+					switch($this->params->post['_method']) {
+						case 'create':
+							$method = 'create';
+						break;
+						case 'update':
+							$method = 'update';
+						break;
+						case 'delete':
+							$method = 'delete';
+						break;
+						default:
+							$this->scope = 'page404';
+						break;
+					}
+				} 
 			break;
 		}
 		
 		/*
 			loading controller
 		*/
-		try {
-			$this->controller = $this->loader->get($this->scope,'controller',$this);
-		} catch (Exception $e) {
-			$this->scope = 'page404';
+		if($this->scope != 'page404') {
+			try {
+				$this->controller = $this->loader->get($this->scope,'controller',$this);
+			} catch (Exception $e) {
+				$this->scope = 'page404';
+			}
 		}
-		
 		/*
 			loading method
 		*/

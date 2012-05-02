@@ -1,6 +1,6 @@
 <?php
 
-class page404 extends Controller {
+class page404_controller extends Controller {
 	
   public function init() {
     $this->index();

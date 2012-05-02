@@ -2,18 +2,18 @@
 
 class Test extends Controller {
   public function init() {
-  	echo 'this is the controller init' . "<br />";
+    echo 'this is the controller init' . "<br />";
   }
   
   public function index() {
-  	echo 'index';
+    echo 'index';
   }
   
   public function show() {
-  	echo "show:  id={$this->router->params->index}";
+    echo "show:  id={$this->router->params->index}";
   }
   
   public function thisTest() {
-  	echo 'thisTest';
+    echo 'thisTest';
   }
 }

@@ -2,7 +2,7 @@
 
 class Controller {
   function __construct($scope) {
-		$this->router = $scope;
+    $this->router = $scope;
     $this->init();
   }
   

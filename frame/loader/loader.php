@@ -16,7 +16,7 @@ class Loader {
 		global $config;
   }
   
-  public function get($className,$type = '') {
+  public function get($className,$type='',$scope='') {
     switch($type) {
       case 'controller':
         $path = CONTROLLERS . strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
@@ -36,16 +36,25 @@ class Loader {
       break;
     }
 
-    require_once($path);
-    $str      	= "get{$className}";
+		/*
+			fucking require_once doesnt throw exception
+		*/
+		if(!include_once($path)) {
+			throw new Exception("the file is missisng: {$path}");
+		}
+		
+		$str      	= "get{$className}";
     $thisClass  = false;
     if(class_exists($str)) {
       $class      = new $str();
       $thisClass  = $class->get($scope);
     } else if(class_exists($className)){
       $thisClass = new $className($scope);
-    }
-    return $thisClass;
+    } else {
+			throw new Exception("the class definition is missing: {$className}");
+		}
+		
+		return $thisClass;
   }
   
 }

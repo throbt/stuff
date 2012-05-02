@@ -1,10 +1,10 @@
 <?php
 
 class getIo {
-  public function &get($scope = '') {
+  public function &get() {
     static $obj;
     if (!is_object($obj)){
-      $obj = new Io($scope);
+      $obj = new Io();
     }
     return $obj;
   }
@@ -12,8 +12,7 @@ class getIo {
 
 class Io {
 
-  function __construct($scope = '') {
-    $this->scope = $scope;
+  function __construct() {
   }
   
   public function rrmdir($dir) {
@@ -27,5 +26,22 @@ class Io {
       reset($objects);
       rmdir($dir);
     }
+  }
+
+	public function getBaseUriForPaginator() {
+    $url = $_SERVER['REQUEST_URI'];
+    if(preg_match('/(.*)(page)/',$url,$matches)) {
+      $url = $matches[1];
+      if(preg_match("/(.*)(\&)/",$url,$matches)) {
+        $url = $matches[0];
+      } else if(preg_match("/(.*)(\?)/",$url,$matches)) {
+        $url = $matches[0];
+      } 
+    } else if(preg_match("/(.*)(\?)/",$url,$matches)) {
+      $url .= '&';
+    } else {
+      $url .= '?'; 
+    }
+    return $url;
   }
 }

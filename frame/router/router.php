@@ -22,6 +22,8 @@ class Router {
 	function __construct() {
 		global $loader;
 		$this->loader = $loader;
+		$this->loader->get('Controller');
+		$this->params = new stdClass();
 		$this->setParams();
 		$this->setOrder();
 	}
@@ -36,16 +38,57 @@ class Router {
 			}
 		}
 		
+		if($this->orders[0] == '') {
+			$this->scope = 'home';
+		} else {
+			$this->scope = $this->orders[0];
+		}
+		
+		/*
+			we dont look deeper than 2 level at this point, the controller will do the rest of the work
+		*/
 		switch($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
+				if($this->orders[1] == '') {
+					$method = 'index';
+				} else if(isset($this->params->index)) {
+					$method = 'show';
+				} else {
+					$method = $this->orders[1];
+				}
 			break;
 			case 'POST':
 			break;
 		}
+		
+		/*
+			loading controller
+		*/
+		try {
+			$this->controller = $this->loader->get($this->scope,'controller',$this);
+		} catch (Exception $e) {
+			$this->scope = 'page404';
+		}
+		
+		/*
+			loading method
+		*/
+		if(isset($this->controller)) {
+			try {
+				$this->controller->$method();
+			} catch (Exception $e) {
+				throw new Exception("invalid method: {$this->method}");
+			}
+		} else {
+			$this->controller = $this->loader->get($this->scope,'controller');
+		}
+	}
+	
+	public function getOrder() {
+		return $this->orders;
 	}
 	
 	private function setParams() {
-		$this->params 			= new stdClass();
 		$this->params->post = $_POST;
 		$this->params->get 	= $_GET;
 		unset($_POST);
@@ -56,9 +99,6 @@ class Router {
 		return $this->params;
 	}
 	
-	public function getOrder() {
-		return $this->orders;
-	}
 }
 
 // class Router {

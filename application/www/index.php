@@ -12,7 +12,14 @@
 	$loader = getLoader::get();
 	$router = $loader->get('Router');
 	
-	print_r($router->getParams());
+	// try {
+	// 		    $dd = $loader->get('fhfghfghfhg');
+	// 		} catch (Exception $e) {
+	// 		    // echo 'Caught exception: ',  $e->getMessage(), "\n";
+	// 		print_r($e->getMessage());
+	// 		}
+	
+	//print_r($router->getParams() );
   
   
   //session_start();

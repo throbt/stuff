@@ -11,10 +11,10 @@ class getRouter {
 }
 
 /*
-	Create	 {post}		- http post method with a _method=create variable
-	Read		 {get}		- simple get
-	Update	 {put}		- http post method with a _method=put variable
-	Delete	 {delete} - http post method with a _method=delete variable
+	Create	 {post}		(controller) - http post method with a _method=create variable
+	Read		 {get}		(controller/[:index]) - simple get
+	Update	 {put}		(controller/[:index]) - http post method with a _method=put variable
+	Delete	 {delete} (controller/[:index]) - http post method with a _method=delete variable
 	
 	crud instead of rest
 */
@@ -65,10 +65,18 @@ class Router {
 							$method = 'create';
 						break;
 						case 'update':
-							$method = 'update';
+							if(isset($this->params->index)) {
+								$method = 'update';
+							} else {
+								$this->scope = 'page404';
+							}
 						break;
 						case 'delete':
-							$method = 'delete';
+							if(isset($this->params->index)) {
+								$method = 'delete';
+							} else {
+								$this->scope = 'page404';
+							}
 						break;
 						default:
 							$this->scope = 'page404';

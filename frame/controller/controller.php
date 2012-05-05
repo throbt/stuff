@@ -3,6 +3,10 @@
 class Controller {
   function __construct($scope) {
     $this->router = $scope;
+		$this->loader = $this->router->loader;
+		$this->post 	= $this->router->params->post;
+		$this->get 		= $this->router->params->get;
+		$this->index 	= isset($this->router->params->index) ? $this->router->params->index : null;
     $this->init();
   }
   

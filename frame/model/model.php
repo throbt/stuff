@@ -3,6 +3,8 @@
 class Model {
 
   function __construct() {
+		global $stuff;
+		$this->stuff = $stuff;
     require_once('db/db.php');
     $this->db = getPDO::get();
     $this->db->query("set names 'utf8'");
@@ -32,47 +34,147 @@ class Model {
     foreach($params as $index => $param) {
       $sth->bindValue(($index+1), $param);
     }
-    $sth->execute();
+    $sth->execute(); //print_r($sth->errorinfo());
   }
 
 	public function getClassName($className) {
-		if(preg_match('/_/',$className)) {
-			preg_match('/(^.*)(_)/',$className,$matches);
-			return $matches[1];
+		if(preg_match('/_model/',$className)) {
+			preg_match('/^.*[^_model]/',$className,$matches);
+			return $matches[0];
 		} else {
 			return $className;
 		}
 	}
-
-	public function get() {
-  	
+	
+	/*
+		@get method
+		
+		@id {integer}
+		@query (array) {
+			0 => {string(sql)},
+			1 => {array}
+		}
+	*/
+	public function get($id,$query='') {
+		if(gettype($query) == 'array' && $id == '') {
+			$result = $this->select(
+				$query[0],$query[1]
+			);
+		} else if((int)$id > 0) {
+			$result = $this->select("
+				select
+					*
+					from
+						{$this->className}
+					where
+						id = ?;
+				",
+				array($id)
+	    );
+		}
+		if(isset($result) && $result != null && gettype($result) == 'array') {
+			if(count($result) > 0)
+				return $result;
+		} else {
+			return false;
+		}
   }
 
-	public function create() {
-  
+	/*
+		@create method
+		
+		@column (array) {column => value pairs}
+		@query (array) {
+			0 => {string(sql)},
+			1 => {array}
+		}
+	*/
+	public function create($columns='',$query='') {
+  	if(gettype($query) == 'array' && $columns == '') {
+			$this->query(
+				$query[0],$query[1]
+			);
+		} else if(gettype($columns) == 'array') {
+			$keys 	= implode(',',array_keys($columns));
+			$arr 		= array();
+			$values = array();
+			foreach($columns as $key => $column) {
+				$arr[] 		= '?';
+				$values[] = $column;
+			}
+			$vals 	= implode(',',$arr);
+			$this->query("
+					insert
+						into
+							{$this->className}
+					({$keys})
+						values({$vals});
+				",
+				$values
+			);
+		}
   }
 
-	public function update() {
-  
+	/*
+		@update method
+		
+		@id {integer}
+		@column (array) {column => value pairs}
+		@query (array) {
+			0 => {string(sql)},
+			1 => {array}
+		}
+	*/
+	public function update($id='',$columns='',$query='') {
+  	if(gettype($query) == 'array' && $columns == '' && $id == '') {
+			$this->query(
+				$query[0],$query[1]
+			);
+		} else if((int)$id > 0 && gettype($columns) == 'array' && $query == '') {
+			$expression = '';
+			$values 		= array();
+			foreach(array_keys($columns) as $key) {
+				$expr 			.= " {$key} = ?, ";
+				$values[] 	 = $columns[$key];
+			}
+			$expr = substr($expr, 0, strlen($expression) - 2) . ' ';
+			$this->query("
+					update
+						{$this->className}
+					set
+						{$expr}
+					where
+						id = ?;
+				",
+				$values
+			);  
+		}
   }
-
-	public function delete() {
-  
+	
+	/*
+		@delete method
+		
+		@id {integer}
+		@query (array) {
+			0 => {string(sql)},
+			1 => {array}
+		}
+	*/
+	public function delete($id='',$query='') {
+  	if(gettype($query) == 'array' && $id == '') {
+			$this->query(
+				$query[0],$query[1]
+			);
+		} else if((int)$id > 0) {
+			$this->query("
+				delete
+					from
+						{$this->className}
+				where
+					id = ?;
+				",
+				array($id)
+			);
+		}
   }
-  
-  // public function paginator($queryArr = array() /*$getAllQuery*/, $pagePerItem,$currentPage) {
-  //    $res = $this->select(
-  //      $queryArr[0],
-  //      $queryArr[1]
-  //    );
-  //    $all      = $res[0]['counter'];
-  //    $allPages = ceil((int)$all/(int)$pagePerItem);
-  //    $from     = $currentPage != 0 ? ($currentPage == 1 ? 0 : ((int)$currentPage - 1)*(int)$pagePerItem) : 0;
-  //    $count    = (int)$pagePerItem;
-  //    $limit    = " limit {$from},{$count} ";
-  //    return array(
-  //      'allPages'  => $allPages,
-  //      'limit'     => $limit
-  //    );
-  //  }
 }

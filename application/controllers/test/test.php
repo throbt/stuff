@@ -1,32 +1,26 @@
 <?php
 
 class Test_controller extends Controller {
+	
   public function init() {
-    //echo 'this is the controller init' . "<br />";
-		
-		// $ff = getLoader::get();
-		
-		// var_dump($this->router->loader);
-
-		$this->model = $this->router->loader->get('Test','model');
+    $this->model = $this->loader->get('Test','model');
   }
   
   public function index() {
-	
-		// print_r($this);
-	
-		// print_r($this);
-	
-    // echo '
-    // 			<form action="/test" method="post">
-    // 				<input type="hidden" name="_method" value="create" />
-    // 				<input type="submit" value="Go" />
-    // 			</form>
-    // 		';
+		echo 
+		'<form action="/test/4" method="post">
+			<input type="hidden" name="_method" value="delete" />
+			<input type="hidden" name="t1" value="sdfsfsdfsdf" />
+			<input type="hidden" name="t2" value="masvalami?sdfsdfsdfsdfsdf" />
+			<input type="hidden" name="t3" value="egyebvalamisdfsdfsdfsdf" />
+			<input type="submit" value="go" />
+		</form>';
   }
   
   public function show() {
-		echo "show:  id={$this->router->params->index}";  
+		if($this->index != null) {
+			$res = $this->model->get($this->index);  print_r($res);
+		}
   }
   
   public function thisTest() {
@@ -34,15 +28,83 @@ class Test_controller extends Controller {
   }
 
   public function create() {
-    print_r($this->router->params);
-		echo 'create';
+	
+    $this->model->create(array(
+			't1' => $this->post['t1'],
+			't2' => $this->post['t2'],
+			't3' => $this->post['t3']
+		));
+		
+		/* or */
+		
+		$this->model->create('',
+			array(
+				"
+					insert
+						into
+							test
+						(t1,t2,t3)
+					values
+						(?,?,?);
+				",
+				array(
+					$this->post['t1'],
+					$this->post['t2'],
+					$this->post['t3']
+				)
+			)
+		);
   }
 
 	public function update() {
-    echo 'update';
+		
+    $this->model->update($this->index,array(
+			't1' => $this->post['t1'],
+			't2' => $this->post['t2'],
+			't3' => $this->post['t3']
+		));
+
+		/* or */
+
+		$this->model->update('','',
+			array(
+				"
+					update
+						test
+						set
+						t1 = ?,
+						t2 = ?,
+						t3 = ?
+					where
+						id = ?;
+				",
+				array(
+					'egy',
+					'ketto',
+					'harom',
+					$this->index
+				)
+			)
+		);
   }
 	
 	public function delete() {
-    echo 'delete';
+		
+    $this->model->delete($this->index);
+
+		/* or */
+		
+		$this->model->delete('',
+			array(
+				"
+					delete
+						from
+							test
+					where
+						id = ?
+				",
+				array($this->index)
+			)
+		);
   }
 }

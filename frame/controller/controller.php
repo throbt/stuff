@@ -18,10 +18,10 @@ class Controller {
   public function init() {
   }
 
-  public function render($variable = '') {
+  public function render() {
     if($this->htmlRender) {
       if($this->tpl == '') {
-        $this->tpl = VIEWS . DIRECTORY_SEPARATOR . $this->router->scope . DIRECTORY_SEPARATOR . $this->router->method . DIRECTORY_SEPARATOR . $this->router->method . '.tpl';
+        $this->tpl = $this->view->getTemplatePath($this->router->scope,$this->router->method);
         echo $this->view->renderTemplate(($this->variable != '' ? $this->variable : ''),$this->tpl);
       }
     }

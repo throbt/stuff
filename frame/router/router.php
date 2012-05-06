@@ -22,8 +22,8 @@ class Router {
 	function __construct() {
 		global $loader;
 		$this->loader = $loader;
-		$this->loader->get('Controller');
-		$this->loader->get('Model');
+		$this->loader->load('Controller');
+		$this->loader->load('Model');
 		$this->params = new stdClass();
 		$this->setParams();
 		$this->setOrder();
@@ -91,6 +91,7 @@ class Router {
 		*/
 		if($this->scope != 'page404') {
 			try {
+				$this->method = $method;
 				$this->controller = $this->loader->get($this->scope,'controller',$this);
 			} catch (Exception $e) {
 				$this->scope = 'page404';
@@ -111,6 +112,8 @@ class Router {
 			*/
 			$this->controller = $this->loader->get($this->scope,'controller');
 		}
+
+		$this->controller->render();
 	}
 	
 	public function getOrder() {

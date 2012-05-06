@@ -2,15 +2,29 @@
 
 class Controller {
   function __construct($scope) {
-    $this->router = $scope;
-		$this->loader = $this->router->loader;
-		$this->post 	= $this->router->params->post;
-		$this->get 		= $this->router->params->get;
-		$this->index 	= isset($this->router->params->index) ? $this->router->params->index : null;
+    global $loader;
+    $this->router     = $scope;
+		$this->loader     = $loader;
+		$this->post       = $this->router->params->post;
+		$this->get        = $this->router->params->get;
+		$this->index 	    = isset($this->router->params->index) ? $this->router->params->index : null;
+    $this->view       = $this->loader->get('View');
+    $this->htmlRender = true;
+    $this->tpl        = '';
+    $this->variable   = '';
     $this->init();
   }
   
   public function init() {
+  }
+
+  public function render($variable = '') {
+    if($this->htmlRender) {
+      if($this->tpl == '') {
+        $this->tpl = VIEWS . DIRECTORY_SEPARATOR . $this->router->scope . DIRECTORY_SEPARATOR . $this->router->method . DIRECTORY_SEPARATOR . $this->router->method . '.tpl';
+        echo $this->view->renderTemplate(($this->variable != '' ? $this->variable : ''),$this->tpl);
+      }
+    }
   }
 
 	/*

@@ -7,11 +7,13 @@ class Home_controller extends Controller {
   }
   
   public function index() {
-		echo 'Home - index';
+		//$this->htmlRender = false;
+    $this->variable = 'valamiMas';
+    //$this->render('valamiMas');
   }
   
   public function show() {
-		echo "show:  id={$this->router->params->index}";  
+		//echo "show:  id={$this->router->params->index}";  
   }
   
   public function thisTest() {

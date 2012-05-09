@@ -1,8 +1,10 @@
 <?php 
-  print_r($this->var); 
+  //print_r($this->var['data']); 
 
-  global $loader;
+  //global $loader;
 
-  $mainhelper = $loader->get('Main','helper');
+  //$mainhelper = $loader->get('Main','helper');
+
+	echo $this->var['data'];
 
 ?>

@@ -1,0 +1,67 @@
+body {
+  padding:        0;
+  margin:         0;
+  background:     #333333;
+}
+#headerWrapper {
+  /*width:          996px;*/
+  height:         630px;
+  background:     #dbdbd9;
+}
+#topBarCont {
+  /*width:          996px;*/
+  height:         90px;
+  background:     #020202;
+}
+#topBar {
+  width:          996px;
+  height:         90px;
+  background:     #020202;
+}
+#topBannerCont {
+  /*width:          996px;*/
+  height:         410px;
+  background:     #dbdbd9;
+}
+#topBanner {
+  width:          996px;
+  height:         410px;
+  background:     url(/img/manna_top_banner.png);
+}
+#menuWrapperCont {
+  /*width:          996px;*/
+  height:         40px;
+  background:     #929292;
+}
+#menuWrapper {
+  width:          996px;
+  height:         40px;
+  background:     #929292;
+}
+#titleBarCont {
+  /*width:          996px;*/
+  height:         90px;
+  background:     #4b4c51;
+}
+#titleBar {
+  width:          996px;
+  height:         90px;
+  background:     #4b4c51;
+}
+#bodyWrapper {
+  width:          100%;
+}
+#bodyContainer {
+  width:          996px;
+}
+#content {
+  width:          686px;
+  float:          left;
+  min-height:     10px;
+}
+#sider {
+  width:          310px;
+  height:         1123px;
+  background:     #323232;
+  float:          left;
+}

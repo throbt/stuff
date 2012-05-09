@@ -1,7 +1,7 @@
 <?php
 
 class getIo {
-  public function &get() {
+  static function &get() {
     static $obj;
     if (!is_object($obj)){
       $obj = new Io();

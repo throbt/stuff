@@ -1,7 +1,7 @@
 <?php
 
 class getRouter {
-	static public function &get($scope = '') {
+	static function &get($scope = '') {
 		static $obj;
 		if (!is_object($obj)){
 			$obj = new Router($scope);
@@ -11,7 +11,7 @@ class getRouter {
 }
 
 /*
-	Create	 {post}		(controller) - http post method with a _method=create variable
+	Create	 {post}		(controller) 					- http post method with a _method=create variable
 	Read		 {get}		(controller/[:index]) - simple get
 	Update	 {put}		(controller/[:index]) - http post method with a _method=put variable
 	Delete	 {delete} (controller/[:index]) - http post method with a _method=delete variable
@@ -50,30 +50,30 @@ class Router {
 		*/
 		switch($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
-				if($this->orders[1] == '') {
-					$method = 'index';
+				if(!isset($this->orders[1]) || $this->orders[1] == '') {
+					$action = 'index';
 				} else if(isset($this->params->index)) {
-					$method = 'show';
+					$action = 'show';
 				} else {
-					$method = $this->orders[1];
+					$action = $this->orders[1];
 				}
 			break;
 			case 'POST':
 				if($this->params->post) {
 					switch($this->params->post['_method']) {
 						case 'create':
-							$method = 'create';
+							$action = 'create';
 						break;
 						case 'update':
 							if(isset($this->params->index)) {
-								$method = 'update';
+								$action = 'update';
 							} else {
 								$this->scope = 'page404';
 							}
 						break;
 						case 'delete':
 							if(isset($this->params->index)) {
-								$method = 'delete';
+								$action = 'delete';
 							} else {
 								$this->scope = 'page404';
 							}
@@ -91,29 +91,29 @@ class Router {
 		*/
 		if($this->scope != 'page404') {
 			try {
-				$this->method = $method;
-				$this->controller = $this->loader->get($this->scope,'controller',$this);
+				$this->action = $action;
+				$controller 	= $this->loader->get($this->scope,'controller',$this);
 			} catch (Exception $e) {
-				$this->scope = 'page404';
+				$this->scope 	= 'page404';
 			}
 		}
 		/*
-			loading method
+			loading action
 		*/
-		if(isset($this->controller)) {
+		if(isset($controller)) {
 			try {
-				$this->controller->$method();
+				$controller->$action();
 			} catch (Exception $e) {
-				throw new Exception("invalid method: {$this->method}");
+				throw new Exception("invalid action: {$this->action}");
 			}
 		} else {
 			/*
 				404
 			*/
-			$this->controller = $this->loader->get($this->scope,'controller');
+			$controller = $this->loader->get($this->scope,'controller');
 		}
 
-		$this->controller->render();
+		//echo $this->controller->render();
 	}
 	
 	public function getOrder() {

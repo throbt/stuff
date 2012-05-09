@@ -7,9 +7,22 @@ class Home_controller extends Controller {
   }
   
   public function index() {
-		//$this->htmlRender = false;
-    $this->variable = 'valamiMas';
-    //$this->render('valamiMas');
+    $this->title    = 'Manna';
+		$this->content  = $this->view->renderTemplate(
+      array(
+        'scope' => $this,
+        'data'  => 'valami'
+      ),
+      $this->view->getTemplatePath('home','index')
+    );
+
+    echo $this->view->renderTemplate(
+      array(
+        'scope' => $this,
+        'data'  => $this->content
+      ),
+      $this->view->getTemplatePath('page','page')
+    );
   }
   
   public function show() {

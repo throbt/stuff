@@ -1,7 +1,7 @@
 <?php
 
 class getSession {
-  public function &get($scope = '') {
+  static function &get($scope = '') {
     static $obj;
     if (!is_object($obj)){
       $obj = new Session($scope);

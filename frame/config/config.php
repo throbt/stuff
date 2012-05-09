@@ -1,7 +1,7 @@
 <?php 
 
 class getConfig {
-  public function &get($ini='') {
+  static function &get($ini='') {
     static $obj;
     if (!is_object($obj)){
       $obj = new Config($ini);

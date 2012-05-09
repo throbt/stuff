@@ -1,7 +1,7 @@
 <?php
 
 class getPDO{
-  public function &get(){
+  static function &get(){
     static $obj;
     
     $conf   = getConfig::get();

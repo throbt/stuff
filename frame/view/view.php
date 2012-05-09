@@ -1,7 +1,7 @@
 <?php
 
 class getView {
-  public function &get() {
+  static function &get() {
     static $obj;
     if (!is_object($obj)){
       $obj = new View();
@@ -12,7 +12,8 @@ class getView {
 
 class View {
 
-  function __construct() {
+  function __construct($scope='') {
+    $this->scope = $scope;
     $this->init();
 	}
 
@@ -29,9 +30,10 @@ class View {
    $content		 = '';
    
    ob_start();
-   $this->loadTemplate($template);
-   $content = ob_get_contents();
+    $this->loadTemplate($template);
+    $content = ob_get_contents();
    ob_end_clean();
+   
    return $content;
   }
 
@@ -41,18 +43,4 @@ class View {
     }
   }
 
-  // public function render() {
-  //  $this->menu		 = $this->urlParts[0] == 'login' ? '' : $this->renderTemplate($this->menu, 'menu');
-  //  $this->content	 = !isset($this->content)	 ? $this->renderTemplate($this->session->setToken(), $this->tpl) : $this->content;
-  //  $this->header	 = !isset($this->header)	 ? $this->renderTemplate('', 'header') : $this->header;
-  //  $this->footer	 = !isset($this->footer)	 ? $this->renderTemplate('', 'footer') : $this->footer;
-  //  $this->frame		 = $this->renderTemplate(array(
-  // 	 'content' => $this->content,
-  // 	 'header'	 => $this->header,
-  // 	 'footer'	 => $this->footer,
-  // 	 'menu'		 => $this->menu
-  //  ), 'frame');
-   
-  //  echo $this->frame;
-  // }
 }

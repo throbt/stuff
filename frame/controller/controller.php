@@ -22,15 +22,12 @@ class Controller {
     if($this->htmlRender) {
       if($this->tpl == '') {
         $this->tpl = $this->view->getTemplatePath($this->router->scope,$this->router->method);
-        echo $this->view->renderTemplate(($this->variable != '' ? $this->variable : ''),$this->tpl);
+        return $this->view->renderTemplate(($this->variable != '' ? $this->variable : ''),$this->tpl);
       }
     }
   }
 
-	/*
-		goTo is reserved in php 5.3
-	*/
-	public function goToRoute($nextRoute = '') {
+	public function redirect($nextRoute = '') {
 		$route = ($nextRoute != '' ? $nextRoute : 'home');
 		header("location: /{$route}");
 	}

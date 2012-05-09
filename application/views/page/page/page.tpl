@@ -29,6 +29,7 @@
 		<div id="bodyWrapper">
 			<div id="bodyContainer">
 				<div id="content">
+					<?php echo $this->var['data']; ?>
 				</div>
 				<div id="sider">
 				</div>
@@ -36,10 +37,7 @@
 		</div>
 
 		<div id="footerWrapper">
-			<div id="footerContent">
-			</div>
-			<div id="footerSider">
-			</div>
+			<? echo $main->getFooter(); ?>
 		</div>
 		
 	</body>

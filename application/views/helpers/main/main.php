@@ -43,7 +43,7 @@ class Main_helper extends View {
   }
 
   public function getFooter() {
-  	
+  	return $this->renderTemplate('',$this->getTemplatePath('page','footer'));
   }
 
   public function getScript() {

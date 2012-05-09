@@ -65,3 +65,26 @@ body {
   background:     #323232;
   float:          left;
 }
+#footerWrapper {
+  width:          996px;
+  height:         374px;
+}
+#footerContent {
+  width:          686px;
+  height:         374px;
+  background:     #dbdbd9;
+  float:          left;
+}
+#footerSider {
+  width:          310px;
+  height:         124px;
+  background:     url(/img/footer-sider-bg.png) no-repeat top #323232;
+  float:          left;
+  text-align:     center;
+  padding-top:    250px;
+}
+#copyright {
+  text-decoration:  none;
+  color:            white;
+  font-weight:       bold;
+}

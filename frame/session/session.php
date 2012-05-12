@@ -50,4 +50,18 @@ class Session {
     }
     return false;
   }
+
+  public function setLanguage($get) {
+    if(isset($_SESSION['language'])) {
+      if(isset($get['lang']) && $get['lang'] != $_SESSION['language']) {
+        $_SESSION['language'] = $get['lang'];
+      }
+    } else {
+      if(isset($get['lang'])) {
+        $_SESSION['language'] = $get['lang'];
+      } else {
+        $_SESSION['language'] = 'hu';
+      }
+    }
+  }
 }

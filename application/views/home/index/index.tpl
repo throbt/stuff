@@ -6,33 +6,56 @@
 	//echo "asdsadsadsadsad";
 	
 	global $loader;
+
+	
+	
 	$form = $loader->get('Form');
 
 	echo $form->render(array(
 		'form' 			=> array(
-			
+
 			'action' 		=> '/test',
 			'method' 		=> 'post',
-			'type' 			=> 'put',
-			'id' 				=> 'nodeForm'
+			'type' 			=> 'create',
+			'id' 				=> 'nodeForm',
+			// its default by empty
+			'template'  => 'default' // view: view/form/submit/submit.tpl .. etc
 		),
 		'elements' 	=> array(
-
-			'text' 			=> array(
-				'id' 		=> 'title',
-				'class' => 'title',
-				'name' 	=> 'title'
-			),
-			'text' 			=> array(
-				'id' 		=> 'lead',
-				'class' => 'lead',
-				'name' 	=> 'lead'
-			),
-			'textarea' 	=> array(
-				'id' 		=> 'body',
-				'class' => 'body',
-				'name' 	=> 'body'
-			)
+					array(
+						'type' 	=> 'text',
+						'label' => 'cím',
+						'id' 		=> 'title',
+						'class' => 'title',
+						'name' 	=> 'title'
+					),
+					array(
+						'type' 	=> 'text',
+						'label' => 'lead',
+						'id' 		=> 'lead',
+						'class' => 'lead',
+						'name' 	=> 'lead'
+					),
+					array(
+						'type' 	=> 'text',
+						'label' => 'valami',
+						'id' 		=> 'valami',
+						'class' => 'valami',
+						'name' 	=> 'valami'
+					),
+					array(
+						'type' 	=> 'textarea',
+						'label' => 'body',
+						'id' 		=> 'body',
+						'class' => 'body',
+						'name' 	=> 'body'
+					),
+					array(
+						'type' 	=> 'submit',
+						'id' 		=> 'sbm',
+						'class' => 'sbm',
+						'value' => 'submit'
+					)
 		)
 	));
 

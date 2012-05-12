@@ -26,35 +26,27 @@ class Form {
 		);
   }
 
-  public function render($cfg) {
-  	$this->content = '';
-  	foreach($cfg['elements'] as $el => $arr) {
-  		if(/*method_exists($this,$el)*/ in_array($el,$this->inputs)) {
-  			$this->content .= $this->view->renderTemplate($arr,$this->view->getTemplatePath('form',$el)); 
-  		}
-  	}
-  	return $this->content;
+  public function getTemplatePath($type) {
+    return 'form' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $type . '.tpl';
   }
 
-  /*public function text($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','text')); 
+  public function render($cfg) {
+  	$this->content = '';
+  	foreach($cfg['elements'] as $arr) {
+  		if(/*method_exists($this,$el)*/ in_array($arr['type'],$this->inputs)) {
+
+        if(isset($cfg['form']['template']) && $cfg['form']['template'] == 'view') {
+          $thisPath = $this->view->getTemplatePath('form',$arr['type']);
+          $thisForm = $this->view->getTemplatePath('form',$arr['type']);
+        } else if(!isset($cfg['form']['template']) || $cfg['form']['template'] == 'default') {
+          $thisPath = $this->getTemplatePath($arr['type']);
+          $thisForm = $this->getTemplatePath('form');
+        }
+  		  
+        $this->content .= $this->view->renderTemplate($arr,$thisPath);
+  		}
+  	}
+    $cfg['form']['content'] = $this->content;
+  	return $this->view->renderTemplate($cfg['form'],$this->view->getTemplatePath('form','form'));
   }
-  public function hidden($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','hidden')); 
-  }
-  public function textarea($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','textarea')); 
-  }
-  public function radio($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','radio')); 
-  }
-  public function checkbox($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','checkbox')); 
-  }
-  public function button($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','button')); 
-  }
-	public function submit($arr) {
-  	return $this->view->renderTemplate($arr,$this->view->getTemplatePath('form','submit')); 
-  }*/
 }

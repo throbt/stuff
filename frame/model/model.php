@@ -39,10 +39,10 @@ class Model {
 
 	public function getClassName($className) {
 		if(preg_match('/_model/',$className)) {
-			preg_match('/^.*[^_model]/',$className,$matches);
-			return $matches[0];
+			preg_match('/[^_]*/',$className,$matches);
+			return strtolower($matches[0]);
 		} else {
-			return $className;
+			return strtolower($className);
 		}
 	}
 	
@@ -137,7 +137,7 @@ class Model {
 				$expr 			.= " {$key} = ?, ";
 				$values[] 	 = $columns[$key];
 			}
-			$expr = substr($expr, 0, strlen($expression) - 2) . ' ';
+			$expr = substr($expr, 0, strlen($expr) - 2) . ' ';
 			$this->query("
 					update
 						{$this->className}

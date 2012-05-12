@@ -10,18 +10,10 @@ class Node extends Model {
   }
 
   public function getColumns() {
-  	return array(
-  		'title' => 'varchar',
-  		'lead' 	=> 'varchar',
-  		'body' 	=> 'text',
-		);
+  	return $this->columns;
   }
 
   public function getFields() {
-  	return array(
-  		'title' => 'text',
-  		'lead' 	=> 'text',
-  		'body' 	=> 'testarea',
-		);
+  	return $this->fields;
   }
 }

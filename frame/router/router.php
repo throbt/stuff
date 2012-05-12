@@ -21,9 +21,12 @@ class getRouter {
 class Router {
 	function __construct() {
 		global $loader;
-		$this->loader = $loader;
+		$this->loader 	= $loader;
+		global $session;
+		$this->session 	= $session;
 		$this->loader->load('Controller');
 		$this->loader->load('Model');
+		$this->loader->load('Node');
 		$this->params = new stdClass();
 		$this->setParams();
 		$this->setOrder();
@@ -86,6 +89,11 @@ class Router {
 			break;
 		}
 		
+		/*
+			setting up language env var
+		*/
+		$this->session->setLanguage($this->params->get);
+
 		/*
 			loading controller
 		*/

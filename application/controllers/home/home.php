@@ -7,6 +7,9 @@ class Home_controller extends Controller {
   }
   
   public function index() {
+
+    $this->model = $this->router->loader->get('Article','model');
+
     $this->title    = 'Manna';
 		$this->content  = $this->view->renderTemplate(
       array(

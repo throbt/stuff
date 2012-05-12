@@ -5,8 +5,8 @@ class Controller {
     global $loader;
     $this->router     = $scope;
 		$this->loader     = $loader;
-		$this->post       = $this->router->params->post;
-		$this->get        = $this->router->params->get;
+		$this->post       = isset($this->router->params->post) ? $this->router->params->post : null;
+		$this->get        = isset($this->router->params->get) ? $this->router->params->get : null;
 		$this->index 	    = isset($this->router->params->index) ? $this->router->params->index : null;
     $this->view       = $this->loader->get('View');
     $this->htmlRender = true;

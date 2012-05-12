@@ -27,13 +27,13 @@ class Test_controller extends Controller {
     echo 'thisTest';
   }
 
-  public function create() {
+  public function create() { print_r($this->post); die();
 	
-    $this->model->create(array(
-			't1' => $this->post['t1'],
-			't2' => $this->post['t2'],
-			't3' => $this->post['t3']
-		));
+  //   $this->model->create(array(
+		// 	't1' => $this->post['t1'],
+		// 	't2' => $this->post['t2'],
+		// 	't3' => $this->post['t3']
+		// ));
 		
 		/* or */
 		

@@ -60,7 +60,7 @@ class Main_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array('style.css');
+    $arr      = array('bootstrap.css','style.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

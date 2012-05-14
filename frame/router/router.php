@@ -11,10 +11,10 @@ class getRouter {
 }
 
 /*
-	Create	 {post}		(controller) 					- http post method with a _method=create variable
+	Create	 {post}		(controller) 					- http post method with variable _method=create
 	Read		 {get}		(controller/[:index]) - simple get
-	Update	 {put}		(controller/[:index]) - http post method with a _method=put variable
-	Delete	 {delete} (controller/[:index]) - http post method with a _method=delete variable
+	Update	 {put}		(controller/[:index]) - http post method with variable _method=put
+	Delete	 {delete} (controller/[:index]) - http post method with variable _method=delete
 	
 	crud instead of rest
 */
@@ -47,7 +47,22 @@ class Router {
 		} else {
 			$this->scope = $this->orders[0];
 		}
-		
+
+		/*
+			doing the necessary preinit stuff
+
+			for example:
+				- overwriting the orders - {SEO - speaking urls}
+				- setting up the language env var
+				- managing the access rules, etc
+		*/
+		try {
+			$preinit = $this->loader->get('Preinit_hook','controller',$this);
+		} catch (Exception $e) {}
+
+		if($preinit != null) {
+		}
+
 		/*
 			C R U D
 		*/
@@ -88,11 +103,6 @@ class Router {
 				} 
 			break;
 		}
-		
-		/*
-			setting up language env var
-		*/
-		$this->session->setLanguage($this->params->get);
 
 		/*
 			loading controller
@@ -120,8 +130,6 @@ class Router {
 			*/
 			$controller = $this->loader->get($this->scope,'controller');
 		}
-
-		//echo $this->controller->render();
 	}
 	
 	public function getOrder() {

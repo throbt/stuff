@@ -3,7 +3,6 @@
 class Main_helper extends View {
   
   public function init() {
-
   }
 
   public function getSEO() {
@@ -38,8 +37,30 @@ class Main_helper extends View {
     ));
   }
 
+  public function getFacebookCode() {
+    return '<div id="fb-root"></div>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/hu_HU/all.js#xfbml=1";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, \'script\', \'facebook-jssdk\'));</script>
+            <div id="facebook_wrapper">
+              <div class="fb-like-box" data-href="http://www.facebook.com/Burdamagazin" data-width="280" data-height="360" data-show-faces="true" data-stream="false" data-header="true"></div>
+            </div>
+    ';
+  }
+
+  public function getCalendar() {
+    return $this->renderTemplate('',$this->getTemplatePath('page','calendar'));
+  }
+
   public function getSider() {
-  	
+  	return implode("\n",array(
+      $this->getFacebookCode(),
+      $this->getCalendar()
+    ));
   }
 
   public function getFooter() {
@@ -47,7 +68,7 @@ class Main_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js','main.js');
+    $arr      = array('jquery.js','main.js'/*,'calendar.js'*/);
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(
@@ -60,7 +81,7 @@ class Main_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array('bootstrap.css','style.css');
+    $arr      = array(/*'bootstrap.css',*/'style.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

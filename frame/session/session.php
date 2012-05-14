@@ -52,9 +52,11 @@ class Session {
   }
 
   public function setLanguage($get) {
-    if(isset($_SESSION['language'])) {
+    if(isset($_SESSION['language'])) { //echo "_SESSION:   " . $_SESSION['language'];
       if(isset($get['lang']) && $get['lang'] != $_SESSION['language']) {
         $_SESSION['language'] = $get['lang'];
+      } else {
+
       }
     } else {
       if(isset($get['lang'])) {

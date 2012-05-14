@@ -32,6 +32,7 @@
 					<?php echo $this->var['data']; ?>
 				</div>
 				<div id="sider">
+					<? echo $main->getSider(); ?>
 				</div>
 			</div>
 		</div>

@@ -18,7 +18,7 @@
 			'method' 		=> 'post',
 			'type' 			=> 'create',
 			'id' 				=> 'nodeForm',
-			// its default by empty
+			// its default by empty (default|empty)
 			'template'  => 'default' // view: view/form/submit/submit.tpl .. etc
 		),
 		'elements' 	=> array(
@@ -32,8 +32,8 @@
 					array(
 						'type' 	=> 'text',
 						'label' => 'lead',
-						'id' 		=> 'lead',
-						'class' => 'lead',
+						'id' 		=> 'thisLead',
+						'class' => 'thisLead',
 						'name' 	=> 'lead'
 					),
 					array(

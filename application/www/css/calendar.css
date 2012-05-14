@@ -1,0 +1,80 @@
+#calendar_wrapper {
+	width:			212px;
+	height:			256px;
+	background:	url(/img/calendar/alap.png);
+	margin:			0 auto;
+}
+#calendar_left_margin {
+	width:			49px;
+	height:			41px;
+	float:			left;
+	background:	#4B4C51;
+}
+#calendar_right_margin {
+	width:			49px;
+	height:			41px;
+	float:			left;
+	background:	#4B4C51;
+}
+#calendar_center_header {
+	width:			310px;
+	height:			60px;
+	background:	#4B4C51;
+}
+#calendar_header {
+	width:			212px;
+	height:			76px;
+	/*background:	#4B4C51;*/
+}
+#calendar_wrapper tr {
+	height:			28px;
+}
+#calendar_wrapper td {
+	width:			27px;
+	text-align:	center;
+}
+.pick {
+	cursor:			pointer;
+	color:			white;
+	font-size:	11px;
+}
+.day {
+	/*color:			white;*/
+}
+.currentday {
+	color:			#333333;
+}
+.current {
+	/*color:			white;*/
+	background:	url(/img/calendar/current_bg.png) 4px 5px no-repeat;
+}
+.weekly {
+	/*color:			black;*/
+}
+.picker_control {
+	cursor:			pointer;
+	width:			36px;
+	height:			36px;
+	float:			left;
+	/*background:	red;*/
+}
+#left_control_year {
+	background:	url(/img/calendar/left.png) no-repeat;
+}
+#right_control_year {
+	background:	url(/img/calendar/right.png) no-repeat;
+}
+.picker_display {
+	width:			68px;
+	height:			36px;
+	float:			left;
+	/*background:	blue;*/
+}
+#thisMonth {
+	font-size:	9px;
+	line-height:	5px;
+}
+#thisYear {
+	font-size:	12px;
+	line-height:	0px;
+}

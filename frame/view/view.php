@@ -14,7 +14,7 @@ class View {
 
   function __construct($scope='') {
     $this->scope = $scope;
-    /*$this->init();*/
+    $this->init();
 	}
 
   public function init() {

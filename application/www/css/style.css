@@ -38,6 +38,10 @@ body {
   width:          996px;
   height:         40px;
   background:     #929292;
+  display:        block;
+  margin:         0;
+  padding:        1px;
+  text-align:     center;
 }
 #titleBarCont {
   /*width:          996px;*/
@@ -139,4 +143,31 @@ body {
   margin-left:      15px;
   border:           none;
   margin-top:       10px;
+}
+/*menu*/
+#mainmenu ul {
+  list-style-type:  none;
+  padding-top:      1px;
+  margin-top:       1px;
+  font-size:        12px;
+  line-height:      0px;
+  text-align:       center;
+}
+#mainmenu li {
+  list-style-type:  none;
+  float:            left;
+  padding:          0;
+  margin:           0;
+  margin-top:       -8px;
+}
+#mainmenu a {
+  text-decoration:  none;
+  padding:          0;
+  margin:           0;
+  padding: 4px 40px 6px 5px;
+  font-size:        14px;
+  /*font-weight:      bold;*/
+  line-height:      0px;
+  color:            white;
+  font-family:      arial,sans-serif;
 }

@@ -8,7 +8,7 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   	<meta http-equiv="Content-Language" content="hu-hu" />
   	<meta http-equiv="imagetoolbar" content="no" />
-		<? echo $main->getHeader(); ?>
+		<?php echo $main->getHeader(); ?>
 	</head>
 	<body>
 		<div id="headerWrapper">
@@ -19,7 +19,9 @@
 				<div id="topBanner"></div>
 			</div>
 			<div id="menuWrapperCont">
-				<div id="menuWrapper"></div>
+				<div id="menuWrapper">
+					<?php echo $main->getMenu(); ?>
+				</div>
 			</div>
 			<div id="titleBarCont">
 				<div id="titleBar"></div>
@@ -32,13 +34,13 @@
 					<?php echo $this->var['data']; ?>
 				</div>
 				<div id="sider">
-					<? echo $main->getSider(); ?>
+					<?php echo $main->getSider(); ?>
 				</div>
 			</div>
 		</div>
 
 		<div id="footerWrapper">
-			<? echo $main->getFooter(); ?>
+			<?php echo $main->getFooter(); ?>
 		</div>
 		
 	</body>

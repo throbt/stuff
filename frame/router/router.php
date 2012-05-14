@@ -52,15 +52,16 @@ class Router {
 			doing the necessary preinit stuff
 
 			for example:
-				- overwriting the orders - {SEO - speaking urls}
-				- setting up the language env var
-				- managing the access rules, etc
+				- overwrite the orders - {SEO - speaking urls}
+				- set up the language env var
+				- manage the access rules, etc
 		*/
 		try {
 			$preinit = $this->loader->get('Preinit_hook','controller',$this);
 		} catch (Exception $e) {}
 
 		if($preinit != null) {
+			// preinit hook is finished
 		}
 
 		/*

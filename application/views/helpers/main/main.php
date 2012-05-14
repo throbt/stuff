@@ -3,6 +3,7 @@
 class Main_helper extends View {
   
   public function init() {
+    //print_r($this->scope->router->loader);
   }
 
   public function getSEO() {
@@ -54,6 +55,28 @@ class Main_helper extends View {
 
   public function getCalendar() {
     return $this->renderTemplate('',$this->getTemplatePath('page','calendar'));
+  }
+
+  public function getMenu() {
+    $menuModel = $this->scope->router->loader->get('Menu','model');
+    $menuItems = $menuModel->get(
+      '',
+      array(
+        '
+          select
+            *
+            from
+              lang_elements
+          where
+            type = ?
+          order
+            by
+              ?;
+        ',
+        array('menu','order')
+      )
+    );
+    return $this->renderTemplate($menuItems,$this->getTemplatePath('page','menu'));
   }
 
   public function getSider() {

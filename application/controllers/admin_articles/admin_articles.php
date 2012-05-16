@@ -10,7 +10,7 @@ class Admin_articles_controller extends Controller {
   public function index() {
 
     $res = $this->model->getAll(
-      
+
       "select
           *
           from
@@ -153,9 +153,8 @@ class Admin_articles_controller extends Controller {
     if(isset($this->router->orders[2]) && $this->router->orders[2] == 'edit') {
       $this->edit();
     } else {
-      $article = $this->model->get($this->index);
+      $article        = $this->model->get($this->index);
       $this->title    = $article[0]['title'];
-
       $this->content  = $this->view->renderTemplate(
         array(
           'scope' => $this,

@@ -224,9 +224,9 @@ class Model {
 		@$pagePerItem {integer}
 		@$page 				{integer}
   */
-  public function getAll($queryAll,$queryCount,$params=array(),$pagePerItem,$page) {
+  public function getAll($queryAll,$queryCount,$params=array(),$pager,$page) {
   	$currentPage  = $page;
-    $pagePerItem  = $pagePerItem;
+    $pagePerItem  = $pager;
     $queryArr[0]  = $queryCount;
     $queryArr[1] = array();
     

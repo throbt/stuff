@@ -68,7 +68,7 @@ class Main_helper extends View {
           select
             *
             from
-              lang_elements
+              langelements
           where
             type = "menu"
           order

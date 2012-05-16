@@ -23,6 +23,7 @@ class Form {
 			'radio',
 			'submit',
 			'checkbox',
+			'select',
       'password'
 		);
   }

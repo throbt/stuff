@@ -4,6 +4,29 @@
 ?>
 
 <div class="row show-grid">
+
+    <div class="span12">
+      <div class="span2">
+        <h4><a class="" href="/admin_articles/<?php echo $article['id']; ?>">Cím</a></h4>
+      </div>
+      <div class="span2">
+        <p>
+          <strong>létrehozva</strong>
+        </p>
+      </div>
+      <div class="span2">
+        <p>
+          <strong>utolsó szerkesztés</strong>
+        </p>
+      </div>
+      <div class="span2">
+      </div>
+      <div class="span2">
+      </div>
+    </div>
+
+    <div class="span12">&nbsp;</div>
+
     <?php foreach($this->var['data'] as $article): ?>
       <div class="span12">
         <div class="span2">
@@ -11,12 +34,12 @@
         </div>
         <div class="span2">
           <p>
-            létrehozva: <?php echo $article['created']; ?>
+            <?php echo $article['created']; ?>
           </p>
         </div>
         <div class="span2">
           <p>
-            utolsó szerkesztés: <?php echo $article['edited']; ?>
+            <?php echo $article['edited']; ?>
           </p>
         </div>
         <div class="span2">

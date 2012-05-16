@@ -45,7 +45,7 @@ class Model {
 
     // if(/*isset($this->debug) && $this->debug == true*/ 1 == 1) {
     // 	echo $query . "<br />\n";
-    // 	print_r($params);preg_match
+    // 	print_r($params);
     // 	print_r($sth->errorinfo()); die();
     // }
   }
@@ -162,7 +162,6 @@ class Model {
 			);
 		} else if((int)$id > 0 && gettype($columns) == 'array' && $query == '') {
 
-			$expression = '';
 			$values 		= array();
 			$expr 			= '';
 
@@ -174,6 +173,8 @@ class Model {
 					$values[] 	 = $columns[$key];
 				}
 			}
+
+			$expr = substr($expr,0,strlen($expr)-2);
 
 			$this->query("
 					update
@@ -260,13 +261,21 @@ class Model {
 		@$pagePerItem {integer}
 		@$currentPage {integer}
   */
-  public function paginator($queryArr = array(), $pagePerItem,$currentPage) {
+  public function paginator($queryArr = array(), $pagePerItem,$pager) {
     $res = $this->select(
       $queryArr[0],
       $queryArr[1]
     );
     $all      = $res[0]['counter'];
     $allPages = ceil((int)$all/(int)$pagePerItem);
+
+    if($pager <= 0 || $pager > $allPages) {
+    	$currentPage = 1;
+    } else {
+    	$currentPage = $pager
+    	;
+    }
+
     $from     = $currentPage != 0 ? ($currentPage == 1 ? 0 : ((int)$currentPage - 1)*(int)$pagePerItem) : 0;
     $count    = (int)$pagePerItem;
     $limit    = " limit {$from},{$count} ";

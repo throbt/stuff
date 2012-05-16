@@ -35,7 +35,7 @@
 	      });  
 
 				$(function() {
-					//$.datepicker.setDefaults('yy-mm-dd');
+					$.datepicker.setDefaults('yy-mm-dd');
 					$(".datep").datepicker();
 				});
 			});

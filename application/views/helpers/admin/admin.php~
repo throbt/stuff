@@ -41,7 +41,7 @@ class Admin_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ /*,'bootstrap-dropdown.js'*/,'bootstrap-datepicker.js');
+    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'bootstrap-dropdown.js','bootstrap-datepicker.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(

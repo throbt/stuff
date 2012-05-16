@@ -3,7 +3,9 @@
 class Article_model extends Node {
 	
 	public function init() {
+    
 		$this->className  = $this->getClassName(get_class());
+
     $this->columns    = array(
       'title' => 'varchar',
       'lead'  => 'varchar',

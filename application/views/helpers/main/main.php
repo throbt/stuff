@@ -39,7 +39,9 @@ class Main_helper extends View {
   }
 
   public function getFacebookCode() {
-    return '<div id="fb-root"></div>
+    return '
+
+            <div id="fb-root"></div>
             <script>(function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
@@ -48,7 +50,7 @@ class Main_helper extends View {
               fjs.parentNode.insertBefore(js, fjs);
             }(document, \'script\', \'facebook-jssdk\'));</script>
             <div id="facebook_wrapper">
-              <div class="fb-like-box" data-href="http://www.facebook.com/Burdamagazin" data-width="280" data-height="360" data-show-faces="true" data-stream="false" data-header="true"></div>
+              <div class="fb-like-box" data-href="http://www.facebook.com/pages/Manna-%C3%89tterem/176210038779" data-width="294" data-height="390" data-colorscheme="dark" data-show-faces="true" data-border-color="#333333" data-stream="false" data-header="false"></div>
             </div>
     ';
   }
@@ -68,12 +70,12 @@ class Main_helper extends View {
             from
               lang_elements
           where
-            type = ?
+            type = "menu"
           order
             by
-              ?;
+              "order";
         ',
-        array('menu','order')
+        array()
       )
     );
     return $this->renderTemplate($menuItems,$this->getTemplatePath('page','menu'));

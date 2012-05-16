@@ -16,25 +16,33 @@ class Session {
   }
   
   public function checkProfile() {
-    if (!isset($_SESSION['sessionUser'])) {
+    if (!isset($_SESSION['profile'])) {
       return false;
     } else {
     
       /*
         ten minutes
       */
-      if(time() - $_SESSION['sessionUser']->lastCheck > 600) {
+      if(time() - $_SESSION['profile']->lastCheck > 600) {
         session_destroy();
         session_unset();
-        unset($_SESSION['sessionUser']);
+        unset($_SESSION['profile']);
         return false;
       } else {
-        $_SESSION['sessionUser']->lastCheck = time();
+        $_SESSION['profile']->lastCheck = time();
         return true;
       }
     } /*else {
       return true;
     }*/
+  }
+
+  public function setProfile($profile) {
+    $_SESSION['profile'] = new stdClass();
+    foreach($profile as $k => $v) {
+      $_SESSION['profile']->$k = $v;
+    }
+    $_SESSION['profile']->lastCheck = time();
   }
   
   public function setToken() {

@@ -6,5 +6,14 @@ class Menu_model extends Model {
     $this->className = strtolower($this->getClassName(get_class()));  
   }
 
+  // public function getAll($query) {
+  //   return $this->get(
+  //     '',
+  //     array(
+  //       $query[0],
+  //       $query[1]
+  //     )
+  //   );
+  // }
 
 }

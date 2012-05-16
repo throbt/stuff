@@ -9,6 +9,8 @@
 	
 	ini_set('display_errors',$config->cfg['display_errors']);
 	
+	session_start();
+
 	$loader 	= getLoader::get();
 	$stuff 		= $loader->get('Stuff');
 	$session 	= $loader->get('Session');

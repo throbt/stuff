@@ -29,12 +29,12 @@ class Router {
 		$this->loader->load('Node');
 		$this->params = new stdClass();
 		$this->setParams();
-		$this->setOrder();
+		$this->route();
 	}
 	
-	private function setOrder() {
-		$parts				= explode('?',$_SERVER['REQUEST_URI']);
-		$this->orders = array_slice(explode('/',$parts[0]),1);
+	private function route() {
+
+		$this->setOrder();
 		
 		if(isset($this->orders[1])) {
 			if((int)$this->orders[1] > 0) {
@@ -98,7 +98,11 @@ class Router {
 							}
 						break;
 						default:
-							$this->scope = 'page404';
+							if(isset($this->orders[1])) {
+								$action = $this->orders[1];
+							} else {
+								$this->scope = 'page404';
+							}
 						break;
 					}
 				} 
@@ -133,6 +137,11 @@ class Router {
 		}
 	}
 	
+	public function setOrder() {
+		$parts				= explode('?',$_SERVER['REQUEST_URI']);
+		$this->orders = array_slice(explode('/',$parts[0]),1);
+	}
+
 	public function getOrder() {
 		return $this->orders;
 	}

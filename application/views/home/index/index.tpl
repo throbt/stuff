@@ -9,7 +9,7 @@
 
 	
 	
-	$form = $loader->get('Form');
+	/*$form = $loader->get('Form');
 
 	echo $form->render(array(
 		'form' 			=> array(
@@ -57,6 +57,6 @@
 						'value' => 'submit'
 					)
 		)
-	));
+	));*/
 
 ?>

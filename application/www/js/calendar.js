@@ -93,10 +93,17 @@ var Calendar = {
 	},
 
 	getDate: function(date) { //79,5,24
-		if(date == null)
-			this.date.current = new Date();
-		else
-			this.date.current = new Date(date);
+		if(date == null) {
+			this.date.current 			= new Date();
+			this.dateCurrent				= this.date.current;
+			this.dateCurrent.month 	= (this.date.current.getMonth()+1);
+			this.dateCurrent.year 	= this.date.current.getFullYear();
+		} else {
+			this.date.current 			= new Date(date);
+			this.dateCurrent 				= new Date();
+			this.dateCurrent.month 	= (this.dateCurrent.getMonth()+1);
+			this.dateCurrent.year 	= this.dateCurrent.getFullYear();
+		}
 
 		this.date.year      = this.date.current.getFullYear();
 		this.date.month     = (this.date.current.getMonth()+1);
@@ -150,19 +157,19 @@ var Calendar = {
 			if(i != 0) {
 				if(dayCounter == 1) {
 					cells.push('<tr>');
-					if(i == this.date.day)
+					if(i == this.date.day && this.dateCurrent.month == this.date.month && this.dateCurrent.year == this.date.year)
 						cells.push(['<td class="current"><span class="pick currentday">',currDay,'</span></td>'].join(''));
 					else
 						cells.push(['<td><span class="pick day">',currDay,'</span></td>'].join(''));
 				} else if(dayCounter == 7) {
-					if(i == this.date.day)
+					if(i == this.date.day && this.dateCurrent.month == this.date.month && this.dateCurrent.year == this.date.year)
 						cells.push(['<td class="current"><span class="pick currentday">',currDay,'</span></td>'].join(''));
 					else
 						cells.push(['<td><span class="pick day">',currDay,'</span></td>'].join(''));
 					cells.push('</tr>');
 					dayCounter = 0;
 				} else {
-					if(i == this.date.day)
+					if(i == this.date.day && this.dateCurrent.month == this.date.month && this.dateCurrent.year == this.date.year)
 						cells.push(['<td class="current"><span class="pick currentday">',currDay,'</span></td>'].join(''))
 					else
 						cells.push(['<td><span class="pick day">',currDay,'</span></td>'].join(''))

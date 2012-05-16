@@ -91,6 +91,15 @@ class Admin_articles_controller extends Controller {
             'name'  => 'title'
           ),
           array(
+            'type'    => 'select',
+            'label'   => 'Nyelv',
+            'id'      => 'lang',
+            'class'   => 'input-xlarge',
+            'name'    => 'lang',
+            'options' =>  array('hu','en','de'),
+            'value'   => 'hu'
+          ),
+          array(
             'type'  => 'text',
             'label' => 'Lead',
             'id'    => 'lead',

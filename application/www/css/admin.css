@@ -10,3 +10,10 @@ body {
   margin-left:        15px;
   margin-bottom:      10px;
 }
+.thisEditor {
+  width:              90px;
+  height:             18px;
+  margin:             0;
+  padding:            0;
+  border-radius:      6px 6px 6px 6px;
+}

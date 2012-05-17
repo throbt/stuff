@@ -69,7 +69,7 @@ class Admin_articles_controller extends Controller {
   public function add() {
     $this->title    = 'Új cikk';
     $form           = $this->router->loader->get('Form');
-    $this->content  = $form->render(array(
+    $thisForm       = $form->render(array(
 
       'form'      => array(
         'action'    => '/admin_articles',
@@ -135,19 +135,27 @@ class Admin_articles_controller extends Controller {
             'class' => 'input-xlarge',
             'name'  => 'meta_desc'
           ),
+          
+          array(
+            'type'  => 'checkbox',
+            'label' => 'Aktív',
+            'id'    => 'active',
+            'class' => 'input-xlarge',
+            'name'  => 'active'
+          ),
 
           array(
             'type'  => 'text',
             'label' => 'Megjelenés, tól:',
             'id'    => 'date_from',
-            'class' => 'input-xlarge',
+            'class' => 'input-xlarge datep',
             'name'  => 'date_from'
           ),
           array(
             'type'  => 'text',
             'label' => 'Megjelenés, ig:',
             'id'    => 'date_to',
-            'class' => 'input-xlarge',
+            'class' => 'input-xlarge datep',
             'name'  => 'date_to'
           ),
 
@@ -159,7 +167,15 @@ class Admin_articles_controller extends Controller {
           )
       )
     ));
-
+    
+    $this->content = $this->view->renderTemplate(
+      array(
+        'scope' => $this,
+        'data'  => $thisForm
+      ),
+      $this->view->getTemplatePath('admin_articles','add')
+    );
+    
     echo $this->view->renderTemplate(
       array(
         'scope' => $this,
@@ -184,6 +200,8 @@ class Admin_articles_controller extends Controller {
         'meta_title'    => $this->post['meta_title'],
         'meta_keywords' => $this->post['meta_keywords'],
         'meta_desc'     => $this->post['meta_desc'],
+
+        'active'        => (isset($this->post['active']) ? 'true' : 'false'),
 
         'date_from'     => $this->post['date_from'],
         'date_to'       => $this->post['date_to'],
@@ -210,6 +228,8 @@ class Admin_articles_controller extends Controller {
         'meta_title'    => $this->post['meta_title'],
         'meta_keywords' => $this->post['meta_keywords'],
         'meta_desc'     => $this->post['meta_desc'],
+
+        'active'        => $this->post['active'],
 
         'date_from'     => $this->post['date_from'],
         'date_to'       => $this->post['date_to'],
@@ -344,6 +364,15 @@ class Admin_articles_controller extends Controller {
             'class' => 'input-xlarge',
             'name'  => 'meta_desc',
             'value' => $article[0]['meta_desc']
+          ),
+          
+          array(
+            'type'    => 'checkbox',
+            'label'   => 'Aktív',
+            'id'      => 'active',
+            'class'   => 'input-xlarge',
+            'name'    => 'active',
+            'checked' => $article[0]['active']
           ),
 
           array(

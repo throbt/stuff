@@ -11,4 +11,7 @@
   </div>
 </div>
 
-<div id="contentWrapper" class="container"></div>
+<div class="container">
+  <div id="contentWrapper" class="row show-grid">
+  </div>
+</div>

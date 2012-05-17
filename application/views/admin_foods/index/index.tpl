@@ -6,7 +6,7 @@
 <div class="row show-grid">
   <div class="span12">
     <div class="span2">
-      <a id="sbm" class="btn btn-primary save" href="/admin_booking/add" type="submit">Új foglalás</a>
+      <a id="sbm" class="btn btn-primary save" href="/admin_foods/add" type="submit">Új étel</a>
     </div>
   </div>
   <div class="span12">
@@ -48,7 +48,7 @@
     <?php foreach($this->var['data'] as $article): ?>
       <div class="span12">
         <div class="span2">
-          <h4><a class="" href="/admin_booking/<?php echo $article['id']; ?>"><?php echo $article['title']; ?></a></h4>
+          <h4><a class="" href="/admin_foods/<?php echo $article['id']; ?>"><?php echo $article['title']; ?></a></h4>
         </div>
         <div class="span2">
           <p>
@@ -63,15 +63,15 @@
         <div class="span1">
         
           <?php if($article['active'] == 'true'): ?>
-            <input model="Bookings" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" checked="true" class="active" />
+            <input model="Foods" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" checked="true" class="active" />
           <?php else: ?>
-            <input model="Bookings" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" class="active" />
+            <input model="Foods" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" class="active" />
           <?php endif; ?>
         
       </div>
         <div class="span1">
           <p>
-            <a class="btn btn-primary" href="/admin_booking/<?php echo $article['id']; ?>/edit">edit</a>
+            <a class="btn btn-primary" href="/admin_foods/<?php echo $article['id']; ?>/edit">edit</a>
           </p>
         </div>
         <div class="span1">
@@ -80,11 +80,11 @@
             echo $form->render(array(
 
                 'form'      => array(
-                  'action'    => "/admin_booking/{$article['id']}",
+                  'action'    => "/admin_foods/{$article['id']}",
                   'method'    => 'post',
                   'token'     => true,
                   '_method'   => 'delete',
-                  'id'        => 'delete_booking',
+                  'id'        => 'delete_food',
                   'template'  => 'default'
                 ),
 

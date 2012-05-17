@@ -38,6 +38,22 @@
 					//$.datepicker.setDefaults('yy-mm-dd');
 					$(".datep").datepicker();
 				});
+				
+				$('.active').change(function() {
+				  var gets = {
+				    'active': this.checked,
+				    'model':  $(this).attr('model'),
+				    'id':     $(this).attr('rel')
+				  };
+				  $.get(
+				    '/admin_ajax/setActive',
+				    gets,
+				    function(resp) {
+				      if(resp != 'false')
+                window.location.reload();
+				    }
+				  );
+				});
 			});
 		</script>
 	</head>

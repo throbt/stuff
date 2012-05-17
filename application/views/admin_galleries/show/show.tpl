@@ -22,7 +22,7 @@
 
 
   <p>
-    <a href="/admin_articles/<?php echo $this->var['data']['id']; ?>/edit" class="btn btn-primary btn-large">Szerkeszt</a>
+    <a href="/admin_galleries/<?php echo $this->var['data']['id']; ?>/edit" class="btn btn-primary btn-large">Szerkeszt</a>
 
     <a href="" class="btn btn-primary btn-large">Megnéz</a>
   </p>

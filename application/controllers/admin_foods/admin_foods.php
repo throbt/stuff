@@ -1,6 +1,6 @@
 <?php
 
-class Admin_programmes_controller extends Controller {
+class Admin_foods_controller extends Controller {
 
   public function init() {
     global $session;
@@ -10,7 +10,7 @@ class Admin_programmes_controller extends Controller {
       $this->redirect('login');
       die();
     }
-    $this->model        = $this->router->loader->get('Programmes','model');
+    $this->model        = $this->router->loader->get('Foods','model');
     $this->itemPerPage  = 10;
   }
 
@@ -21,14 +21,14 @@ class Admin_programmes_controller extends Controller {
       "select
           *
           from
-            programmes
+            foods
         order by
           edited desc, created desc",
 
       "select
         count(*) as counter
           from
-            programmes",
+            foods",
 
       array(),
 
@@ -37,7 +37,7 @@ class Admin_programmes_controller extends Controller {
       (isset($this->get['page']) ? $this->get['page'] : 1)
     );
 
-    $this->title   = 'Programok';
+    $this->title   = 'Ételek';
 
     $paginator = $this->view->renderTemplate(
       array(
@@ -54,7 +54,7 @@ class Admin_programmes_controller extends Controller {
         'data'      => $res['result'],
         'paginator' => $paginator
       ),
-      $this->view->getTemplatePath('admin_programmes','index')
+      $this->view->getTemplatePath('admin_foods','index')
     );
 
     echo $this->view->renderTemplate(
@@ -67,16 +67,16 @@ class Admin_programmes_controller extends Controller {
   }
 
   public function add() {
-    $this->title    = 'Új program';
+    $this->title    = 'Új étel';
     $form           = $this->router->loader->get('Form');
     $thisForm       = $form->render(array(
 
       'form'      => array(
-        'action'    => '/admin_programmes',
+        'action'    => '/admin_foods',
         'method'    => 'post',
         'token'     => true,
         '_method'   => 'create',
-        'id'        => 'create_programmes',
+        'id'        => 'create_foods',
         'class'     => 'well form-horizontal',
         'template'  => 'default'
       ),
@@ -173,7 +173,7 @@ class Admin_programmes_controller extends Controller {
         'scope' => $this,
         'data'  => $thisForm
       ),
-      $this->view->getTemplatePath('admin_programmes','add')
+      $this->view->getTemplatePath('admin_foods','add')
     );
     
     echo $this->view->renderTemplate(
@@ -209,9 +209,9 @@ class Admin_programmes_controller extends Controller {
         'edited'        => 'now()'
       ));
       $thisId = $this->model->db->lastInsertId();
-      $this->redirect("admin_programmes/{$this->post['id']}/edit");
+      $this->redirect("admin_foods/{$this->post['id']}/edit");
     } else {
-      $this->redirect("admin_programmes");
+      $this->redirect("admin_foods");
     }
   }
 
@@ -237,9 +237,9 @@ class Admin_programmes_controller extends Controller {
         'created'        => 'now()'
       ));
       $thisId = $this->model->db->lastInsertId();
-      $this->redirect("admin_programmes/{$thisId}");
+      $this->redirect("admin_foods/{$thisId}");
     } else {
-      $this->redirect("admin_programmes");
+      $this->redirect("admin_foods");
     }
   }
 
@@ -256,7 +256,7 @@ class Admin_programmes_controller extends Controller {
           'scope' => $this,
           'data'  => $article[0]
         ),
-        $this->view->getTemplatePath('admin_programmes','show')
+        $this->view->getTemplatePath('admin_foods','show')
       );
 
       echo $this->view->renderTemplate(
@@ -273,9 +273,9 @@ class Admin_programmes_controller extends Controller {
     global $session;
     if($session->checkToken($this->post['token'])) {
       $this->model->delete($this->index);
-      $this->redirect("admin_programmes");
+      $this->redirect("admin_foods");
     } else {
-      $this->redirect("admin_programmes");
+      $this->redirect("admin_foods");
     }
   }
 
@@ -287,11 +287,11 @@ class Admin_programmes_controller extends Controller {
     $this->content  = $form->render(array(
 
       'form'      => array(
-        'action'    => "/admin_programmes/{$article[0]['id']}",
+        'action'    => "/admin_foods/{$article[0]['id']}",
         'method'    => 'post',
         'token'     => true,
         '_method'   => 'update',
-        'id'        => 'create_programmes',
+        'id'        => 'create_food',
         'class'     => 'well form-horizontal',
         'template'  => 'default'
       ),
@@ -406,7 +406,7 @@ class Admin_programmes_controller extends Controller {
         'scope' => $this,
         'data'  => $this->content
       ),
-      $this->view->getTemplatePath('admin_programmes','edit')
+      $this->view->getTemplatePath('admin_foods','edit')
     );
   
     echo $this->view->renderTemplate(

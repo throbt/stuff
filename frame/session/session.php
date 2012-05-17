@@ -15,7 +15,7 @@ class Session {
     $this->scope = $scope;
   }
   
-  public function checkProfile() {
+  public function checkProfile($job='') {
     if (!isset($_SESSION['profile'])) {
       return false;
     } else {
@@ -24,8 +24,10 @@ class Session {
         ten minutes
       */
       if(time() - $_SESSION['profile']->lastCheck > 600) {
-        session_destroy();
-        session_unset();
+        if($job != 'ajax') {
+          session_destroy();
+          session_unset();
+        }
         unset($_SESSION['profile']);
         return false;
       } else {

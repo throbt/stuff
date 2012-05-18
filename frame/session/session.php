@@ -23,7 +23,7 @@ class Session {
       /*
         ten minutes
       */
-      if(time() - $_SESSION['profile']->lastCheck > 600) {
+      if(time() - $_SESSION['profile']->lastCheck > 3600) {
         if($job != 'ajax') {
           session_destroy();
           session_unset();

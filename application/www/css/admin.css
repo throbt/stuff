@@ -17,3 +17,16 @@ body {
   padding:            0;
   border-radius:      6px 6px 6px 6px;
 }
+#imageWrapperMce {
+  width:              100%;
+  display:            block;
+  margin-top:         40px;
+}
+.istuffImage {
+  text-decoration:    none;
+  height:             60px;
+  cursor:             pointer;
+  float:              left;
+  margin-left:        7px;
+  border:             1px #333 solid;
+}

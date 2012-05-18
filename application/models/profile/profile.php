@@ -6,9 +6,9 @@ class Profile_model extends Model {
     $this->className = strtolower($this->getClassName(get_class()));
   }
 
-  public function getAll() {
+  /*public function getAll() {
     
-  }
+  }*/
 
   public function getProfile($email,$pass) {
     $profile = $this->get(

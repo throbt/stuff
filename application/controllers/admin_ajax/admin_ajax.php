@@ -31,6 +31,49 @@ class Admin_ajax_controller extends Controller {
     die();
   }
   
+  public function getGalleriesByGallery() {
+    $images = $this->router->loader->get('Images','model');
+    echo json_encode($images->get(
+      '',
+      array(
+        "
+          select
+            m.*,
+            g.title as thisGallery
+              from
+                images m
+            left join
+                galleries g
+            on
+              m.gallery = g.id
+            where
+              m.gallery = ?
+          ",
+        array($this->get['gallery'])
+      )
+    ));
+    die();
+  }
+
+  public function delImage() {
+    $images = $this->router->loader->get('Images','model');
+    $images->delete($this->get['id']);
+    echo 1;
+    die();
+  }
+
+  public function saveImage() {
+    $images = $this->router->loader->get('Images','model');
+    $images->update(
+      $this->get['id'],
+      array(
+      'lead'    => $this->get['lead'],
+      'title'   => $this->get['title']
+    ));
+    echo 1;
+    die();
+  }
+
   public function saveLangElements() {
     $this->model->update(
       $this->get['id'],
@@ -50,5 +93,11 @@ class Admin_ajax_controller extends Controller {
       array(
       'active'  => $this->get['active']
     ));
+  }
+  
+  public function getGalleries() {
+    $galleryModel = $this->router->loader->get('Galleries','model');
+    echo json_encode($galleryModel->get());
+    die();
   }
 }

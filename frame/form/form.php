@@ -24,6 +24,7 @@ class Form {
 			'submit',
 			'checkbox',
 			'select',
+			'file',
       'password'
 		);
   }

@@ -1,5 +1,5 @@
 <div id="<?php echo isset($this->var['id']) ? $this->var['id'] : ''; ?>-wrapper" class="<?php echo isset($this->var['class']) ? $this->var['class'] : ''; ?>">
-	<form class="" id="<?php echo isset($this->var['id']) ? $this->var['id'] : ''; ?>" action="<?php echo isset($this->var['action']) ? $this->var['action'] : ''; ?>" method="<?php echo isset($this->var['method']) ? $this->var['method'] : ''; ?>">
+	<form enctype="<?php echo isset($this->var['enctype']) ? $this->var['enctype'] : ''; ?>" class="" id="<?php echo isset($this->var['id']) ? $this->var['id'] : ''; ?>" action="<?php echo isset($this->var['action']) ? $this->var['action'] : ''; ?>" method="<?php echo isset($this->var['method']) ? $this->var['method'] : ''; ?>">
 	
 		<fieldset>
 

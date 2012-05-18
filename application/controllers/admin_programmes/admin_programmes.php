@@ -129,7 +129,7 @@ class Admin_programmes_controller extends Controller {
             'name'  => 'meta_keywords'
           ),
           array(
-            'type'  => 'textarea',
+            'type'  => 'text',
             'label' => 'meta - Leírás',
             'id'    => 'meta_desc',
             'class' => 'input-xlarge',
@@ -358,7 +358,7 @@ class Admin_programmes_controller extends Controller {
             'value' => $article[0]['meta_keywords']
           ),
           array(
-            'type'  => 'textarea',
+            'type'  => 'text',
             'label' => 'meta - Leírás',
             'id'    => 'meta_desc',
             'class' => 'input-xlarge',

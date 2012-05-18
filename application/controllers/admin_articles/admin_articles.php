@@ -129,7 +129,7 @@ class Admin_articles_controller extends Controller {
             'name'  => 'meta_keywords'
           ),
           array(
-            'type'  => 'textarea',
+            'type'  => 'text',
             'label' => 'meta - Leírás',
             'id'    => 'meta_desc',
             'class' => 'input-xlarge',
@@ -246,9 +246,7 @@ class Admin_articles_controller extends Controller {
   public function show() {
     if(isset($this->router->orders[2]) && $this->router->orders[2] == 'edit') {
       $this->edit();
-    }
-
-     else {
+    } else {
       $article        = $this->model->get($this->index);
       $this->title    = $article[0]['title'];
       $this->content  = $this->view->renderTemplate(
@@ -358,7 +356,7 @@ class Admin_articles_controller extends Controller {
             'value' => $article[0]['meta_keywords']
           ),
           array(
-            'type'  => 'textarea',
+            'type'  => 'text',
             'label' => 'meta - Leírás',
             'id'    => 'meta_desc',
             'class' => 'input-xlarge',

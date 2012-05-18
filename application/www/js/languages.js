@@ -64,7 +64,7 @@ var Lang = {
       return thisContent;
   },
   
-  setInputDefault: function() { //console.log(Lang.cache,Lang.cacheVal);
+  setInputDefault: function() {
     $(['#',Lang.cache].join('')).html(/*Lang.cacheVal*/$('#editor').val());
     Lang.cache    = '';
     Lang.cacheVal = '';
@@ -120,7 +120,7 @@ var Lang = {
     
     var header  = Lang.getHeader([
           'id',
-          'kifejezés',
+          'hivatkozás',
           'magyar',
           'angol',
           'német',

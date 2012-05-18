@@ -90,6 +90,22 @@ class Admin_foods_controller extends Controller {
             'class' => 'input-xlarge',
             'name'  => 'title'
           ),
+
+          array(
+            'type'  => 'text',
+            'label' => 'Típus',
+            'id'    => 'type',
+            'class' => 'input-xlarge',
+            'name'  => 'type'
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Ár',
+            'id'    => 'price',
+            'class' => 'input-xlarge',
+            'name'  => 'price'
+          ),
+
           array(
             'type'    => 'select',
             'label'   => 'Nyelv',
@@ -129,7 +145,7 @@ class Admin_foods_controller extends Controller {
             'name'  => 'meta_keywords'
           ),
           array(
-            'type'  => 'textarea',
+            'type'  => 'text',
             'label' => 'meta - Leírás',
             'id'    => 'meta_desc',
             'class' => 'input-xlarge',
@@ -193,6 +209,10 @@ class Admin_foods_controller extends Controller {
         $this->post['id'],
         array(
         'title'         => $this->post['title'],
+
+        'type'          => $this->post['type'],
+        'price'         => $this->post['price'],
+
         'lang'          => $this->post['lang'],
         'lead'          => $this->post['lead'],
         'body'          => $this->post['body'],
@@ -221,6 +241,10 @@ class Admin_foods_controller extends Controller {
     if($session->checkToken($this->post['token'])) {
       $this->model->create(array(
         'title'         => $this->post['title'],
+
+        'type'          => $this->post['type'],
+        'price'         => $this->post['price'],
+        
         'lang'          => $this->post['lang'],
         'lead'          => $this->post['lead'],
         'body'          => $this->post['body'],
@@ -315,6 +339,23 @@ class Admin_foods_controller extends Controller {
           ),
 
           array(
+            'type'  => 'text',
+            'label' => 'Típus',
+            'id'    => 'type',
+            'class' => 'input-xlarge',
+            'name'  => 'type',
+            'value' => $article[0]['type']
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Ár',
+            'id'    => 'price',
+            'class' => 'input-xlarge',
+            'name'  => 'price',
+            'value' => $article[0]['price']
+          ),
+
+          array(
             'type'    => 'select',
             'label'   => 'Nyelv',
             'id'      => 'lang',
@@ -358,7 +399,7 @@ class Admin_foods_controller extends Controller {
             'value' => $article[0]['meta_keywords']
           ),
           array(
-            'type'  => 'textarea',
+            'type'  => 'text',
             'label' => 'meta - Leírás',
             'id'    => 'meta_desc',
             'class' => 'input-xlarge',

@@ -21,7 +21,7 @@ class Session {
     } else {
     
       /*
-        ten minutes
+        an hour
       */
       if(time() - $_SESSION['profile']->lastCheck > 3600) {
         if($job != 'ajax') {

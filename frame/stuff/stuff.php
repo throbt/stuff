@@ -38,6 +38,10 @@ class Stuff {
     return $url;
   }
 
+  public function csvHandler($csvFile) {
+    return str_getcsv(file_get_contents($csvFile),"\n");
+  }
+
   public function moveUpload($key='',$name='',$to='') {
     if($key != '' && $name != '' && $to != '') {
       if($_FILES[$key]["error"] == 0) {

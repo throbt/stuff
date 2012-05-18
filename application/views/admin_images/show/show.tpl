@@ -19,8 +19,8 @@
 
   <p>&nbsp;</p>
   <p>
-
-    <a href="/admin_images/<?php echo $this->var['data']['id']; ?>/edit" class="btn btn-primary btn-large">Szerkeszt</a>
+    <!-- <?php echo $this->var['data']['id']; ?>/edit -->
+    <a href="/admin_images#load/<?php echo $this->var['data']['gallery']; ?>" class="btn btn-primary btn-large">Vissza</a>
 
     <!--a href="" class="btn btn-primary btn-large">Megnéz</a-->
   </p>

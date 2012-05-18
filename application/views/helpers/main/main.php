@@ -6,6 +6,26 @@ class Main_helper extends View {
     //print_r($this->scope->router->loader);
   }
 
+  public function getSiderImages() {
+    $Images_model = $this->scope->router->loader->get('Images','model');
+    $images       = $Images_model->get(
+      '',
+      array(
+        "
+        select
+          *
+            from
+              images
+        where
+          gallery = ?
+        ",
+        array(17)
+      )
+    );
+
+    return $this->renderTemplate($images,$this->getTemplatePath('page','slider'));
+  }
+
   public function getSEO() {
     $arr    = array(
       'MSSmartTagsPreventParsing' => 'true',
@@ -93,7 +113,7 @@ class Main_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js','main.js'/*,'calendar.js'*/);
+    $arr      = array('jquery.js','main.js'/*,'calendar.js'*/ ,'jquery.nivo.slider.pack.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(
@@ -106,7 +126,7 @@ class Main_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array(/*'bootstrap.css',*/'style.css');
+    $arr      = array('nivo-slider.css', /*'bootstrap.css',*/ 'style.css','default.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

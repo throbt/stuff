@@ -96,7 +96,7 @@ var iStuff = {
         link    = '',
         self    = this;
         
-    for(var i = 0,l = arr.length; i < l; i++) {  //arr[i]
+    for(var i = 0,l = arr.length; i < l; i++) {
       link = ['/upload/',arr[i]['gallery'],'/',arr[i]['name']].join('');
       body.push(['<img class="istuffImage" src="',link,'" rel="',link,'" />'].join(''));
     }

@@ -66,6 +66,102 @@ class Admin_foods_controller extends Controller {
     );
   }
 
+  public function csvProcess() {
+    $stuff      = $this->router->loader->get('Stuff');
+    $thisName   = $_FILES['csv']["name"];
+    $thisDrinx  = array();
+    if($newFile = $stuff->moveUpload('csv',$thisName,UPLOAD.'csv')) {
+      $foods = array_slice($stuff->csvHandler(UPLOAD.'csv/'.$newFile),1);
+      
+      foreach($foods as $food) {
+        $arr          = explode(';',$food);
+
+        // $thisDrinx[]  = array(
+        //   // ﻿name;content;price;type;language;date;title;keywords;description
+        //   'title'         => $arr[0],
+        //   'body'          => $arr[1],
+        //   'price'         => $arr[2],
+        //   'type'          => $arr[3],
+        //   'lang'          => $arr[4],
+        //   'date'          => $arr[5],
+        //   'meta_title'    => $arr[6],
+        //   'meta_keywords' => $arr[7],
+        //   'meta_desc'     => $arr[8]
+        // );
+
+        $this->model->create(array(
+          'title'         => $arr[0],
+          'body'          => $arr[1],
+          'price'         => $arr[2],
+          'type'          => $arr[3],
+          'lang'          => strtolower($arr[4]),
+          'meta_title'    => $arr[6],
+          'meta_keywords' => $arr[7],
+          'meta_desc'     => $arr[8],
+          'active'        => 'true',
+          'created'       => str_replace('-','.',$arr[5])
+        ));
+        
+      }
+      $this->redirect("admin_foods");
+      die();
+    } else {
+      $this->redirect("admin_foods/import");
+    }
+  }
+
+  public function import() {
+    $this->title    = 'Import - ételek';
+    $form           = $this->router->loader->get('Form');
+    $content  = $form->render(array(
+
+      'form'      => array(
+        'action'    => "/admin_foods/csvProcess",
+        'method'    => 'post',
+        'enctype'   => 'multipart/form-data',
+        'token'     => true,
+        '_method'   => 'create',
+        'id'        => 'import_foods',
+        'class'     => 'well form-horizontal',
+        'template'  => 'default'
+      ),
+
+      'elements'      => array(
+          array(
+            'type'  => 'file',
+            'label' => 'csv',
+            'id'    => 'csv',
+            'class' => 'input-xlarge',
+            'name'  => 'csv'
+          ),
+
+          array(
+            'type'  => 'submit',
+            'id'    => 'sbm',
+            'class' => 'btn btn-primary',
+            'value' => 'Feltöltés'
+          )
+      ),
+
+    ));
+
+    $this->content  = $this->view->renderTemplate(
+      array(
+        'scope'     => $this,
+        'data'      => $content
+      ),
+      $this->view->getTemplatePath('admin_drinks','import')
+    );
+
+    echo $this->view->renderTemplate(
+      array(
+        'scope'   => $this,
+        'data'    => $this->content
+      ),
+      $this->view->getTemplatePath('admin','main')
+    );
+  }
+
   public function add() {
     $this->title    = 'Új étel';
     $form           = $this->router->loader->get('Form');
@@ -236,6 +332,11 @@ class Admin_foods_controller extends Controller {
   }
 
   public function create() {
+
+    if(isset($this->router->orders[1]) && $this->router->orders[1] == 'csvProcess') {
+      $this->csvProcess();
+      die();
+    }
 
     global $session;
     if($session->checkToken($this->post['token'])) {

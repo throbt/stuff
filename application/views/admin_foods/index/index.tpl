@@ -5,8 +5,11 @@
 
 <div class="row show-grid">
   <div class="span12">
-    <div class="span2">
+    <div class="span1">
       <a id="sbm" class="btn btn-primary save" href="/admin_foods/add" type="submit">Új étel</a>
+    </div>
+    <div class="span1">
+      <a id="sbm" class="btn btn-primary save" href="/admin_foods/import" type="submit">Import</a>
     </div>
   </div>
   <div class="span12">

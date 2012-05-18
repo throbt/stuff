@@ -1,6 +1,6 @@
 <script src="/js/galleries_index.js" type="text/javascript"></script>
 <div class="control-group input-xlarge">
-  <a id="sbm" class="btn btn-primary save" href="/admin_articles/add" type="submit">Új kép</a>
+  <a id="sbm" class="btn btn-primary save" href="/admin_images/add" type="submit">Új kép</a>
   <div class="span12">
   &nbsp;
   </div>

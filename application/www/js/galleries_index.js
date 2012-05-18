@@ -1,4 +1,9 @@
 $(document).ready(function() {
+  
+  if(window.location.href.match(/load/)) {
+    Galleries.getElementsByType(window.location.href.split('load/')[1]);
+  }
+
   $('#galleries').change(function() {
     if($(this).val() != '') {
       Galleries.getElementsByType($(this).val());
@@ -122,9 +127,9 @@ var Galleries = {
     for(var i = 0,l = arr.length; i < l; i++) {
       link = ['/upload/',arr[i]['gallery'],'/',arr[i]['name']].join('');
       body.push('<tr>');
-        body.push(['<td><img src="',link,'" height="35" />'].join(''));
-        body.push(['<td class="editable" id="title',arr[i]['id'],'">',arr[i]['title'],'</h4>'].join(''));
-        body.push(['<td class="editable" id="lead',arr[i]['id'],'">',arr[i]['lead'],'</h4>'].join(''));
+        body.push(['<td><a href="/admin_images/',arr[i]['id'],'"><img src="',link,'" height="35" /></a></td>'].join(''));
+        body.push(['<td class="editable" id="title',arr[i]['id'],'">',arr[i]['title'],'</td>'].join(''));
+        body.push(['<td class="editable" id="lead',arr[i]['id'],'">',arr[i]['lead'],'</td>'].join(''));
         // body.push(['<td><a href="/admin_images/',arr[i]['id'],'/edit" id="sbm" class="btn btn-primary" rel="',arr[i]['id'],'" type="submit">Szerkeszt</a></td>'].join(''));
         body.push(['<td><button id="sbm" class="btn btn-primary save" rel="',arr[i]['id'],'" type="submit">Ment</button></td>'].join(''));
         body.push(['<td><button id="sbm" class="btn btn-primary  del" rel="',arr[i]['id'],'" type="submit">Töröl</button></td>'].join(''));

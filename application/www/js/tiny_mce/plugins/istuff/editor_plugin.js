@@ -1,47 +1,44 @@
 (function() {
-	tinymce.create('tinymce.plugins.IStuffPlugin', {
-		init : function(ed, url) {
-		
-			ed.addCommand('mceIStuff', function() {
-				  
-			  ed.windowManager.open({
-				  width : 600 + parseInt(ed.getLang('advimage.delta_width', 0)),
-				  height : 400 + parseInt(ed.getLang('advimage.delta_height', 0)),
-				  inline : 1
-			  }, {
-				  //plugin_url : '/admin_ajax/getGalleries'
-			  });
+tinymce.create('tinymce.plugins.IStuffPlugin', {
+  init : function(ed, url) {
+	
+    ed.addCommand('mceIStuff', function() {
 			  
-			  $.get(
-          '/admin_ajax/getGalleries',
-          {},
-          function(resp) {
-            iStuff.init(resp);
-          }
-        );
-          
-			});
-			
-			ed.addButton('istuff', {
-			  title : 'istuff',
-			  cmd   : 'mceIStuff',
-		    image : '/js/tiny_mce/plugins/istuff/img/sample.gif',
-		  });
-			
-		},
+      ed.windowManager.open({
+        width   : 600 + parseInt(ed.getLang('advimage.delta_width', 0)),
+        height  : 400 + parseInt(ed.getLang('advimage.delta_height', 0)),
+        inline  : 1
+      }, {
+      //plugin_url : '/admin_ajax/getGalleries'
+      });
+      $.get(
+        '/admin_ajax/getGalleries',
+        {},
+        function(resp) {
+          iStuff.init(resp);
+        }
+      );
+		});
+		
+    ed.addButton('istuff', {
+      title : 'istuff',
+      cmd   : 'mceIStuff',
+      image : '/js/tiny_mce/plugins/istuff/img/sample.gif',
+    });
+	},
+	
+  getInfo : function() {
+    return {
+      longname  : 'iStuff',
+      author    : 'thRobt',
+      authorurl : 'net.net',
+      infourl   : 'net.net/info',
+      version   : '1.0'
+    };
+  }
+});
 
-		getInfo : function() {
-			return {
-				longname  : 'iStuff',
-				author    : 'thRobt',
-				authorurl : 'net.net',
-				infourl   : 'net.net/info',
-				version   : '1.0'
-			};
-		}
-	});
-
-	tinymce.PluginManager.add('istuff', tinymce.plugins.IStuffPlugin);
+tinymce.PluginManager.add('istuff', tinymce.plugins.IStuffPlugin);
 })();
 
 var iStuff = {

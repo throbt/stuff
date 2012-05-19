@@ -92,17 +92,17 @@ var ThisModal = {
   }, 
 
   getHtml: function() {
-    var content = [];
-    content.push('<div id="modalFrame">');
-    content.push('<h3 id="modalHeader">');
-    content.push('<span id="modalHeaderClose">X');
-    content.push('</span>');
-    content.push('</h3>');
-    content.push('<div id="modalFrameContent">');
-    content.push('</div>');
-    content.push('</div>');
+    
+    var content = [
+      '<div id="modalFrame">',
+        '<h3 id="modalHeader">',
+          '<span id="modalHeaderClose">X</span>',
+        '</h3>',
+        '<div id="modalFrameContent"></div>',
+      '</div>'
+    ];
 
-    $('body').append(content.join(''));  //crosshair
+    $('body').append(content.join(''));
 
     $('#modalFrame').css({
       'position'  : 'absolute',

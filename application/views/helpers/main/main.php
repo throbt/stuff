@@ -6,7 +6,7 @@ class Main_helper extends View {
     //print_r($this->scope->router->loader);
   }
 
-  public function getSiderImages() {
+  public function getSliderImages() {
     $Images_model = $this->scope->router->loader->get('Images','model');
     $images       = $Images_model->get(
       '',
@@ -113,7 +113,7 @@ class Main_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js','main.js'/*,'calendar.js'*/ ,'jquery.nivo.slider.pack.js');
+    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'jquery.nivo.slider.pack.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(
@@ -126,7 +126,7 @@ class Main_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array('nivo-slider.css', /*'bootstrap.css',*/ 'style.css','default.css');
+    $arr      = array('nivo-slider.css', /*'bootstrap.css','default.css'*/ 'style.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

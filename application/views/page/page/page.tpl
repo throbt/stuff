@@ -50,7 +50,7 @@
 			<div id="topBannerCont">
 				<div id="topBanner" class="nivoSlider">
 
-					<?php echo $main->getSiderImages(); ?>
+					<?php echo $main->getSliderImages(); ?>
 
 				</div>
 			</div>

@@ -12,7 +12,26 @@
   
 <?php endif; ?>
 
-  <p class="lead"><?php echo $this->var['data']['lead']; ?></p>
+  <label><strong>winery:</strong></label>
+  <p class="body"><?php echo $this->var['data']['winery']; ?> </p>
+  <label><strong>nyelv:</strong></label>
+  <p class="body"><?php echo $this->var['data']['lang']; ?> </p>
+  <label><strong>priceglass:</strong></label>
+  <p class="body"><?php echo $this->var['data']['priceglass']; ?> </p>
+  <label><strong>pricebottle:</strong></label>
+  <p class="body"><?php echo $this->var['data']['pricebottle']; ?></p>
+  
+  
+
+  
+  <label><strong>categories:</strong></label>
+  <p class="body"><?php echo $this->var['data']['categories']; ?></p>
+  
+  
+  
+  
+  <label><strong>place:</strong></label>
+  <p class="lead"><?php echo $this->var['data']['place']; ?></p>
 
   <p class="body"><?php echo $this->var['data']['date_from']; ?> - tól</p>
   

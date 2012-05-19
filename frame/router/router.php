@@ -36,18 +36,6 @@ class Router {
 
 		$this->setOrder();
 		
-		if(isset($this->orders[1])) {
-			if((int)$this->orders[1] > 0) {
-				$this->params->index = (int)$this->orders[1];
-			}
-		}
-		
-		if($this->orders[0] == '') {
-			$this->scope = 'home';
-		} else {
-			$this->scope = $this->orders[0];
-		}
-
 		/*
 			doing the necessary preinit stuff
 
@@ -62,6 +50,21 @@ class Router {
 
 		if($preinit != null) {
 			// preinit hook is finished
+		}
+
+		/*
+			routing
+		*/
+		if(isset($this->orders[1])) {
+			if((int)$this->orders[1] > 0) {
+				$this->params->index = (int)$this->orders[1];
+			}
+		}
+		
+		if($this->orders[0] == '') {
+			$this->scope = 'home';
+		} else {
+			$this->scope = $this->orders[0];
 		}
 
 		/*

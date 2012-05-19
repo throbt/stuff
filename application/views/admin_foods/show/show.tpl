@@ -14,6 +14,9 @@
 
   <p class="lead"><?php echo $this->var['data']['lead']; ?></p>
 
+  <label><strong>nyelv:</strong></label>
+  <p class="body"><?php echo $this->var['data']['lang']; ?> </p>
+
   <p class="body"><?php echo $this->var['data']['date_from']; ?> - tól</p>
   
   <p class="body"><?php echo $this->var['data']['date_to']; ?> - ig</p>

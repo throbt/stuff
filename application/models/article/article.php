@@ -22,7 +22,7 @@ class Article_model extends Node {
 				from
 					article a
 					
-				join
+				left join
 				  images i
 			      on
 			        a.image = i.id
@@ -40,7 +40,7 @@ class Article_model extends Node {
 				select
 					*
 					from
-						{$this->className};
+						article;
 				",
 				array()
 	    );

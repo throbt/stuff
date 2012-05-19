@@ -150,7 +150,7 @@ class Admin_foods_controller extends Controller {
         'scope'     => $this,
         'data'      => $content
       ),
-      $this->view->getTemplatePath('admin_drinks','import')
+      $this->view->getTemplatePath('admin_foods','import')
     );
 
     echo $this->view->renderTemplate(

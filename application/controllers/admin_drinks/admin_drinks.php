@@ -11,7 +11,7 @@ class Admin_drinks_controller extends Controller {
       die();
     }
     $this->model        = $this->router->loader->get('Drinks','model');
-    $this->itemPerPage  = 10;
+    $this->itemPerPage  = 25;
   }
 
   public function index() {
@@ -74,42 +74,46 @@ class Admin_drinks_controller extends Controller {
       $drinks = $stuff->csvHandler(UPLOAD.'csv/'.$newFile);
       
       foreach($drinks as $drink) {
-        $arr          = explode(';',$drink);
-        // $thisDrinx[]  = array(
-        //   // ﻿name content language priceglass pricebottle date categories place type winery title keywords description
-        //   'title'         => $arr[0],
-        //   'body'          => $arr[1],
-        //   'price'         => $arr[2],
-        //   'type'          => $arr[3],
-        //   'lang'          => $arr[4],
-        //   'date'          => $arr[5],
-        //   'meta_title'    => $arr[6],
-        //   'meta_keywords' => $arr[7],
-        //   'meta_desc'     => $arr[8]
-        // );
+        $arr = explode(';',$drink);
+      //   // $thisDrinx[]  = array(
+      //   //   // ﻿name content language priceglass pricebottle date categories place type winery title keywords description
+      //   //   'title'         => $arr[0],
+      //   //   'body'          => $arr[1],
+      //   //   'price'         => $arr[2],
+      //   //   'type'          => $arr[3],
+      //   //   'lang'          => $arr[4],
+      //   //   'date'          => $arr[5],
+      //   //   'meta_title'    => $arr[6],
+      //   //   'meta_keywords' => $arr[7],
+      //   //   'meta_desc'     => $arr[8]
+      //   // );
 
         $this->model->create(array(
           'title'         => $arr[0],
           'body'          => $arr[1],
-          'price'         => $arr[2],
-          'type'          => $arr[3],
-          'lang'          => strtolower($arr[4]),
-          'meta_title'    => $arr[6],
-          'meta_keywords' => $arr[7],
-          'meta_desc'     => $arr[8],
+          'place'         => $arr[7],
+          'priceglass'    => $arr[3],
+          'pricebottle'   => $arr[4],
+          'categories'    => $arr[6],
+          'winery'        => $arr[9],
+          'type'          => $arr[8],
+          'lang'          => strtolower($arr[2]),
+          'meta_title'    => $arr[10],
+          'meta_keywords' => $arr[11],
+          'meta_desc'     => $arr[12],
           'active'        => 'true',
-          'created'       => 'now()'
+          'created'       => str_replace('-','.',$arr[5])
         ));
         
       }
-
+      $this->redirect("admin_drinks");
       die();
     } else {
       $this->redirect("admin_drinks/import");
     }
   }
 
-  public function import() { die();
+  public function import() {
     $this->title    = 'Import - italok';
     $form           = $this->router->loader->get('Form');
     $content  = $form->render(array(
@@ -226,13 +230,15 @@ class Admin_drinks_controller extends Controller {
             'options' =>  array('hu','en','de'),
             'value'   => 'hu'
           ),
+
           array(
             'type'  => 'text',
-            'label' => 'Lead',
-            'id'    => 'lead',
+            'label' => 'Place',
+            'id'    => 'place',
             'class' => 'input-xlarge',
-            'name'  => 'lead'
+            'name'  => 'place'
           ),
+
           array(
             'type'  => 'textarea',
             'label' => 'Tartalom',
@@ -240,6 +246,38 @@ class Admin_drinks_controller extends Controller {
             'class' => 'input-xlarge',
             'name'  => 'body'
           ),
+
+
+          array(
+            'type'  => 'text',
+            'label' => 'Ár - pohár',
+            'id'    => 'priceglass',
+            'class' => 'input-xlarge',
+            'name'  => 'priceglass'
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Ár - üveg',
+            'id'    => 'pricebottle',
+            'class' => 'input-xlarge',
+            'name'  => 'pricebottle'
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Winery',
+            'id'    => 'winery',
+            'class' => 'input-xlarge',
+            'name'  => 'winery'
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Categories',
+            'id'    => 'categories',
+            'class' => 'input-xlarge',
+            'name'  => 'categories'
+          ),
+
+
 
           array(
             'type'  => 'text',
@@ -422,7 +460,7 @@ class Admin_drinks_controller extends Controller {
   }
 
   public function edit() {
-    $article = $this->model->get($this->index);
+    $article = $this->model->get($this->index); //print_r($article);
 
     $thisSpecial    = ($article[0]['image'] == 0 ? '<button id="sbm" class="btn btn-primary imager" type="button">Kép választása a lista nézethez</button>'
       : "<label>Lista nézet kép:</label><img class='modalGalleryImg imager' rel='{$article[0]['gallery']}' src='/upload/{$article[0]['gallery']}/{$article[0]['name']}'>"
@@ -431,6 +469,7 @@ class Admin_drinks_controller extends Controller {
     $this->title    = "szerkesztés - {$article[0]['title']}";
 
     $form           = $this->router->loader->get('Form');
+    
     $this->content  = $form->render(array(
 
       'form'      => array(
@@ -452,6 +491,7 @@ class Admin_drinks_controller extends Controller {
             'name'  => 'id',
             'value' => $article[0]['id']
           ),
+
           array(
             'type'  => 'text',
             'label' => 'Cím',
@@ -507,12 +547,13 @@ class Admin_drinks_controller extends Controller {
 
           array(
             'type'  => 'text',
-            'label' => 'Lead',
-            'id'    => 'lead',
+            'label' => 'Place',
+            'id'    => 'place',
             'class' => 'input-xlarge',
-            'name'  => 'lead',
-            'value' => $article[0]['lead']
+            'name'  => 'place',
+            'value' => $article[0]['place']
           ),
+
           array(
             'type'  => 'textarea',
             'label' => 'Tartalom',
@@ -521,6 +562,42 @@ class Admin_drinks_controller extends Controller {
             'name'  => 'body',
             'value' => $article[0]['body']
           ),
+
+
+          array(
+            'type'  => 'text',
+            'label' => 'Ár - pohár',
+            'id'    => 'priceglass',
+            'class' => 'input-xlarge',
+            'name'  => 'priceglass',
+            'value' => $article[0]['priceglass']
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Ár - üveg',
+            'id'    => 'pricebottle',
+            'class' => 'input-xlarge',
+            'name'  => 'pricebottle',
+            'value' => $article[0]['pricebottle']
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Winery',
+            'id'    => 'winery',
+            'class' => 'input-xlarge',
+            'name'  => 'winery',
+            'value' => $article[0]['winery']
+          ),
+          array(
+            'type'  => 'text',
+            'label' => 'Categories',
+            'id'    => 'categories',
+            'class' => 'input-xlarge',
+            'name'  => 'categories',
+            'value' => $article[0]['categories']
+          ),
+
+
 
           array(
             'type'  => 'text',
@@ -581,6 +658,8 @@ class Admin_drinks_controller extends Controller {
           )
       )
     ));
+
+    
 
     $thisForm = $this->view->renderTemplate(
       array(

@@ -22,7 +22,7 @@ class Foods_model extends Node {
 				from
 					foods f
 					
-				join
+				left join
 				  images i
 			      on
 			        f.image = i.id
@@ -40,7 +40,7 @@ class Foods_model extends Node {
 				select
 					*
 					from
-						{$this->className};
+						foods;
 				",
 				array()
 	    );

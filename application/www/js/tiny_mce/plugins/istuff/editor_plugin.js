@@ -66,7 +66,7 @@ var iStuff = {
   },
   
   getHtml: function(link) {
-    return ['<img src="',link,'" />'].join('');
+    return ['<div class="imageWrapper"><img src="',link,'" /></div>'].join('');
   },
   
   getSelect: function() {

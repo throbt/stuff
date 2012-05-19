@@ -2,6 +2,15 @@
 
 <div class=""> <!-- hero-unit -->
   <h1><?php echo $this->var['data']['title']; ?></h1>
+  
+<?php  if($this->var['data']['image'] != 0): ?>
+  
+  <div class="container">
+    <label>Listanézet kép</label>
+    <img class="modalGalleryImg" rel="<?php echo $this->var['data']['gallery']; ?>" src="/upload/<?php echo $this->var['data']['gallery']; ?>/<?php echo $this->var['data']['name']; ?>">
+  </div>
+  
+<?php endif; ?>  
 
   <p class="lead"><?php echo $this->var['data']['lead']; ?></p>
 

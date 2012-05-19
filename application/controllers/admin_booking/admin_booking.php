@@ -90,6 +90,23 @@ class Admin_booking_controller extends Controller {
             'class' => 'input-xlarge',
             'name'  => 'title'
           ),
+
+          array(
+            'type'  => 'hidden',
+            'value' => '',
+            'id'    => 'node_image',
+            'name'  => 'image'
+          ),
+
+          array(
+            'type'  => 'special',
+            'html'  => '
+              <div class="control-group">
+                <button id="sbm" class="btn btn-primary imager" type="button">Kép választása a lista nézethez</button>
+              </div>
+            '
+          ),
+
           array(
             'type'    => 'select',
             'label'   => 'Nyelv',
@@ -195,6 +212,7 @@ class Admin_booking_controller extends Controller {
         'title'         => $this->post['title'],
         'lang'          => $this->post['lang'],
         'lead'          => $this->post['lead'],
+        'image'         => $this->post['image'],
         'body'          => $this->post['body'],
 
         'meta_title'    => $this->post['meta_title'],
@@ -223,6 +241,7 @@ class Admin_booking_controller extends Controller {
         'title'         => $this->post['title'],
         'lang'          => $this->post['lang'],
         'lead'          => $this->post['lead'],
+        'image'         => $this->post['image'],
         'body'          => $this->post['body'],
 
         'meta_title'    => $this->post['meta_title'],
@@ -281,6 +300,11 @@ class Admin_booking_controller extends Controller {
 
   public function edit() {
     $article = $this->model->get($this->index);
+
+    $thisSpecial    = ($article[0]['image'] == 0 ? '<button id="sbm" class="btn btn-primary imager" type="button">Kép választása a lista nézethez</button>'
+      : "<label>Lista nézet kép:</label><img class='modalGalleryImg imager' rel='{$article[0]['gallery']}' src='/upload/{$article[0]['gallery']}/{$article[0]['name']}'>"
+    );
+
     $this->title    = "szerkesztés - {$article[0]['title']}";
 
     $form           = $this->router->loader->get('Form');
@@ -312,6 +336,23 @@ class Admin_booking_controller extends Controller {
             'class' => 'input-xlarge',
             'name'  => 'title',
             'value' => $article[0]['title']
+          ),
+
+          array(
+            'type'  => 'hidden',
+            'value' => '',
+            'id'    => 'node_image',
+            'name'  => 'image',
+            'value' => $article[0]['image']
+          ),
+
+          array(
+            'type'  => 'special',
+            'html'  => '
+              <div class="control-group">
+                '.(isset($thisSpecial) ? $thisSpecial : '').'
+              </div>
+            '
           ),
 
           array(

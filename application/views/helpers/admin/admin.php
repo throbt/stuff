@@ -3,7 +3,7 @@
 class Admin_helper extends View {
   
   public function init() {
-    //print_r($this->scope->router->loader);
+    //print_r($this->scope->router);
   }
 
   public function getTitle($title) {
@@ -41,7 +41,7 @@ class Admin_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ /*,'bootstrap-dropdown.js'*/,'bootstrap-datepicker.js');
+    $arr      = array('jquery.js','jquery-ui-1.8.20.custom.min.js' /*,'main.js','calendar.js'*/ /*,'bootstrap-dropdown.js'*/,'bootstrap-datepicker.js','main.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(
@@ -54,7 +54,7 @@ class Admin_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array('bootstrap.css','bootstrap-responsive.css','datepicker.css','admin.css');
+    $arr      = array('bootstrap.css','bootstrap-responsive.css','datepicker.css','admin.css','jquery.window.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

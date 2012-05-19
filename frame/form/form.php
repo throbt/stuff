@@ -32,10 +32,19 @@ class Form {
   public function getTemplatePath($type) {
     return 'form' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $type . '.tpl';
   }
+  
+  public function getSpecialContent($arr) {
+    return $arr['html'];
+  }
 
   public function render($cfg) {
   	$this->content = '';
   	foreach($cfg['elements'] as $arr) {
+  	
+  	  if($arr['type'] == 'special') {
+  	    $this->content .= $this->getSpecialContent($arr);
+  	  }
+  	
   		if(/*method_exists($this,$el)*/ in_array($arr['type'],$this->inputs)) {
 
         if(isset($cfg['form']['template']) && $cfg['form']['template'] == 'view') {

@@ -52,6 +52,8 @@ $().ready(function() {
   });
 });
 </script>
+
+
 <div class="container">
   <?php echo $article; ?>
 </div>

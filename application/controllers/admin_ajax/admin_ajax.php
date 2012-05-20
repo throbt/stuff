@@ -103,7 +103,7 @@ class Admin_ajax_controller extends Controller {
 
   public function saveSEO() {
     $linx_model = $this->router->loader->get('Linx','model');
-    print_r($this->get);
+    //print_r($this->get);
 
     $linx_model->update(
       $this->get['id'],

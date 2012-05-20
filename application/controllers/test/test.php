@@ -3,18 +3,29 @@
 class Test_controller extends Controller {
 	
   public function init() {
-    $this->model = $this->loader->get('Test','model');
+    $this->model = $this->loader->get('Drinks','model');
   }
   
   public function index() {
-		echo 
-		'<form action="/test/4" method="post">
-			<input type="hidden" name="_method" value="delete" />
-			<input type="hidden" name="t1" value="sdfsfsdfsdf" />
-			<input type="hidden" name="t2" value="masvalami?sdfsdfsdfsdfsdf" />
-			<input type="hidden" name="t3" value="egyebvalamisdfsdfsdfsdf" />
-			<input type="submit" value="go" />
-		</form>';
+
+		$res = $this->model->get(
+			'',
+			array(
+				"SELECT *
+					FROM `drinks`
+						order by categories",  //GROUP BY categories
+				array()
+			)
+		);	 print_r($res); 	
+
+		// echo 
+		// '<form action="/test/4" method="post">
+		// 	<input type="hidden" name="_method" value="delete" />
+		// 	<input type="hidden" name="t1" value="sdfsfsdfsdf" />
+		// 	<input type="hidden" name="t2" value="masvalami?sdfsdfsdfsdfsdf" />
+		// 	<input type="hidden" name="t3" value="egyebvalamisdfsdfsdfsdf" />
+		// 	<input type="submit" value="go" />
+		// </form>';
   }
   
   public function show() {
@@ -24,7 +35,6 @@ class Test_controller extends Controller {
   }
   
   public function thisTest() {
-    echo 'thisTest';
   }
 
   public function create() { print_r($this->post); die();

@@ -19,6 +19,7 @@ class Login_controller extends Controller {
         'method'    => 'post',
         '_method'   => 'login',
         'id'        => 'loginForm',
+        'token'     => true,
         'class'     => 'well form-horizontal',
 
         /* (default|empty) */

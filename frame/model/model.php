@@ -129,7 +129,7 @@ class Model {
 					$arr[] 		= $column;
 				} else {
 					$arr[] 		= '?';
-					$values[] = $column;
+					$values[] = "{$column}";
 				}
 			}
 			$vals 	= implode(',',$arr);
@@ -170,7 +170,7 @@ class Model {
 					$expr 			.= " {$key} = {$columns[$key]}, ";
 				} else {
 					$expr 			.= " {$key} = ?, ";
-					$values[] 	 = $columns[$key];
+					$values[] 	 = "{$columns[$key]}";
 				}
 			}
 
@@ -235,8 +235,8 @@ class Model {
   	
     $res = $this->select(
         "{$queryAll}"
-        .(preg_match('/where/',$queryAll) ? '' : (preg_match('/order/',$queryAll) ? '' : ' where ')).
-        "{$paginator['limit']};",
+        /*(preg_match('/where/',$queryAll) ? '' : (preg_match('/order/',$queryAll) ? '' : ' where '))*/
+        ."{$paginator['limit']};",
         $params
     );
     

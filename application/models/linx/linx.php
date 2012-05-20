@@ -17,7 +17,7 @@ class Linx_model extends Node {
           linx
           
         where
-          `order` = ?;
+          `thisorder` = ?;
         ",
         array($order)
       );

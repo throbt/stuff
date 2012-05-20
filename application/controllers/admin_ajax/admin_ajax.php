@@ -100,4 +100,34 @@ class Admin_ajax_controller extends Controller {
     echo json_encode($galleryModel->get());
     die();
   }
+
+  public function saveSEO() {
+    $linx_model = $this->router->loader->get('Linx','model');
+    print_r($this->get);
+
+    $linx_model->update(
+      $this->get['id'],
+      array(
+      'thisorder'   => $this->get['order'],
+      'params'      => $this->get['params']
+    ));
+    echo 1;
+    die();
+  }
+
+  public function saveNewSEO() {
+    $linx_model = $this->router->loader->get('Linx','model');
+    $linx_model->create(array(
+      'thisorder'         => $this->get['order'],
+      'params'            => $this->get['params']
+    ));
+
+    echo 1;
+    die();
+  }
+
+  public function delSEO() {
+    $linx_model = $this->router->loader->get('Linx','model');
+    $linx_model->delete($this->get['id']);
+  }
 }

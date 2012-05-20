@@ -4,6 +4,27 @@ body {
   background:     #333333;
   color:          white;
 }
+
+#logoWrapper {
+  position:           absolute;
+  top:                92px;
+  left:               0px;
+  width:              221px;
+  height:             400px;
+  opacity:            0.6;
+  filter:             alpha(opacity = 60);
+  z-index:            100000;
+  -moz-box-shadow:    5px 5px 5px #888;
+  -webkit-box-shadow: 5px 5px 5px #888;
+  box-shadow:         5px 5px 5px #888;
+}
+#logoCont {
+  width:          218px;
+  margin-left:    3px;
+  height:         400px;
+  background:     url(/img/manna_logo.png) no-repeat 18px 115px #dbdbd9;
+}
+
 #headerWrapper {
   /*width:          996px;*/
   height:         629px;

@@ -5,11 +5,8 @@
 
 <div class="row show-grid">
   <div class="span12">
-    <div class="span1">
-      <a id="sbm" class="btn btn-primary save" href="/admin_drinks/add" type="submit">Új ital</a>
-    </div>
-    <div class="span1">
-      <a id="sbm" class="btn btn-primary save" href="/admin_drinks/import" type="submit">Import</a>
+    <div class="span2">
+      <a id="sbm" class="btn btn-primary save" href="/admin_drinks/add" type="submit">Új cikk</a>
     </div>
   </div>
   <div class="span12">
@@ -87,7 +84,7 @@
                   'method'    => 'post',
                   'token'     => true,
                   '_method'   => 'delete',
-                  'id'        => 'delete_drinks',
+                  'id'        => 'delete_article',
                   'template'  => 'default'
                 ),
 

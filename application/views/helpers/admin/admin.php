@@ -25,14 +25,16 @@ class Admin_helper extends View {
       array(
         '
           select
+
             *
             from
               langelements
+
           where
             type = "adminmenu"
+
           order
-            by
-              "order";
+            by `order`;
         ',
         array()
       )

@@ -47,6 +47,8 @@ class Admin_ajax_controller extends Controller {
             on
               m.gallery = g.id
             where
+              g.title != 'index_action'
+            and
               m.gallery = ?
           ",
         array($this->get['gallery'])
@@ -97,7 +99,7 @@ class Admin_ajax_controller extends Controller {
   
   public function getGalleries() {
     $galleryModel = $this->router->loader->get('Galleries','model');
-    echo json_encode($galleryModel->get());
+    echo json_encode(array_slice($galleryModel->get(),1));
     die();
   }
 

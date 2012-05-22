@@ -27,6 +27,11 @@ class Main_helper extends View {
   }
 
   public function getSEO() {
+
+    if($this->scope->router->action == 'index') {
+      /*home*/
+    }
+
     $arr    = array(
       'MSSmartTagsPreventParsing' => 'true',
       'ROBOTS'                    => 'ALL',
@@ -89,8 +94,12 @@ class Main_helper extends View {
             *
             from
               langelements
+              
           where
             type = "menu"
+          and
+            active = 1
+
           order
             by
               "order";

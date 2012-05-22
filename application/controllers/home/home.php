@@ -3,18 +3,18 @@
 class Home_controller extends Controller {
 	
   public function init() {
-    // $this->model = $this->router->loader->get('Home','model');
+    $this->model = $this->router->loader->get('Article','model');
   }
   
   public function index() {
 
-    $this->model = $this->router->loader->get('Article','model');
+    //$this->model = $this->router->loader->get('Article','model');
 
     $this->title    = 'Manna';
 		$this->content  = $this->view->renderTemplate(
       array(
         'scope' => $this,
-        'data'  => 'valami'
+        'data'  => $this->model->get()
       ),
       $this->view->getTemplatePath('home','index')
     );

@@ -35,7 +35,8 @@ class Config {
 			define('HOST',          $this->cfg['host']);
 	    define('ROOT',          $this->cfg['doc_root']);
 	
-	    define('APPLICATION',   ROOT 				. 'application' . DIRECTORY_SEPARATOR);
+	    define('APPLICATION',   $this->cfg['application']);
+      
 	    define('CONTROLLERS',   APPLICATION . 'controllers' . DIRECTORY_SEPARATOR);
 			define('MODELS',        APPLICATION . 'models' 			. DIRECTORY_SEPARATOR);
 			define('VIEWS',        	APPLICATION . 'views' 			. DIRECTORY_SEPARATOR);

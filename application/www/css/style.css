@@ -7,21 +7,21 @@ body {
 
 #logoWrapper {
   position:           absolute;
-  top:                92px;
+  top:                90px;
   left:               0px;
   width:              221px;
-  height:             400px;
-  opacity:            0.6;
-  filter:             alpha(opacity = 60);
+  height:             409px;
+  opacity:            0.4;
+  filter:             alpha(opacity = 40);
   z-index:            100000;
-  -moz-box-shadow:    5px 5px 5px #888;
-  -webkit-box-shadow: 5px 5px 5px #888;
-  box-shadow:         5px 5px 5px #888;
+  -moz-box-shadow:    0px 0px 15px #888;
+  -webkit-box-shadow: 0px 0px 15px #888;
+  box-shadow:         5px 0px 15px #888;
 }
 #logoCont {
   width:          218px;
   margin-left:    3px;
-  height:         400px;
+  height:         409px;
   background:     url(/img/manna_logo.png) no-repeat 18px 115px #dbdbd9;
 }
 
@@ -48,7 +48,7 @@ body {
 #topBanner {
   width:          996px;
   height:         409px;
-  background:     url(/img/manna_top_banner.png);
+  /*background:     url(/img/manna_top_banner.png);*/
 }
 #menuWrapperCont {
   /*width:          996px;*/
@@ -57,7 +57,7 @@ body {
 }
 #menuWrapper {
   width:          996px;
-  height:         40px;
+  /*height:         40px;*/
   background:     #929292;
   display:        block;
   margin:         0;
@@ -83,7 +83,7 @@ body {
 #content {
   width:          686px;
   float:          left;
-  min-height:     10px;
+  min-height:     1123px;
   background:     #DBDBD9;
 }
 #sider {
@@ -226,3 +226,57 @@ body {
   display: none;
 }
 
+
+/* front end */
+#content {
+  color:                  #4b4c51;
+  padding-top:            30px;
+}
+.index_node_title {
+  margin-left:            37px;
+  margin-top:             21px;
+  width:                  620px;
+  height:                 61px;
+  border-bottom:          1px solid #4b4c51;
+}
+.index_left_margin {
+  width:                  66px;
+  height:                 54px;
+  background:             #4b4c51;
+  float:                  left;
+  color:                  #dadad8;
+  text-align:             center;
+  padding-top:            7px;
+}
+.index_article_title {
+  float:                  left;
+  margin-left:            21px;
+  line-height:            1px;
+  margin-top:             40px;
+  font-size:              17px;
+}
+.index_title_link {
+  text-decoration:        none;
+  color:                  #4b4c51;
+}
+.index_node_lead {
+  margin-left:            103px;
+  padding-left:           10px;
+  padding-top:            10px;
+  width:                  543px;
+  font-size:              15px;
+  text-align:             justify;
+  line-height:            23px;
+  font-family:            arial,sans-serif;
+}
+span.month {
+  /*line-height:            1px;*/
+  padding:                0;
+  font-size:              17px;
+}
+span.thisDay {
+  /*line-height:            1px;*/
+  padding:                0;
+  font-size:              25px;
+  font-family:            arial,sans-serif;
+}

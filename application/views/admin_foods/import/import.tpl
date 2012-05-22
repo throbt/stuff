@@ -14,7 +14,7 @@
       <li>type</li>
       <li>language</li>
 
-      <li>date <small>yyyy-mm-dd | yyyy.mm.dd</small></li>
+      <li>date <small>(yyyy-mm-dd | yyyy.mm.dd)</small></li>
       <li>title</li>
       <li>keywords</li>
       <li>description</li>

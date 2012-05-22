@@ -14,7 +14,7 @@
       <li>priceglass</li>
       <li>pricebottle</li>
 
-      <li>date <small>yyyy-mm-dd | yyyy.mm.dd</small></li>
+      <li>date <small>(yyyy-mm-dd | yyyy.mm.dd)</small></li>
       <li>categories</li>
       <li>place</li>
       <li>type</li>

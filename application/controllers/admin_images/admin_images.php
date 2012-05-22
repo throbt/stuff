@@ -24,7 +24,7 @@ class Admin_images_controller extends Controller {
     $this->content  = $this->view->renderTemplate(
       array(
         'scope'     => $this,
-        'galleries' => $galleries
+        'galleries' => array_slice($galleries,1)
       ),
       $this->view->getTemplatePath('admin_images','index')
     );

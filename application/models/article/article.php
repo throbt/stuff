@@ -40,7 +40,9 @@ class Article_model extends Node {
 				select
 					*
 					from
-						article;
+						article
+				order
+					by edited desc, created desc;
 				",
 				array()
 	    );

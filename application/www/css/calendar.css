@@ -19,7 +19,7 @@
 #calendar_center_header {
 	width:			310px;
 	height:			60px;
-	background:	#4B4C51;
+	background:	url(/img/programok_header.png) #4B4C51 no-repeat 0px 0px;
 }
 #calendar_header {
 	width:			212px;
@@ -59,10 +59,16 @@
 	/*background:	red;*/
 }
 #left_control_year {
-	background:	url(/img/calendar/left.png) no-repeat;
+	background:	url(/img/calendar/button_left_stop.png) no-repeat;
 }
 #right_control_year {
-	background:	url(/img/calendar/right.png) no-repeat;
+	background:	url(/img/calendar/button_right_stop.png) no-repeat;
+}
+#left_control_month {
+	background:	url(/img/calendar/button_left.png) no-repeat;
+}
+#right_control_month {
+	background:	url(/img/calendar/button_right.png) no-repeat;
 }
 .picker_display {
 	width:			68px;

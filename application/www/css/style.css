@@ -83,7 +83,7 @@ body {
 #content {
   width:          686px;
   float:          left;
-  min-height:     1123px;
+  min-height:     1213px;
   background:     #DBDBD9;
 }
 #sider {
@@ -91,6 +91,15 @@ body {
   height:         1123px;
   background:     #323232;
   float:          left;
+}
+#sider_container {
+  display:        block;
+  height:         706px;
+}
+#sider_about_us {
+  background:     url(/img/about_us_sider.png) no-repeat;  /*310x394*/
+  width:          310px;
+  height:         394px;
 }
 #footerWrapper {
   width:          996px;
@@ -230,7 +239,8 @@ body {
 /* front end */
 #content {
   color:                  #4b4c51;
-  padding-top:            30px;
+  /*padding-top:            30px;*/
+  margin-top:             -90px;
 }
 .index_node_title {
   margin-left:            37px;
@@ -279,4 +289,372 @@ span.thisDay {
   padding:                0;
   font-size:              25px;
   font-family:            arial,sans-serif;
+}
+
+.article_wrapper {
+  width:                  640px;
+  color:                  #969696;
+  height:                 319px;
+  /*margin-top:             40px;*/
+  margin-left:            37px;
+  /*background:             red;*/
+}
+.article_header {
+  width:                  640px;
+  height:                 73px;
+  padding-top:            20px;
+  margin:                 0;
+  /*background:             blue;*/
+}
+.article_img_wrapper {
+  width:                  298px;
+  height:                 226px;
+  float:                  left;
+  /*background:             yellow;*/
+  overflow:               hidden;
+}
+.article_title, .article_title a  {
+  text-decoration:        none;
+  color:                  #969696;  /*#4b4c51*/
+}
+.article_lead_wrapper {
+  width:                  324px;
+  height:                 123px;
+  color:                  #4b4c51;
+  /*margin-left:            15px;
+  margin-top:             58px;*/
+  font-family:            arial,sans-serif;
+  /*background:             yellow;*/
+  
+}
+.article_lead_container {
+  width:                  324px;
+  height:                 168px;
+  float:                  left;
+  margin-left:            15px;
+  margin-top:             58px;
+  /*background:             yellow;*/
+}
+.article_lead_next_wrapper {
+  width:                  324px;
+  height:                 25px;
+  padding-top:            20px;
+  /*background:             red;*/
+}
+.article_next {
+  color:                  #4b4c51;
+  text-decoration:        none;
+  font-family:            arial,sans-serif;
+  font-size:              14px;
+  margin-left:            210px;
+}
+.page_title {
+  width:                  686px;
+  height:                 65px;
+  background:             #4b4c51;
+  color:                  #dbdbd9;
+  padding-top:            25px;
+}
+.first_article_title a {
+  color:                  #dbdbd9;
+  text-decoration:        none;
+}
+.first_article_title {
+  line-height:            1px;
+  margin-left:            37px;
+}
+.article_wrapper_first {
+  width:                  640px;
+  color:                  #969696;
+  height:                 246px;
+  /*margin-top:             40px;*/
+  margin-left:            37px;
+  /*background:             red;*/
+}
+.page_content {
+  width:                  600px;
+  margin-left:            37px;
+  padding-top:            25px;
+  color:                  #4B4C51;
+  font-size:              15px;
+  text-align:             justify;
+  line-height:            23px;
+}
+.page_content a {
+  color:                  #333333;
+  /*text-decoration:        none;*/
+}
+#booking_header_padding {
+  width:                  100%;
+  height:                 82px;
+  /*background:             red;*/
+}
+#booking__content_wrapper {
+  width:                  620px;
+  height:                 540px;
+  /*background:             yellow;*/
+  margin-left:            32px;
+}
+#booking_content_left {
+  width:                  299px;
+  height:                 540px;
+  /*background:             blue;*/
+  float:                  left;
+}
+#booking_content_right {
+  width:                  321px;
+  height:                 540px;
+  /*background:             white;*/
+  float:                  left;
+}
+#booking_form_wrapper {
+  width:                  294px;
+  height:                 540px;
+  margin-left:            27px;
+  /*background:             white;*/
+}
+#booking_datepicker_wrapper {
+  width:                  299px;
+  height:                 337px;
+  background:             #4b4c51;
+  
+}
+#booking_datepicker {
+  width:                  212px;
+  height:                 337px;
+  margin-left:            43px;
+  padding-top:            10px;
+  /*background:             blue;
+  opacity:                0.3;*/
+}
+#booking_datepicker_header {
+  height:                 76px;
+  width:                  212px;
+  /*background:             red;
+  opacity:                0.3;*/
+}
+#datepicker_wrapper {
+  /*padding-top:            10px;*/
+  background:             url(/img/calendar/alap_content.png) no-repeat;
+  text-align:             center;
+}
+#datepicker_wrapper td {
+  text-align:             center;
+  width:                  40px;
+}
+#datepicker_wrapper tr {
+  height:                 28px;
+}
+.currentDate {
+  background:             url(/img/calendar/current_bg_booking.png) 4px 5px no-repeat;
+}
+#left_control_month_date {
+  background:             url(/img/calendar/button_left.png)  no-repeat;
+}
+#right_control_month_date {
+  background:             url(/img/calendar/button_right.png)  no-repeat;
+}
+#left_control_year_date {
+  background:             url(/img/calendar/button_left_stop.png)  no-repeat;
+}
+#right_control_year_date {
+  background:             url(/img/calendar/button_right_stop.png)  no-repeat;
+}
+.picker_control_date {
+  cursor:                 pointer;
+  width:                  36px;
+  height:                 36px;
+  float:                  left;
+  /*background: red;*/
+}
+.picker {
+  cursor:     pointer;
+  color:      white;
+  font-size:  11px;
+}
+#thisMonth_booking {
+  color:                  #dbdbd9;
+  font-size:              9px;
+  line-height:            5px;
+}
+#thisYear_booking {
+  color:                  #dbdbd9;
+  font-size:              12px;
+  line-height:            0px;
+}
+
+.input-xlarge {
+  width:                  100%;
+}
+input {
+  width:                  120px;
+  display:                inline-block;
+  height:                 18px;
+}
+label {
+  font-size:              11px;
+  float:                  left;
+  padding-top:            5px;
+  text-align:             left;
+  width:                  120px;
+  display:                inline-block;
+}
+.text {
+  float:                  right;
+  /*margin-left:            150px;*/
+}
+.control-group{
+  display:                block;
+  width:                  100%;
+  min-height:             30px;
+  margin-top:             15px;
+}
+.textarea {
+  margin-top:             5px;
+  width:                  100%;
+  display:                inline-block;
+}
+textarea {
+   width:                 100%;
+   height:                123px;
+}
+.clearfix  {
+  margin-top:             30px;
+}
+#sbm {
+  margin-top:             67px;
+  margin-left:            34px;
+  width:                  184px;
+  height:                 74px;
+  border:                 1px solid #4a4b50;
+  border-radius:          10px;
+  background:             #4a4b50;
+  color:                  #dadad8;
+  cursor:                 pointer;
+}
+fieldset {
+  border-style:           none; important!
+}
+.drinks_container {
+  width:                  622px;
+  min-height:             50px;
+  /*background:             red;*/
+  margin-left:            37px;
+  margin-top:             32px;
+}
+#dateSelect {
+  width:                  127px;
+  /*border-radius:          5px;*/
+}
+
+.arrow
+{
+    /*background: none repeat scroll 0 0 #FFFFFF;*/
+    /*border: 1px solid #CCCCCC;*/
+    border: 1px solid #1F1F1F;
+    /*font-size: 0.8em;*/
+    font-weight: bold;
+    height: 26px;
+    left: 300px;
+    line-height: 26px;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    width: 26px;
+    z-index: 100;
+    background:         #333;
+    color:              #dbdbd9;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.selectBox
+{
+    border: 1px solid #1F1F1F;
+    list-style-type: none;
+    margin: 0;
+    padding: 3px;
+    position: absolute;
+    width: 303px;
+    display:none;
+    top: 25px;
+    background:       #333;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    font-size:          12px;
+    padding-left: 20px;
+    color:              #dbdbd9;
+}
+
+#container
+{
+    position:relative;
+}
+
+.toggler
+{
+    overflow:visible;
+}
+
+.default
+{
+    border: 1px solid #1f1f1f;
+    width:300px;
+    height:20px;
+    /*padding:3px;*/
+    position:absolute;
+    background:         #333;
+    color:              #dbdbd9;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    font-size:          12px;
+    font-family:      arial,sans-serif;
+    padding-left: 20px;
+    padding-top: 6px;
+}
+
+.selectBox li:hover
+{
+    background:#4B4C51;
+}
+#drinks_wrapper {
+  width:                  100%;
+  display:                inline-block;
+}
+.drinx {
+  background:             url(/img/icon_drinks.jpg) no-repeat #4B4C51 -2px 0px;
+}
+.foods {
+  background:             url(/img/icon_food.jpg) no-repeat #4B4C51 -2px 0px;
+}
+.line_drinx {
+  width:                  620px;
+  margin-left:            37px;
+  margin-top:             5px;
+  font-size:              13px;
+  font-family:            arial,sans-serif;
+}
+.line_drinx_left {
+  flow:                   left;
+  width:                  66px;
+  min-height:             5px;
+  display:                inline-block;
+  text-align:             right;
+}
+.line_drinx_content a {
+  text-decoration:        none;
+  color:                  #333333;
+  font-weight:            bold;
+}
+.line_drinx_content {
+  flow:                   left;
+  margin-left:            21px;
+  display:                inline-block;
+  width:                  435px;
+}
+.line_drinx_price {
+  flow:                   left;
+  width:                  85px;
+  display:                inline-block;
+  text-align:             right;
 }

@@ -27,14 +27,14 @@
       </div>
       <div class="span2">
         <p>
-          <strong>utolsó szerkesztés</strong>
+          <strong> a foglalás időpontja</strong>
         </p>
       </div>
-      <div class="span1">
+      <!-- <div class="span1">
         <p>
           <strong>aktív</strong>
         </p>
-      </div>
+      </div> -->
       <div class="span1">
         opció
       </div>
@@ -57,16 +57,10 @@
         </div>
         <div class="span2">
           <p>
-            <?php echo $article['edited']; ?>
+            <?php echo $article['booking_time']; ?>
           </p>
         </div>
         <div class="span1">
-        
-          <?php if($article['active'] == 'true'): ?>
-            <input model="Bookings" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" checked="true" class="active" />
-          <?php else: ?>
-            <input model="Bookings" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" class="active" />
-          <?php endif; ?>
         
       </div>
         <div class="span1">

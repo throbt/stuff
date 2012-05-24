@@ -87,4 +87,16 @@ class Stuff {
     
     return array($arr[0],$thisMonths[$arr[1]],$arr[2]);
   }
+
+  public function textCutter($text, $length) {
+    $out = '';
+    foreach(explode(' ',$text) as $part) {
+      if(strlen($out . " {$part}") < $length) { 
+        $out .= " {$part}";
+      } else {
+        return $out;
+      }
+    }
+    return $out;
+  }
 }

@@ -110,10 +110,20 @@ class Main_helper extends View {
     return $this->renderTemplate($menuItems,$this->getTemplatePath('page','menu'));
   }
 
+  public function about_us() {
+    return '
+      <div id="sider_about_us">
+      </div>
+    ';
+  }
+
   public function getSider() {
   	return implode("\n",array(
+      '<div id="sider_container">',
       $this->getFacebookCode(),
-      $this->getCalendar()
+      $this->getCalendar(),
+      '</div>',
+      $this->about_us()
     ));
   }
 
@@ -135,7 +145,7 @@ class Main_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array('nivo-slider.css', /*'bootstrap.css','default.css'*/ 'style.css');
+    $arr      = array(/*'bootstrap.css','bootstrap-responsive.css',*/'nivo-slider.css', /*'bootstrap.css','default.css'*/ 'style.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

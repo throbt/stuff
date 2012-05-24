@@ -38,11 +38,21 @@ class Article_model extends Node {
 			else if($id == '' && $query == '') {
 			$result = $this->select("
 				select
-					*
-					from
-						article
+					
+					a.*,
+					i.gallery as gallery,
+					i.name as name
+
+				from
+					article a
+
+				left join
+			  	images i
+			      on
+			        a.image = i.id
+
 				order
-					by edited desc, created desc;
+					by a.edited desc, a.created desc;
 				",
 				array()
 	    );

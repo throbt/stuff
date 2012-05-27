@@ -36,6 +36,32 @@ class Ajax_controller extends Controller {
 
     die();
   }
+
+  public function getImagesByGallery() {
+    $images = $this->router->loader->get('Images','model');
+    echo json_encode($images->get(
+      '',
+      array(
+        "
+          select
+            m.*,
+            g.title as thisGallery
+              from
+                images m
+            left join
+                galleries g
+            on
+              m.gallery = g.id
+            where
+              g.title != 'index_action'
+            and
+              m.gallery = ?
+          ",
+        array($this->get['gallery'])
+      )
+    ));
+    die();
+  }
   
   
 }

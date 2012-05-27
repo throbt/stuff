@@ -24,7 +24,6 @@ body {
   height:         409px;
   background:     url(/img/manna_logo.png) no-repeat 18px 115px #dbdbd9;
 }
-
 #headerWrapper {
   /*width:          996px;*/
   height:         629px;
@@ -37,8 +36,43 @@ body {
 }
 #topBar {
   width:          996px;
-  height:         90px;
+  height:         40px;
   background:     #020202;
+  padding-top:    50px;
+}
+#topBarLeftSide {
+  float:          left;
+  margin-left:    40px;
+}
+#topBarRightSide {
+  float:          right;
+  margin-right:   40px;
+
+}
+#topBarMenu {
+  width:          996px;
+  height:         50px;
+  /*background:     red;*/
+}
+.langLink {
+  cursor:           pointer;
+  color:            white;
+  font-size:        14px;
+  font-family:      arial,sans-serif;
+  text-decoration:  none;
+}
+#aBooking {
+  font-size:        14px;
+  font-family:      arial,sans-serif;
+  text-decoration:  none;
+  color:            white;
+}
+#aNewsletter {
+  font-size:        14px;
+  font-family:      arial,sans-serif;
+  text-decoration:  none;
+  color:            white;
+  margin-left:      15px;
 }
 #topBannerCont {
   /*width:          996px;*/
@@ -245,7 +279,7 @@ body {
 .index_node_title {
   margin-left:            37px;
   margin-top:             21px;
-  width:                  620px;
+  width:                  607px;
   height:                 61px;
   border-bottom:          1px solid #4b4c51;
 }
@@ -264,6 +298,19 @@ body {
   line-height:            1px;
   margin-top:             40px;
   font-size:              17px;
+}
+.index_article_title_price {
+  line-height:            1px;
+  margin-top:             40px;
+  float:                  right;
+  font-size:              13px;
+  width:                  170px;
+  text-align:             right;
+}
+.bottle {
+  width:                  100px;
+  margin-left:            70px;
+  /*float:                  right;*/
 }
 .index_title_link {
   text-decoration:        none;
@@ -650,11 +697,55 @@ fieldset {
   flow:                   left;
   margin-left:            21px;
   display:                inline-block;
-  width:                  435px;
+  width:                  350px;
 }
 .line_drinx_price {
   flow:                   left;
-  width:                  85px;
+  width:                  100px;
   display:                inline-block;
   text-align:             right;
+}
+.line_drinx_price_glass {
+  flow:                   left;
+  width:                  70px;
+  display:                inline-block;
+  text-align:             right;
+}
+#gallery_container {
+  width:                  649px;
+  min-height:             20px;
+  display:                inline-block;
+  /*background:             red;*/
+  /*margin-left:            37px;*/
+  margin-top:             10px;
+}
+.gallery_image_comtainer {
+  float:                  left;
+  height:                 226px;
+  overflow:               hidden;
+  width:                  298px;
+  text-align:             left;
+  margin-top:             15px;
+  margin-left:            25px;
+  background:             #4A4B50;
+  cursor:                 pointer;
+}
+#galleria {
+  position:               absolute;
+}
+#newsletter_cont {
+  width:                  300px;
+  margin:                 0 auto;
+  margin-top:             30px;
+}
+#newsletter_sbm {
+  background: none repeat scroll 0 0 #4A4B50;
+  border: 1px solid #4A4B50;
+  border-radius: 10px 10px 10px 10px;
+  color: #DADAD8;
+  cursor: pointer;
+  height: 74px;
+  margin-left: 100px;
+  margin-top: 67px;
+  width: 184px;
 }

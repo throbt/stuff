@@ -1,6 +1,23 @@
 <?php
 	global $loader;
-	$main = $loader->get('Main','helper',$this->var['scope']);
+	$main 				= $loader->get('Main','helper',$this->var['scope']);
+	$langMod 			= $loader->get('Langelements','model');
+	$thisLang 		= $_SESSION['language'];
+ 	$lang 				= $langMod->map($langMod->get(
+    '',
+    array(
+      '
+        select
+          *
+          from
+            langelements
+            
+        where
+          type = "page";
+      ',
+      array()
+    )
+  ));
 
 	// <!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
 ?>
@@ -11,43 +28,25 @@
   	<meta http-equiv="Content-Language" content="hu-hu" />
   	<meta http-equiv="imagetoolbar" content="no" />
 		<?php echo $main->getHeader(); ?>
-		<script type="text/javascript">
-	    $(window).load(function() {
-	         $('#topBanner').nivoSlider({
-		        effect: 'random'// Specify sets like: 'fold,fade,sliceDown'
-		        // slices: 15, // For slice animations
-		        // boxCols: 8, // For box animations
-		        // boxRows: 4, // For box animations
-		        // animSpeed: 500, // Slide transition speed
-		        // pauseTime: 3000, // How long each slide will show
-		        // startSlide: 0, // Set starting Slide (0 index)
-		        // directionNav: true, // Next & Prev navigation
-		        // directionNavHide: true, // Only show on hover
-		        // controlNav: false, // 1,2,3... navigation
-		        // controlNavThumbs: false, // Use thumbnails for Control Nav
-		        // controlNavThumbsFromRel: false, // Use image rel for thumbs
-		        // controlNavThumbsSearch: '.jpg', // Replace this with...
-		        // controlNavThumbsReplace: '_thumb.jpg', // ...this in thumb Image src
-		        // keyboardNav: true, // Use left & right arrows
-		        // pauseOnHover: true, // Stop animation while hovering
-		        // manualAdvance: false, // Force manual transitions
-		        // captionOpacity: 0.8, // Universal caption opacity
-		        // prevText: 'Vissza', // Prev directionNav text
-		        // nextText: 'Tovább', // Next directionNav text
-		        // randomStart: false, // Start on a random slide
-		        // beforeChange: function(){}, // Triggers before a slide transition
-		        // afterChange: function(){}, // Triggers after a slide transition
-		        // slideshowEnd: function(){}, // Triggers after all slides have been shown
-		        // lastSlide: function(){}, // Triggers when last slide is shown
-		        // afterLoad: function(){} // Triggers when slider has loaded
-    			});
-	    });
-    </script>
 	</head>
 	<body>
 		<div id="headerWrapper">
 			<div id="topBarCont">
-				<div id="topBar   "></div>
+				<div id="topBar">
+					<div id="topBarMenu">
+						<p id="topBarLeftSide">
+							<a href="/bookings" id="aBooking"><?php echo $lang['booking'][$thisLang]; ?></a>
+							<a href="/newsletter" id="aNewsletter"><?php echo $lang['newsletter'][$thisLang]; ?></a>
+						</p>
+						<p id="topBarRightSide">
+							<a id="hu" href="" onclick="return false;" class="langLink">HU</a>
+								|
+							<a id="en" href="" onclick="return false;" class="langLink">EN</a>
+								|
+							<a id="de" href="" onclick="return false;" class="langLink">DE</a>
+						</p>
+					</div>
+				</div>
 			</div>
 			<div id="topBannerCont">
 				<div id="topBanner" class="nivoSlider">
@@ -85,6 +84,7 @@
   	<div id="logoCont">
   	</div>
   </div>
+
 
 	</body>
 </html>

@@ -30,6 +30,13 @@ class Admin_ajax_controller extends Controller {
     ));
     die();
   }
+
+  public function delNewsLetEmail() {
+    $emails = $this->router->loader->get('Newsletter_emails','model');
+    $emails->delete($this->get['id']);
+    echo 'true';
+    die();
+  }
   
   public function getGalleriesByGallery() {
     $images = $this->router->loader->get('Images','model');

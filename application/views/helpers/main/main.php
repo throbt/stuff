@@ -132,7 +132,7 @@ class Main_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'jquery.nivo.slider.pack.js');
+    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'jquery.nivo.slider.pack.js','sliderInit.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(

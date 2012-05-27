@@ -2,23 +2,24 @@ var Drinks = {
   get:  function() {
 
     $.get(
-
       '/ajax/getDrinksByCat',
-
       {'cat': $('.mehidden').val()},
-
       function(resp) {
         Drinks.drinks = $.parseJSON(resp);
         Drinks.build();
       }
-
     );
   },
 
   build: function() {
     var drinks  = Drinks.drinks,
         arr     = [],
-        content = [];
+        content = [],
+        notWine = {
+          'Rövid Italok és Whiskey'             : '',
+          'Sör, Vermut, Likőr és Rövid italok'  : '',
+          'Ásványvíz, Üdítő italok, Kávé - Tea' : ''
+        };
 
     for(var i in drinks) {
       arr = [
@@ -27,6 +28,12 @@ var Drinks = {
           '</div>',
           '<p class="index_article_title">',
           i,
+          '</p>',
+          '<p class="index_article_title_price">',
+
+          (typeof notWine[$('.mehidden').val()] != 'undefined' ? '' : '<span class="glass">pohár</span><span class="bottle">üveg</span>'),
+
+          
           '</p>',
         '</div>'
       ];
@@ -47,6 +54,9 @@ var Drinks = {
           '</div>',
           '<div class="line_drinx_content">',
             (thisDrinks[i]['body'] != '' ? '<a href="/drinks/'+thisDrinks[i]['id']+'">'+thisDrinks[i]['title']+'</a>' : thisDrinks[i]['title']),
+          '</div>',
+          '<div class="line_drinx_price_glass">',
+            (thisDrinks[i]['priceglass'] != '' ? thisDrinks[i]['priceglass'] + '.- Ft' : ''),
           '</div>',
           '<div class="line_drinx_price">',
             thisDrinks[i]['pricebottle'],

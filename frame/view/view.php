@@ -13,7 +13,7 @@ class getView {
 class View {
 
   function __construct($scope='') {
-    $this->scope = $scope;
+    $this->scope = $scope; //print_r($this->scope->router);
     $this->init();
 	}
 
@@ -47,6 +47,13 @@ class View {
     } catch (Exception $e) {
       throw new Exception("the template file is missisng: {$template}");
     }*/
+  }
+
+  /*
+    @link method - wrapper for $router->link
+  */
+  public function link($original_link) {
+    return $this->var['scope']->router->link($original_link);
   }
 
 }

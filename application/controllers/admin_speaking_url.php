@@ -10,7 +10,7 @@ class Admin_speaking_url_controller extends Controller {
       die();
     }
     $this->model        = $this->router->loader->get('Linx','model');
-    $this->itemPerPage  = 10;
+    $this->itemPerPage  = 30;
   }
 
   public function index() {

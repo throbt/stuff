@@ -25,7 +25,7 @@
 				<span class="thisDay"><?php echo $thisDate[2]; ?></span>
 
 			</div>
-			<p class="index_article_title"><a class="index_title_link" href="/programmes/<?php echo $article['id']; ?>"><?php echo $article['title']; ?></a></p>
+			<p class="index_article_title"><a class="index_title_link" href="<?php echo $this->link("programmes/{$article['id']}"); ?>"><?php echo $article['title']; ?></a></p>
 		</div>
 		<div class="index_node_lead">
 				<?php echo $article['lead']; ?>

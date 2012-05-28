@@ -107,7 +107,13 @@ class Main_helper extends View {
         array()
       )
     );
-    return $this->renderTemplate($menuItems,$this->getTemplatePath('page','menu'));
+
+    return $this->renderTemplate(
+      array(
+        'scope' => $this->scope,
+        'menu'  => $menuItems
+      ),
+    $this->getTemplatePath('page','menu'));
   }
 
   public function about_us() {

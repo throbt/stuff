@@ -1,5 +1,12 @@
 <?php
 
+/*
+  |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\   |\_____|\
+  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\  |       0\
+  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /  | A____  /
+  |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/   |/|/ |/\/
+*/
+
 class getRouter {
 	static function &get($scope = '') {
 		static $obj;
@@ -137,6 +144,25 @@ class Router {
 				404
 			*/
 			$controller = $this->loader->get($this->scope,'controller');
+		}
+	}
+
+	public function link($link) {
+		if(!isset($this->linkModel)) {
+			$this->linkModel = $this->loader->get('linx','model');
+		}
+
+		if(!isset($this->linx)) {
+			$linx = $this->linkModel->get();
+			foreach($linx as $l) {
+				$this->linx[$l['params']] = $l['thisorder'];
+			}
+		}
+
+		if(isset($this->linx[$link])) {
+			return $this->linx[$link];
+		} else {
+			return $link;
 		}
 	}
 	

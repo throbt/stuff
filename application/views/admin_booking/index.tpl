@@ -38,9 +38,6 @@
       <div class="span1">
         opció
       </div>
-      <div class="span1">
-        opció
-      </div>
     </div>
 
     <div class="span12">&nbsp;</div>
@@ -63,11 +60,6 @@
         <div class="span1">
         
       </div>
-        <div class="span1">
-          <p>
-            <a class="btn btn-primary" href="/admin_booking/<?php echo $article['id']; ?>/edit">edit</a>
-          </p>
-        </div>
         <div class="span1">
 
           <?php

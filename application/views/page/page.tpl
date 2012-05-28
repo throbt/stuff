@@ -1,4 +1,4 @@
-<?php
+<?php //print_r($this->var['scope']->router);
 	global $loader;
 	$main 				= $loader->get('Main','helper',$this->var['scope']);
 	$langMod 			= $loader->get('Langelements','model');
@@ -35,8 +35,8 @@
 				<div id="topBar">
 					<div id="topBarMenu">
 						<p id="topBarLeftSide">
-							<a href="/bookings" id="aBooking"><?php echo $lang['booking'][$thisLang]; ?></a>
-							<a href="/newsletter" id="aNewsletter"><?php echo $lang['newsletter'][$thisLang]; ?></a>
+							<a href="/<?php echo $this->var['scope']->router->link("bookings"); ?>" id="aBooking"><?php echo $lang['booking'][$thisLang]; ?></a>
+							<a href="/<?php echo $this->var['scope']->router->link("newsletter"); ?>" id="aNewsletter"><?php echo $lang['newsletter'][$thisLang]; ?></a>
 						</p>
 						<p id="topBarRightSide">
 							<a id="hu" href="" onclick="return false;" class="langLink">HU</a>

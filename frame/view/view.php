@@ -21,7 +21,7 @@ class View {
   }
 	
   public function getTemplatePath($class,$method) {
-    return VIEWS . DIRECTORY_SEPARATOR . $class . DIRECTORY_SEPARATOR . $method . DIRECTORY_SEPARATOR . $method . '.tpl';
+    return VIEWS . DIRECTORY_SEPARATOR . $class . DIRECTORY_SEPARATOR . $method . '.tpl'; //$method . DIRECTORY_SEPARATOR . $method . '.tpl';
   }
 
   public function renderTemplate($var, $template) {

@@ -27,11 +27,11 @@ class Loader {
     $this->className = $className;
     switch($type) {
       case 'controller':
-        $path             = CONTROLLERS . strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
+        $path             = CONTROLLERS . strtolower($className) . '.php'; //strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
         $this->className .= '_controller';
       break;
       case 'model':
-        $path             = MODELS      . strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
+        $path             = MODELS      . strtolower($className) . '.php'; //strtolower($className) . DIRECTORY_SEPARATOR  . strtolower($className) . '.php';
         $this->className .= '_model';
       break;
       case 'view':

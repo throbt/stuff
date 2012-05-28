@@ -40,8 +40,9 @@ class Config {
 	    define('CONTROLLERS',   APPLICATION . 'controllers' . DIRECTORY_SEPARATOR);
 			define('MODELS',        APPLICATION . 'models' 			. DIRECTORY_SEPARATOR);
 			define('VIEWS',        	APPLICATION . 'views' 			. DIRECTORY_SEPARATOR);
-      define('HELPERS',       VIEWS       . 'helpers'     . DIRECTORY_SEPARATOR);
+      define('HELPERS',       APPLICATION . 'helpers'     . DIRECTORY_SEPARATOR);
 	    define('WWW',           APPLICATION . 'www' 				. DIRECTORY_SEPARATOR);
+      define('3rdparty',      APPLICATION . '3rdparty'    . DIRECTORY_SEPARATOR);
 	    define('CSS',           WWW 				. 'css' 				. DIRECTORY_SEPARATOR);
 	    define('JS',            WWW 				. 'js' 					. DIRECTORY_SEPARATOR);
 	    define('IMG',           WWW 				. 'img' 				. DIRECTORY_SEPARATOR);

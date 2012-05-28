@@ -33,6 +33,6 @@
   <p>
     <a href="/admin_articles/<?php echo $this->var['data']['id']; ?>/edit" class="btn btn-primary btn-large">Szerkeszt</a>
 
-    <a href="" class="btn btn-primary btn-large">Megnéz</a>
+    <a target="_blank" href="/<?php echo $this->link("cikkek/{$this->var['data']['id']}"); ?>" class="btn btn-primary btn-large">Megnéz</a>
   </p>
 </div>

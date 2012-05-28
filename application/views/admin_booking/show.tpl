@@ -22,4 +22,10 @@
   <label><strong>megjegyzés:</strong></label>
   <p class="body"><?php echo $this->var['data']['body']; ?></p>
 
+  <?php if($this->var['data']['title'] == 'index_action'): ?>
+
+    <a href="/admin_booking/<?php echo $this->var['data']['id']; ?>/edit" class="btn btn-primary btn-large">Szerkeszt</a>
+
+  <?php endif; ?>
+
 </div>

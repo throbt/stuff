@@ -27,8 +27,10 @@ class Foods_controller extends Controller {
       )
     );
 
-    foreach ($res as $r) {
-      $result[$r['type']][] = $r;
+    if($res != null) {
+      foreach ($res as $r) {
+        $result[$r['type']][] = $r;
+      }
     }
 
     $this->title   = 'Étlap';

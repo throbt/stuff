@@ -301,9 +301,9 @@ class Admin_booking_controller extends Controller {
   public function edit() {
     $article = $this->model->get($this->index);
 
-    $thisSpecial    = ($article[0]['image'] == 0 ? '<button id="sbm" class="btn btn-primary imager" type="button">Kép választása a lista nézethez</button>'
-      : "<label>Lista nézet kép:</label><img class='modalGalleryImg imager' rel='{$article[0]['gallery']}' src='/upload/{$article[0]['gallery']}/{$article[0]['name']}'>"
-    );
+    // $thisSpecial    = ($article[0]['image'] == 0 ? '<button id="sbm" class="btn btn-primary imager" type="button">Kép választása a lista nézethez</button>'
+    //   : "<label>Lista nézet kép:</label><img class='modalGalleryImg imager' rel='{$article[0]['gallery']}' src='/upload/{$article[0]['gallery']}/{$article[0]['name']}'>"
+    // );
 
     $this->title    = "szerkesztés - {$article[0]['title']}";
 
@@ -338,22 +338,22 @@ class Admin_booking_controller extends Controller {
             'value' => $article[0]['title']
           ),
 
-          array(
-            'type'  => 'hidden',
-            'value' => '',
-            'id'    => 'node_image',
-            'name'  => 'image',
-            'value' => $article[0]['image']
-          ),
+          // array(
+          //   'type'  => 'hidden',
+          //   'value' => '',
+          //   'id'    => 'node_image',
+          //   'name'  => 'image',
+          //   'value' => $article[0]['image']
+          // ),
 
-          array(
-            'type'  => 'special',
-            'html'  => '
-              <div class="control-group">
-                '.(isset($thisSpecial) ? $thisSpecial : '').'
-              </div>
-            '
-          ),
+          // array(
+          //   'type'  => 'special',
+          //   'html'  => '
+          //     <div class="control-group">
+          //       '.(isset($thisSpecial) ? $thisSpecial : '').'
+          //     </div>
+          //   '
+          // ),
 
           array(
             'type'    => 'select',

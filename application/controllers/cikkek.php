@@ -29,6 +29,7 @@ class Cikkek_controller extends Controller {
   public function show() {
 
     $article        = $this->model->get($this->index);
+
     $this->title    = $article[0]['title'];
     $this->content  = $this->view->renderTemplate(
       array(

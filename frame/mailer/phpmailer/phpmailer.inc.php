@@ -253,7 +253,7 @@ class phpmailer
 	}
 	
 	// Assembles and returns the message header
-	function create_header() {
+	function create_header() { //print_r($this);
 		$header = array();
 		$header[] = sprintf("From: %s <%s>\n", $this->FromName, trim($this->From));
 		$header[] = $from;

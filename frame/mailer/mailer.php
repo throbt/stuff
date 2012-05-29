@@ -20,13 +20,22 @@ class getMailer {
 class Mailer {
 
   function __construct() {
-    require_once('phpmailer/phpmailer.inc.php');
+    require_once('phpmailer/class.phpmailer.php');
     $this->mailer = new PHPMailer(true);
-    $this->setup(); print_r($this);
+    $this->setup(); //print_r($this);
+  }
+
+  public function send($email,$name,$subject,$body) {
+    $this->mailer->Subject  = $subject;
+    $this->mailer->Body     = $body;
+    $this->mailerFromName   = $name;
+    $this->mailer->AddAddress($email,$name);
+    $this->mailer->AddReplyTo("info@mannalounge.com", "Information"); //print_r($this);
+    $this->mailer->Send();
   }
 
   public function setup() {
-    global $config;  //print_r($config);
+    global $config;
     $arr = array();
     foreach($config->cfg as $k => $config) {
       if(preg_match("/mail/",$k)) {
@@ -34,18 +43,9 @@ class Mailer {
         $this->mailer->$arr[1] = $config;
       }
     }
-    // $this->mailer->SMTPAuth = true;
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->ContentType = 'text/html';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
-    // $this->mailer->CharSet = 'utf-8';
+    $this->mailer->IsSMTP();
+    $this->mailer->SMTPAuth = true;
+    $this->mailer->IsHTML(true);
   }
 
 

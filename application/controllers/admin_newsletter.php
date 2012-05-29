@@ -296,7 +296,19 @@
     }
 
     public function email_test() {
+      $emails = $this->router->loader->get('newsletter_emails','model');
       $mailer = $this->router->loader->get('Mailer');
+      $body   = $this->view->renderTemplate(
+          array(
+            'scope'   => $this,
+            'data'    => $emails->get($this->index)
+          ),
+        $this->view->getTemplatePath('admin_newsletter','mail')
+      );
+      //echo $body ;
+
+      $mailer->send('robthot@gmail.com','robthot','mux',trim($body));
+      die();
     }
 
     public function email_sendmail() {
@@ -402,12 +414,12 @@
         //print_r($thisStuff);
 
         echo $this->view->renderTemplate(
-          array(
-            'scope'   => $this,
-            'data'    => $this->content
-          ),
-        $this->view->getTemplatePath('admin_newsletter','mail')
-      );
+            array(
+              'scope'   => $this,
+              'data'    => $this->content
+            ),
+          $this->view->getTemplatePath('admin_newsletter','mail')
+        );
       }
     }
 

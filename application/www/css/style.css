@@ -158,6 +158,13 @@ body {
   color:            white;
   font-weight:      bold;
 }
+#siderbanner {
+  width:            310px;
+  height:           320px;
+  display:          inline-block;
+  background:     url(/img/event_banner.jpg) no-repeat;
+
+}
 #calendar_holder_sider {
 
   /*background:     white;*/

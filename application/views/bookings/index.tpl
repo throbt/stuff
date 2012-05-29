@@ -52,7 +52,7 @@
   <div id="booking_content_right">
     <div id="booking_form_wrapper">
 
-        <h3 style="margin-left:10px;line-height:1px;">A foglalás adatai:</h3>
+        <h3 style="margin-left:10px;line-height:1px;"><?php echo $this->var['lang']['data'][$_SESSION['language']]; ?></h3>
 
         <?php echo $this->var['form']; ?>
     </div>

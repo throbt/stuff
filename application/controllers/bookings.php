@@ -8,6 +8,22 @@ class Bookings_controller extends Controller {
   
   public function index() {
 
+    $langMod        = $this->router->loader->get('Langelements','model');
+    $lang           = $_SESSION['language'];
+    $langElements   = $langMod->map($langMod->get(
+      '',
+      array(
+        "select
+          *
+          from
+            langelements
+          where
+            type = 'booking';
+        ",
+        array()
+      )
+    ));
+
     $form           = $this->router->loader->get('Form');
 
     $thisForm       = $form->render(array(
@@ -26,7 +42,7 @@ class Bookings_controller extends Controller {
 
           array(
             'type'  => 'text',
-            'label' => 'A foglalás napja:',
+            'label' => $langElements['day_of_booking'][$lang],
             'id'    => 'bookin_day',
             'class' => '',
             'name'  => 'bookin_day'
@@ -34,7 +50,7 @@ class Bookings_controller extends Controller {
 
           array(
             'type'  => 'text',
-            'label' => 'Az email címe:',
+            'label' => $langElements['email'][$lang],
             'id'    => 'email',
             'class' => '',
             'name'  => 'email'
@@ -42,7 +58,7 @@ class Bookings_controller extends Controller {
 
           array(
             'type'  => 'text',
-            'label' => 'A telefonszáma:',
+            'label' => $langElements['phone'][$lang],
             'id'    => 'phone',
             'class' => '',
             'name'  => 'phone'
@@ -52,8 +68,8 @@ class Bookings_controller extends Controller {
             'type'  => 'special',
             'html'  => '
               <div class="control-group ">
-                <label>A személyek száma:</label><div class="text"><select id="dateSelect" class="input" name="persons">
-                    <option value="">Válasszon</option>
+                <label>'.$langElements['persons'][$lang].'</label><div class="text"><select id="dateSelect" class="input" name="persons">
+                    <option value="">'.$langElements['choose'][$lang].'</option>
                     <option value="1">1 főre</option>
                     <option value="2">2 főre</option>
                     <option value="3">3 főre</option>
@@ -72,8 +88,8 @@ class Bookings_controller extends Controller {
             'type'  => 'special',
             'html'  => '
               <div class="control-group ">
-                <label>A foglalás időpontja:</label><div class="text"><select id="dateSelect" class="input" name="bookin_time">
-                    <option value="">Válasszon</option>
+                <label>'.$langElements['time'][$lang].'</label><div class="text"><select id="dateSelect" class="input" name="bookin_time">
+                    <option value="">'.$langElements['choose'][$lang].'</option>
                     <option value="10:00:00">10:00</option>
                     <option value="11:00:00">11:00</option>
                     <option value="12:00:00">12:00</option>
@@ -102,7 +118,7 @@ class Bookings_controller extends Controller {
 
           array(
             'type'  => 'textarea',
-            'label' => 'Egyéb megjegyzés:',
+            'label' => $langElements['description'][$lang],
             'id'    => 'bookin_description',
             'class' => '',
             'name'  => 'bookin_description'
@@ -112,17 +128,18 @@ class Bookings_controller extends Controller {
             'type'  => 'submit',
             'id'    => 'sbm',
             'class' => 'btn btn-primary',
-            'value' => 'Foglalás beküldése'
+            'value' => $langElements['save'][$lang],
           )
       ),
 
     )); 
 
-    $this->title    = 'Asztalfoglalás';
+    $this->title    = $langElements['booking'][$lang];
     $this->content  = $this->view->renderTemplate(
       array(
         'scope' => $this,
         'data'  => $this->title,
+        'lang'  => $langElements,
         'form'  => $thisForm
       ),
       $this->view->getTemplatePath('bookings','index')

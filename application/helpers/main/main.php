@@ -81,7 +81,7 @@ class Main_helper extends View {
   }
 
   public function getCalendar() {
-    return $this->renderTemplate('',$this->getTemplatePath('page','calendar'));
+    return $this->renderTemplate('',$this->getTemplatePath('page','siderbanner'));
   }
 
   public function getMenu() {

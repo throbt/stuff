@@ -296,7 +296,7 @@
     }
 
     public function email_test() {
-      echo "email_test";
+      $mailer = $this->router->loader->get('Mailer');
     }
 
     public function email_sendmail() {

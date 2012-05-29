@@ -22,7 +22,21 @@ class Mailer {
   function __construct() {
     require_once('phpmailer/class.phpmailer.php');
     $this->mailer = new PHPMailer(true);
-    $this->setup(); //print_r($this);
+    //$this->setup(); //print_r($this);
+  }
+  
+  public function getHeader($to,$name) {
+  
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+    $headers .= 'To: '.$name.' <'.$to.'>' . "\r\n";
+    $headers .= 'From: Mannalounge <info@mannalounge.com>' . "\r\n";
+    
+    return $headers;
+  }
+  
+  public function simpleSend($to,$name,$subject,$body) {
+    mail($to, $subject, $body, $this->getHeader($to,$name));
   }
 
   public function send($email,$name,$subject,$body) {
@@ -43,8 +57,8 @@ class Mailer {
         $this->mailer->$arr[1] = $config;
       }
     }
-    $this->mailer->IsSMTP();
-    $this->mailer->SMTPAuth = true;
+#    $this->mailer->IsSMTP();
+#    $this->mailer->SMTPAuth = true;
     $this->mailer->IsHTML(true);
   }
 

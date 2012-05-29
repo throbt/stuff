@@ -13,6 +13,27 @@ class Admin_ajax_controller extends Controller {
     
   }
   
+  public function test_mail() {
+    
+    $emails = $this->router->loader->get('newsletter_emails','model');
+    $mailer = $this->router->loader->get('Mailer');
+    $body   = $this->view->renderTemplate(
+        array(
+          'scope'   => $this,
+          'data'    => $emails->get($this->get['id'])
+        ),
+      $this->view->getTemplatePath('admin_newsletter','mail')
+    );
+    
+    //die();
+    
+    foreach($this->get as $k => $email) {
+      if($k != $id)
+        $mailer->simpleSend($email,'test','Manna hírlevél',trim($body));
+    }
+    die();
+  }
+  
   public function getLangElementsByType() {
     echo json_encode($this->model->get(
       '',

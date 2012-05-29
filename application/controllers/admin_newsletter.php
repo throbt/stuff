@@ -296,23 +296,169 @@
     }
 
     public function email_test() {
-      $emails = $this->router->loader->get('newsletter_emails','model');
-      $mailer = $this->router->loader->get('Mailer');
-      $body   = $this->view->renderTemplate(
+      
+      $this->title  = 'Tesztküldés';
+      $form         = $this->router->loader->get('Form');
+      $thisForm     = $form->render(array(
+
+          'form'      => array(
+            'action'    => "",
+            'method'    => 'post',
+            'token'     => true,
+            '_method'   => 'update',
+            'id'        => 'email_update',
+            'class'     => 'well form-horizontal',
+            'template'  => 'default'
+          ),
+
+          'elements'  => array(
+
+              array(
+                'type'  => 'hidden',
+                'id'    => 'id',
+                'class' => '',
+                'name'  => 'id',
+                'value' => $this->index
+              ),
+
+              array(
+                'type'  => 'text',
+                'label' => 'test1',
+                'id'    => 'test1',
+                'class' => 'input-xlarge emails',
+                'name'  => 'test1'
+              ),
+
+              array(
+                'type'  => 'text',
+                'label' => 'test2',
+                'id'    => 'test2',
+                'class' => 'input-xlarge emails',
+                'name'  => 'test2'
+              ),
+
+              array(
+                'type'  => 'text',
+                'label' => 'test3',
+                'id'    => 'test3',
+                'class' => 'input-xlarge emails',
+                'name'  => 'test3'
+              ),
+
+              array(
+                'type'  => 'submit',
+                'id'    => 'thisSubmit',
+                'class' => 'btn btn-primary',
+                'value' => 'Elküld'
+              )
+          )
+        ));
+        
+        $this->content = $this->view->renderTemplate(
           array(
             'scope'   => $this,
-            'data'    => $emails->get($this->index)
+            'data'    => $thisForm
           ),
-        $this->view->getTemplatePath('admin_newsletter','mail')
-      );
-      //echo $body ;
-
-      $mailer->send('robthot@gmail.com','robthot','mux',trim($body));
-      die();
+          $this->view->getTemplatePath('admin_newsletter','test')
+        );
+        
+        echo $this->view->renderTemplate(
+          array(
+            'scope'   => $this,
+            'data'    => $this->content
+          ),
+          $this->view->getTemplatePath('admin','main')
+        );
     }
 
     public function email_sendmail() {
-      echo "email_sendmail";
+    
+      $users  = $this->router->loader->get('newsletter','model');
+      
+      $active = $users->get(
+        '',
+        array(
+          "
+            select
+              count(*) as counter
+                from
+                  newsletter
+            where
+            	active = 'true'
+          ",
+          array()
+        )
+      );
+      
+      $inactive = $users->get(
+        '',
+        array(
+          "
+            select
+              count(*) as counter
+                from
+                  newsletter
+            where
+            	active != 'true'
+          ",
+          array()
+        )
+      );
+    
+      $this->content = $this->view->renderTemplate(
+          array(
+            'scope'   => $this,
+            'data'    => array(
+              'active'    => $active[0]['counter'],
+              'inactive'  => $inactive[0]['counter'],
+              'index'     => $this->index
+            )
+          ),
+          $this->view->getTemplatePath('admin_newsletter','sendmail')
+        );
+        
+        echo $this->view->renderTemplate(
+          array(
+            'scope'   => $this,
+            'data'    => $this->content
+          ),
+          $this->view->getTemplatePath('admin','main')
+        );
+    }
+    
+    public function email_send() {
+    
+      $emails = $this->router->loader->get('newsletter_emails','model');
+      $mailer = $this->router->loader->get('Mailer');
+      $body   = $this->view->renderTemplate(
+        array(
+          'scope'   => $this,
+          'data'    => $emails->get($this->index)
+        ),
+      $this->view->getTemplatePath('admin_newsletter','mail')
+      );
+      
+      $usersMod   = $this->router->loader->get('newsletter','model');
+      $users      = $usersMod->get(
+        '',
+        array(
+          "
+            select
+              *
+                from
+                  newsletter
+            where
+            	active = 'true'
+          ",
+          array()
+        )
+      );
+      
+      foreach($users as $user) {
+        $mailer->simpleSend($user['email'],$user['name'],'Manna hírlevél',trim($body));
+      }
+      
+      $this->redirect('admin_newsletter');
     }
 
     public function emails() {
@@ -343,6 +489,12 @@
       if(isset($this->router->orders[2]) && (int)$this->router->orders[2] > 0 && isset($this->router->orders[3]) && $this->router->orders[3] == 'sendmail') {
         $this->index = $this->router->orders[2];
         $this->email_sendmail();
+        die();
+      }
+      
+      if(isset($this->router->orders[2]) && (int)$this->router->orders[2] > 0 && isset($this->router->orders[3]) && $this->router->orders[3] == 'send') {
+        $this->index = $this->router->orders[2];
+        $this->email_send();
         die();
       }
       

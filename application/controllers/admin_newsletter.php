@@ -295,6 +295,14 @@
 
     }
 
+    public function email_test() {
+      echo "email_test";
+    }
+
+    public function email_sendmail() {
+      echo "email_sendmail";
+    }
+
     public function emails() {
 
       if(isset($this->router->orders[2]) && $this->router->orders[2] == 'add') {
@@ -311,6 +319,18 @@
       if(isset($this->router->orders[2]) && (int)$this->router->orders[2] > 0 && isset($this->router->orders[3]) && $this->router->orders[3] == 'edit') {
         $this->index = $this->router->orders[2];
         $this->email_edit();
+        die();
+      }
+
+      if(isset($this->router->orders[2]) && (int)$this->router->orders[2] > 0 && isset($this->router->orders[3]) && $this->router->orders[3] == 'test') {
+        $this->index = $this->router->orders[2];
+        $this->email_test();
+        die();
+      }
+
+      if(isset($this->router->orders[2]) && (int)$this->router->orders[2] > 0 && isset($this->router->orders[3]) && $this->router->orders[3] == 'sendmail') {
+        $this->index = $this->router->orders[2];
+        $this->email_sendmail();
         die();
       }
       
@@ -376,10 +396,18 @@
 
     public function showemail() {
       if(isset($this->router->orders[2]) && (int)$this->router->orders[2] > 0) {
-        $this->index  = (int)$this->router->orders[2];
-        $emails       = $this->router->loader->get('newsletter_emails','model');
-        $thisStuff    = $emails->get($this->index);
-        print_r($thisStuff);
+        $this->index    = (int)$this->router->orders[2];
+        $emails         = $this->router->loader->get('newsletter_emails','model');
+        $this->content  = $emails->get($this->index);
+        //print_r($thisStuff);
+
+        echo $this->view->renderTemplate(
+          array(
+            'scope'   => $this,
+            'data'    => $this->content
+          ),
+        $this->view->getTemplatePath('admin_newsletter','mail')
+      );
       }
     }
 

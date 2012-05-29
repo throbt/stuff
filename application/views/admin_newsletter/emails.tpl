@@ -87,7 +87,7 @@ $(document).ready(function() {
 
                   <div class="span2">
                     
-                    <a class="btn btn-primary del" rel="<?php echo $email['id'] ?>" href="/admin_newsletter/emails/<?php echo $email['id'] ?>/edit">szerkeszt</a>
+                    <a class="btn btn-primary" rel="<?php echo $email['id'] ?>" href="/admin_newsletter/emails/<?php echo $email['id'] ?>/edit">szerkeszt</a>
                     
                   </div>
 

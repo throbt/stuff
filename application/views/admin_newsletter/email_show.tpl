@@ -2,7 +2,6 @@
   //print_r($this->var['data']);
 ?>
 
-
 <?php //print_r($this->var['data']); ?>
 
 <div class=""> <!-- hero-unit -->
@@ -25,3 +24,5 @@
 
 
 <a class="btn btn-primary btn-large" href="/admin_newsletter/emails/<?php echo $this->var['data']['id']; ?>/edit">Szerkeszt</a>
+<a class="btn btn-primary btn-large" href="/admin_newsletter/emails/<?php echo $this->var['data']['id']; ?>/test">Tesztküldés</a>
+<a class="btn btn-primary btn-large" href="/admin_newsletter/emails/<?php echo $this->var['data']['id']; ?>/sendmail">Küldés</a>

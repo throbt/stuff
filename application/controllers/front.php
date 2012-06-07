@@ -8,6 +8,8 @@ class Front_controller extends Controller {
   
   public function index() {
 	
+    $this->title = 'Evoline - home';
+
     $this->content = $this->view->renderTemplate(
       array(
         'scope' => $this,

@@ -69,7 +69,9 @@ class Router {
 		}
 		
 		if($this->orders[0] == '') {
-			$this->scope = 'Front';
+			$this->scope 	= 'Front';
+			$home 				= $this->link(strtolower($this->scope));
+			header("location: /{$home}");
 		} else {
 			$this->scope = $this->orders[0];
 		}

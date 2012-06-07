@@ -27,20 +27,16 @@ class Main_helper extends View {
   }
 
   public function getSEO() {
-
-    if($this->scope->router->action == 'index') {
-      /*home*/
-    }
-
     $arr    = array(
-      'MSSmartTagsPreventParsing' => 'true',
-      'ROBOTS'                    => 'ALL',
-      'Copyright'                 => ''
+      'Content-type'              => 'text/html; charset=utf-8',
+      'Content-Language'          => 'hu-hu',
+      'Copyright'                 => '',
+      'author'                    => 'robThot'
     );
     $metas  = '';
     foreach($arr as $key => $value) {
         $metas .= implode('',array(
-          "<meta name='",
+          "<meta http-equiv='",
           $key,
           "' content='",
           $value,
@@ -56,28 +52,11 @@ class Main_helper extends View {
 
   public function getHeader() {
   	return implode("\n",array(
-      $this->getTitle($this->scope->title),
+      $this->getTitle((!isset($this->scope->title) ? '' : $this->scope->title)),
       $this->getSEO(),
       $this->getStyle(),
       $this->getScript()
     ));
-  }
-
-  public function getFacebookCode() {
-    return '
-
-            <div id="fb-root"></div>
-            <script>(function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0];
-              if (d.getElementById(id)) return;
-              js = d.createElement(s); js.id = id;
-              js.src = "//connect.facebook.net/hu_HU/all.js#xfbml=1";
-              fjs.parentNode.insertBefore(js, fjs);
-            }(document, \'script\', \'facebook-jssdk\'));</script>
-            <div id="facebook_wrapper">
-              <div class="fb-like-box" data-href="http://www.facebook.com/pages/Manna-%C3%89tterem/176210038779" data-width="294" data-height="390" data-colorscheme="dark" data-show-faces="true" data-border-color="#333333" data-stream="false" data-header="false"></div>
-            </div>
-    ';
   }
 
   public function getCalendar() {
@@ -85,35 +64,53 @@ class Main_helper extends View {
   }
 
   public function getMenu() {
-    $menuModel = $this->scope->router->loader->get('Menu','model');
-    $menuItems = $menuModel->get(
-      '',
-      array(
-        '
-          select
-            *
-            from
-              langelements
-              
-          where
-            type = "menu"
-          and
-            active = 1
-
-          order
-            by
-              "order";
-        ',
-        array()
-      )
+    return  array(
+      'Home'        => $this->scope->router->link('front'),
+      'Rólunk'      => '',
+      'Cégcsoport'  => '',
+      'Termékek'    => '',
+      'Iparágak'    => '',
+      'active'      => $this->scope->router->link($this->scope->router->scope)
     );
+  }
 
-    return $this->renderTemplate(
-      array(
-        'scope' => $this->scope,
-        'menu'  => $menuItems
-      ),
-    $this->getTemplatePath('page','menu'));
+  public function happeningImages() {
+    $arr    = array();
+    $images = $this->scope->router->loader->get('Images','model');
+    $res    = $images->get('',array("select * from images where gallery = 24;",array()));
+
+    foreach($res as $image) {
+      $arr[] = "/upload/{$image['gallery']}/{$image['name']}";
+    }
+
+    return $arr;
+
+    // return array(
+    //   "/upload/25/0fcdc0350faa3cc3cfdec31d4d1ed4ca.jpg",
+    //   "/upload/25/55667606dbadc099146a72b0a1d6cb3c.jpg",
+    //   "/upload/25/0fcdc0350faa3cc3cfdec31d4d1ed4ca.jpg",
+    //   "/upload/25/55667606dbadc099146a72b0a1d6cb3c.jpg",
+    //   "/upload/25/0fcdc0350faa3cc3cfdec31d4d1ed4ca.jpg",
+    //   "/upload/25/55667606dbadc099146a72b0a1d6cb3c.jpg"
+    // );
+
+    // return array(
+    //   "/img/bgs/bg2.jpg",
+    //   "/img/bgs/bg1.jpg",
+    //   "/img/bgs/bg3.jpg",
+    //   "/img/bgs/bg4.jpg",
+    //   "/img/bgs/bg5.jpg",
+    //   "/img/bgs/bg6.jpg"
+    // );
+  }
+
+  public function getCfg() {
+    $cfg = json_encode(array(
+      'menubar'         => $this->getMenu(),
+      'happeningImages' => $this->happeningImages()
+    ));
+
+    return "<input type='hidden' id='cfg' value='{$cfg}' />";
   }
 
   public function about_us() {
@@ -138,7 +135,7 @@ class Main_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'jquery.nivo.slider.pack.js','sliderInit.js');
+    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'jquery.nivo.slider.js','builder.js','slidercfg.js','main.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(
@@ -151,7 +148,7 @@ class Main_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array(/*'bootstrap.css','bootstrap-responsive.css',*/'nivo-slider.css', /*'bootstrap.css','default.css'*/ 'style.css');
+    $arr      = array(/*'bootstrap.css','bootstrap-responsive.css',*/'bootstrap.css','nivo-slider.css','bootstrap-responsive.css', /*'bootstrap.css','default.css'*/ 'style.css');
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

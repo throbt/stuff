@@ -26,6 +26,8 @@ var evoline = {
       'height'  : (pHeight <= 920 ? 920 : pHeight)
     }
 
+    //$(['<style type="text/css"> .nivoSlider{ background-size:',evoline.dimensions['width'],'px ',evoline.dimensions['height'],'px; }</style>'].join('')).appendTo("head");
+
     $$.create({
       type  : 'div',
       id    : 'viewport',
@@ -85,9 +87,11 @@ var evoline = {
     var thisRate  = $(obj).width()/$(obj).height(),
         wRate     = evoline.dimensions['width']/evoline.dimensions['height'];
     if(thisRate < wRate)
-      $(obj).attr('width',evoline.dimensions['width']);
+      //$(obj).attr('width',evoline.dimensions['width']);
+      $(obj).attr('style','width: ' + evoline.dimensions['width'] + 'px');
     else
-      $(obj).attr('height',evoline.dimensions['height']);
+      //$(obj).attr('height',evoline.dimensions['height']);
+      $(obj).attr('style','height: ' + evoline.dimensions['height'] + 'px');
     evoline.imageCounter += 1;
     if(evoline.imageCounter == 6) {
       evoline.setHappening();
@@ -197,7 +201,7 @@ var evoline = {
 				},{
 					type	: 'div',
 					cls		: 'content_box',
-					html	: ['<span class="headline">',unescape(thisContent[i+1]['title']).replace(/\+/g, ' '),'</span><p class="">',unescape(thisContent[i+1]['body']).replace(/\+/g, ' '),'</p>'].join('')
+					html	: (typeof thisContent[i+1] != 'undefined' ? ['<span class="headline">',unescape(thisContent[i+1]['title']).replace(/\+/g, ' '),'</span><p class="">',unescape(thisContent[i+1]['body']).replace(/\+/g, ' '),'</p>'].join('') : '')
 				}]
 			},$$.cache.content_box_wrapper);
 		}
@@ -233,7 +237,7 @@ var evoline = {
       if(i != 'active') {
         $$.create({
           type  : 'li',
-          cls   : (menuObj['active'] == i ? 'active' : ''),
+          cls   : (menuObj['active'] == menuObj[i] ? 'active' : ''),
           arr   : [{
             type  : 'a',
             href  : ['/',menuObj[i]].join(''),

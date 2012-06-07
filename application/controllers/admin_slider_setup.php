@@ -95,7 +95,7 @@
               'type'  => 'hidden',
               'id'    => 'layout',
               'name'  => 'layout',
-              'value' =>  $this->model->getCfg()->layout
+              'value' =>  $this->model->getCfg()->layout->layout
             ),
 
             array(
@@ -108,7 +108,7 @@
                   }
                 </script>
                 <label>choose raster style</label>
-                <small id="thisLabel">raster style: '.$this->model->getCfg()->layout.'</small>
+                <small id="thisLabel">raster style: '.$this->model->getCfg()->layout->layout.'</small>
                 <div class="control-group">
                   <div style="width:175px;height:100px">
                     <div rel="01" onclick="insert(this)" style="cursor:pointer;width:30px;height:30px;margin-left:5px;margin-top:5px;float:left;background:url(/img/overlay/01.png) repeat"></div>
@@ -127,6 +127,34 @@
                     <div rel="14" onclick="insert(this)" style="cursor:pointer;width:30px;height:30px;margin-left:5px;margin-top:5px;float:left;background:url(/img/overlay/14.png) repeat"></div>
                     <div rel="15" onclick="insert(this)" style="cursor:pointer;width:30px;height:30px;margin-left:5px;margin-top:5px;float:left;background:url(/img/overlay/15.png) repeat"></div>
                   </div>
+                </div>
+              '
+            ),
+
+            
+            array(
+              'type'  => 'special',
+              'html'  => '
+                <script>
+                  $(document).ready(function() {
+                    $("#opacity").val('.$this->model->getCfg()->layout->opacity.');
+                  });
+                </script>
+                <label>choose opacity</label>
+                <div class="control-group">
+                  <select class="control-group" id="opacity" name="opacity">
+                    <option value="0">opacity: 0</option>
+                    <option value="0.1">opacity: 0.1</option>
+                    <option value="0.2">opacity: 0.2</option>
+                    <option value="0.3">opacity: 0.3</option>
+                    <option value="0.4">opacity: 0.4</option>
+                    <option value="0.5">opacity: 0.5</option>
+                    <option value="0.6">opacity: 0.6</option>
+                    <option value="0.7">opacity: 0.7</option>
+                    <option value="0.8">opacity: 0.8</option>
+                    <option value="0.9">opacity: 0.9</option>
+                    <option value="1">opacity: 1</option>
+                  </select>
                 </div>
               '
             ),
@@ -170,7 +198,10 @@
           'controlNav'    => false,
           'keyboardNav'   => true
         ),
-        'layout' => $this->post['layout']
+        'layout' => array(
+          'layout'  => $this->post['layout'],
+          'opacity' => $this->post['opacity'],
+        )
       );
 
       $this->model->writecfg($cfg);

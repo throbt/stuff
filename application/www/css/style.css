@@ -61,10 +61,19 @@ body {
 .navbar-fixed-top, .navbar-fixed-bottom {
   position:       absolute;
 }
+p {
+  font-family:    'MavenProMedium';
+}
+span {
+  font-family:    'MavenProMedium';
+}
 #main_menu {
   font-family:    'MavenProBold';
 }
 #main_menu .active a {
+  background:     url(/img/active_menu_bg.png);
+}
+#main_menu a:hover {
   background:     url(/img/active_menu_bg.png);
 }
 
@@ -90,8 +99,8 @@ body {
   left:           0px;
   z-index:        600;
 
-  opacity:        0.3;
-  filter:         alpha(opacity = 30);
+  /*opacity:        0.3;
+  filter:         alpha(opacity = 30);*/
 }
 #hidden-imgs {
   /*display:        none;*/
@@ -128,11 +137,28 @@ body {
   height:         30px;
 }
 #loginbox {
-  width:          227px;
+  width:          217px;
+  padding-left:   10px;
+  padding-right:  20px;
   height:         30px;
   background:     black;
   float:          right;
   border-radius:  4px;
+  text-align:     right;
+}
+#loginbox span {
+  line-height:    31px; 
+  color:          white;
+  font-size:      12px;
+  margin-left:    5px;
+}
+#loginbox a {
+  line-height:    31px; 
+  color:          white;
+  font-size:      12px;
+  margin-left:    5px;
+  font-weight:    bold;
+  text-decoration:none;
 }
 #logo_holder {
   height:         95px;
@@ -154,18 +180,42 @@ body {
   height:         95px;
   float:          left;
   background:     black;
+  color:          #666;
+  text-align:     center;
+  /*opacity:        0.8;
+  filter:         alpha(opacity = 80);*/
+}
+.page_logo_box span {
+  line-height:    90px;
 }
 #main_label_holder {
   margin-top:     32px;
   height:         112px;
 }
 #main_label {
-  width:          411px;
-  height:         112px;
+  width:          381px;
+  height:         92px;
+  padding:        10px;
   opacity:        0.6;
   filter:         alpha(opacity = 60);
   float:          right;
   background:     black;
+  color:          white;
+  text-align:     right;
+  padding-right: 20px;
+}
+#main_label p {
+  font-size:      19px;
+  width:          240px;
+  float:          right;
+  line-height:    24px;
+}
+#main_label span {
+  margin-top:     -5px;
+  font-size:      12px;
+  /*width:          230px;*/
+  float:          right;
+  /*line-height:    24px;*/
 }
 #content_wrapper {
   margin-top:     0px;
@@ -178,15 +228,29 @@ body {
   font-size:      12px;
   border-bottom-left-radius: 5px;
 }
+#content_box_wrapper_container {
+	width:          978px;
+	height:         446px;
+	float:					left;
+	overflow:				hidden;
+}
+#content_box_wrapper {
+	width:          1956px;
+	height:         446px;
+}
+.content_box_box {
+	float:          left;
+	width:          326px;
+  height:         446px;
+}
 .content_box {
-  width:          286px; /*326px;*/
-  height:         406px; /*446px;*/
-  float:          left;
-  padding:        20px;
+  width:          286px;
+  height:         183px;
+  
+  padding:				20px;
   opacity:        0.9;
   filter:         alpha(opacity = 90);
   background:     black;
-  text-align:     justify;
   overflow:       hidden;
 }
 .content_box p {
@@ -196,7 +260,6 @@ body {
   color:          #d49e04;
   font-size:      16px;
   font-weight:    bold;
-  line-height:    40px;
 }
 #content_box1 {
   /*background:     red;*/
@@ -218,14 +281,15 @@ body {
 .sider_label {
   width:          32px; 
   height:         105px;
+  cursor:         pointer;
 }
 #sider_label1 {
   margin-top:     0px;
-  background:     #d49e04;
+  background:     url(/img/content1.png) #d49e04;
 }
 #sider_label2 {
   margin-top:     6px;
-  background:     black;
+  background:     url(/img/content2.png) black;
 }
 #content_wrapper_top_margin {
   height:         23px;

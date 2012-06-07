@@ -40,18 +40,40 @@ class Admin_helper extends View {
     //   )
     // );
 
+		//print_r($this->scope->router);
+
     $menuItems = array(
       array(
         'hu'  => 'background slider',
-        'url' => 'admin_slider_setup'
-      )
+        'url' => $this->scope->router->link('admin_slider_setup')
+      ),
+			array(
+				'hu'  => 'cikkek',
+				'url' => $this->scope->router->link('admin_articles')
+			),
+			array(
+	      'hu'  => 'languages',
+	      'url' => $this->scope->router->link('admin_language')
+	   	),
+			array(
+		    'hu'  => 'seo linx',
+		    'url' => $this->scope->router->link('admin_speaking_url')
+		  ),
+			array(
+			  'hu'  => 'galleries',
+			  'url' => $this->scope->router->link('admin_galleries')
+			),
+			array(
+			  'hu'  => 'images',
+			  'url' => $this->scope->router->link('admin_images')
+			)
     );
 
     return $this->renderTemplate($menuItems,$this->getTemplatePath('admin','menu'));
   }
 
   public function getScript() {
-    $arr      = array('jquery.js','bootstrap-datepicker.js');
+    $arr      = array('jquery.js','jquery-ui-1.8.20.custom.min.js','bootstrap-datepicker.js','admin_main.js');
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(

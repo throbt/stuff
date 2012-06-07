@@ -25,7 +25,7 @@ class Preinit_hook {
     /*
       seo urls
     */
-    //$this->setOrders();
+    $this->setOrders();
   }
 
   public function setOrders() {

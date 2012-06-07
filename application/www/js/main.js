@@ -5,7 +5,7 @@
 $(document).ready(function() {
   window.$$ = builder;
 
-  evoline.cfg = jQuery.parseJSON($('#cfg').val());
+  evoline.cfg = $.parseJSON($('#cfg').val());
 
   evoline.viewport();
   evoline.setBgSliderUp();
@@ -73,7 +73,10 @@ var evoline = {
       keyboardNav: true
     }*/);
 
-    $("#overlay").css('background',['url(/img/overlay/',sliderCfg.layout,'.png) repeat'].join(''));
+    $("#overlay").css({
+      'background'  : ['url(/img/overlay/',sliderCfg.layout.layout,'.png) repeat'].join(''),
+      'opacity'     : sliderCfg.layout.opacity
+    });
 
     evoline.buildPage();
   },
@@ -104,7 +107,7 @@ var evoline = {
         arr   : [{
           type  : 'div',
           id    : 'loginbox',
-          html  : 'hello, im the loginbox'
+          html  : '<span>Karrier</span><span>Kapcsolat</span><a href="#">Login or register</a>'
         }]
       },{
         type  : 'div',
@@ -117,15 +120,18 @@ var evoline = {
         },{
           type  : 'div',
           id    : 'logo_box1',
-          cls   : 'page_logo_box'
+          cls   : 'page_logo_box',
+          html  : '<span>TANÁCSADÁS</span>'
         },{
           type  : 'div',
           id    : 'logo_box2',
-          cls   : 'page_logo_box'
+          cls   : 'page_logo_box',
+          html  : '<span>TECHNOLOGIA</span>'
         },{
           type  : 'div',
           id    : 'logo_box3',
-          cls   : 'page_logo_box'
+          cls   : 'page_logo_box',
+          html  : '<span>NEARSHORING</span>'
         }]
       },{
         type  : 'div',
@@ -133,7 +139,8 @@ var evoline = {
         cls   : 'page-container',
         arr   : [{
           type  : 'div',
-          id    : 'main_label'
+          id    : 'main_label',
+          html  : '<p>Siemens Support támogatás: napi 100.000 user kiszolgálása</p><span>Informatikai megoldások - üzleti problémákra</span>'
         }]
       },{
         type  : 'div',
@@ -151,16 +158,11 @@ var evoline = {
         id    : 'content_wrapper',
         arr   : [{
           type  : 'div',
-          id    : 'content_box1',
-          cls   : 'content_box'
-        },{
-          type  : 'div',
-          id    : 'content_box2',
-          cls   : 'content_box'
-        },{
-          type  : 'div',
-          id    : 'content_box3',
-          cls   : 'content_box'
+          id    : 'content_box_wrapper_container',
+					arr		: [{
+						type  : 'div',
+	          id    : 'content_box_wrapper'
+					}]
         },{
           type  : 'div',
           id    : 'right_margin',
@@ -181,9 +183,24 @@ var evoline = {
   },
 
   fillContent: function() {
-    $('#content_box1').html($('#content_box1_content').html());
-    $('#content_box2').html($('#content_box2_content').html());
-    $('#content_box3').html($('#content_box3_content').html());
+    
+		var thisContent = $.parseJSON($('#content').html()); 
+
+		for(var i = 0,l = thisContent.length; i < l; i += 2) {
+			$$.create({
+				type  : 'div',
+        cls   : 'content_box_box',
+				arr		: [{
+					type	: 'div',
+					cls		: 'content_box',
+					html	: ['<span class="headline">',unescape(thisContent[i]['title']).replace(/\+/g, ' '),'</span><p class="">',unescape(thisContent[i]['body']).replace(/\+/g, ' '),'</p>'].join('')
+				},{
+					type	: 'div',
+					cls		: 'content_box',
+					html	: ['<span class="headline">',unescape(thisContent[i+1]['title']).replace(/\+/g, ' '),'</span><p class="">',unescape(thisContent[i+1]['body']).replace(/\+/g, ' '),'</p>'].join('')
+				}]
+			},$$.cache.content_box_wrapper);
+		}
   },
 
   menubuilder: function() {
@@ -227,4 +244,8 @@ var evoline = {
       }
     }
   }
+}
+
+var animator = {
+  
 }

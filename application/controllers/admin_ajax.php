@@ -127,7 +127,7 @@ class Admin_ajax_controller extends Controller {
   
   public function getGalleries() {
     $galleryModel = $this->router->loader->get('Galleries','model');
-    echo json_encode(array_slice($galleryModel->get(),1));
+    echo json_encode($galleryModel->get());
     die();
   }
 

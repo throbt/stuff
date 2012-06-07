@@ -3,15 +3,23 @@
 class Front_controller extends Controller {
 	
   public function init() {
-    $this->model = $this->router->loader->get('Test','model');
+    $this->model = $this->router->loader->get('Article','model');
   }
   
   public function index() {
-
-    echo $this->view->renderTemplate(
+	
+    $this->content = $this->view->renderTemplate(
       array(
         'scope' => $this,
-        'data'  => ''
+        'data'  => $this->model->codeIt($this->model->get())
+      ),
+      $this->view->getTemplatePath('front','index')
+    );
+
+		echo $this->view->renderTemplate(
+      array(
+        'scope' => $this,
+        'data'  => $this->content
       ),
       $this->view->getTemplatePath('page','page')
     );

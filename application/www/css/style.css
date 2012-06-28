@@ -44,6 +44,7 @@ body {
   padding:        0;
   padding-top:    53px;
   font-family:    'MavenProRegular';
+	background:			#333;
 }
 .hiddenStuff {
   display:        none;
@@ -185,8 +186,12 @@ span {
   /*opacity:        0.8;
   filter:         alpha(opacity = 80);*/
 }
-.page_logo_box span {
+.page_logo_box span, .page_logo_box a {
   line-height:    90px;
+  color:          #666;
+}
+.page_logo_box a:hover {
+  color:          white;
 }
 #main_label_holder {
   margin-top:     32px;
@@ -233,10 +238,14 @@ span {
 	height:         446px;
 	float:					left;
 	overflow:				hidden;
+  position:       relative;
 }
 #content_box_wrapper {
 	width:          1956px;
 	height:         446px;
+  position:       absolute;
+  top:            0px;
+  left:           0px;
 }
 .content_box_box {
 	float:          left;
@@ -261,6 +270,12 @@ span {
   font-size:      16px;
   font-weight:    bold;
 }
+.headline:hover {
+  color:            #d49e04;
+  font-size:        16px;
+  font-weight:      bold;
+  text-decoration:  none;
+}
 #content_box1 {
   /*background:     red;*/
   border-bottom-left-radius: 20px;
@@ -283,13 +298,19 @@ span {
   height:         105px;
   cursor:         pointer;
 }
+
+#right_margin .sider_label{
+  background:     url(/img/content2.png) black;
+}
+
+#right_margin .on{
+  background:     url(/img/content1.png) #d49e04;
+}
 #sider_label1 {
   margin-top:     0px;
-  background:     url(/img/content1.png) #d49e04;
 }
 #sider_label2 {
   margin-top:     6px;
-  background:     url(/img/content2.png) black;
 }
 #content_wrapper_top_margin {
   height:         23px;
@@ -317,4 +338,61 @@ span {
   margin-top:     5px;
   margin-bottom:  5px;
   display:        block;
+}
+#subpage_content_wrapper {
+  width:          658px;
+  display:        block;
+  padding:        40px;
+  float:          left;
+  opacity:        0.9;
+  filter:         alpha(opacity = 90);
+  background:     black;
+  min-height:     200px;
+}
+#subpage_sider_wrapper {
+  width:          196px;
+  padding-left:   22px;
+  padding-right:  22px;
+  padding-top:    40px;
+  padding-bottom: 40px;
+  float:          left;
+  opacity:        0.9;
+  filter:         alpha(opacity = 90);
+  background:     black;
+  min-height:     200px;
+}
+#subpage_content_wrapper_container {
+}
+.sidebarLink {
+  font-size:      16px;
+  font-weight:    bold;
+  color:          white;
+}
+.sidebarLink:hover {
+  font-size:      16px;
+  font-weight:    bold;
+  color:          white;
+  text-decoration: none;
+}
+.sidebarLink_active {
+  color:          #d49e04;
+  font-size:      16px;
+  font-weight:    bold;
+}
+.sidebarLink_active:hover {
+  font-size:      16px;
+  font-weight:    bold;
+  color:          white;
+  text-decoration: none;
+}
+#splicing {
+  position:       absolute;
+  z-index:        550;
+  background:     url(/img/black_trans.png)  top center repeat-x;
+}
+#subpage_content_box_box {
+  text-align:     justify;
+}
+#subpage_content_box_box p {
+  text-align:     justify;
 }

@@ -36,6 +36,10 @@ class View {
    return $content;
   }
 
+  public function getFileContent($class,$method) {
+    return file_get_contents(VIEWS . DIRECTORY_SEPARATOR . $class . DIRECTORY_SEPARATOR . $method . '.tpl');
+  }
+
   public function loadTemplate($template) {
     if(!include($template)) {
       throw new Exception("the template file is missisng: {$template}");

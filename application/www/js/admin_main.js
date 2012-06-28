@@ -6,6 +6,30 @@ $(document).ready(function() {
     }
     ThisModal.up();
   });
+
+  
+  $('.delete').click(function() {
+    $.get(
+      '/admin_ajax/delNode',
+      {id: $(this).attr('rel')},
+      function(resp) {
+         window.location.reload()
+      }
+    );
+    return false;
+  });
+
+  $('.deleteType').click(function() {
+    $.get(
+      '/admin_ajax/deleteType',
+      {id: $(this).attr('rel')},
+      function(resp) { console.log(resp);
+         window.location.reload()
+      }
+    );
+    return false;
+  });
+
 });
 
 var Galleries = {

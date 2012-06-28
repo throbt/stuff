@@ -3,6 +3,20 @@
   $paginator  = $this->var['paginator'];
 ?>
 
+<ul class="breadcrumb">
+  <li>
+    <a href="/admin_content">Admin Home</a>
+    <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/node/types">Tartalom típusok</a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <?php echo $this->var['type']; ?>
+  </li>
+</ul>
+
 <div class="row show-grid">
   <div class="span12">
     <div class="span2">
@@ -54,6 +68,8 @@
 
     <div class="span12">&nbsp;</div>
 
+    <?php if(gettype($this->var['data']) != 'NULL'): ?>
+
     <?php foreach($this->var['data'] as $article): ?>
       <div class="span12">
         <div class="span2">
@@ -97,46 +113,17 @@
           </p>
         </div> -->
         <div class="span1">
-
           <a class="btn btn-primary delete" rel="<?php echo $article['nid']; ?>" href="">Törlés</a>
-
-          <?php
-            // echo $form->render(array(
-
-            //     'form'      => array(
-            //       'action'    => "/admin_articles/{$article['nid']}",
-            //       'method'    => 'post',
-            //       'token'     => true,
-            //       '_method'   => 'delete',
-            //       'id'        => 'delete_article',
-            //       'template'  => 'default'
-            //     ),
-
-            //     'elements'  => array(
-
-            //         array(
-            //           'type'  => 'hidden',
-            //           'id'    => 'id',
-            //           'name'  => 'id',
-            //           'value' => $article['nid']
-            //         ),
-            //         array(
-            //           'type'  => 'submit',
-            //           'id'    => 'sbm',
-            //           'class' => 'btn btn-primary',
-            //           'value' => 'Törlés'
-            //         )
-            //     )
-            // ));
-          ?>
-
-          <!--p>
-            <a class="btn btn-primary" href="/admin_articles/<?php echo $article['nid']; ?>/edit">Törlés</a>
-          </p-->
-
         </div>
       </div>  <br /><br /><br />
     <?php endforeach; ?>
+    <?php else: ?>
+      <div class="span12">
+        <div class="span6">
+          <h3>nincs még feltöltve ilyen tartalom</h3>
+        </div>
+      </div>
+    <?php endif; ?>
 </div>
 
 <?php echo $paginator; ?>

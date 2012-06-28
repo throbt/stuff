@@ -10,10 +10,18 @@ class Front_controller extends Controller {
 	
     $this->title = 'Evoline - home';
 
+    $contentArr = array();
+    $arr        = $this->model->get();
+
+    foreach($arr as $a) {
+      $a['link']    = '/' . $this->router->link("cikkek/{$a['id']}");
+      $contentArr[] = $a;
+    }
+    
     $this->content = $this->view->renderTemplate(
       array(
         'scope' => $this,
-        'data'  => $this->model->codeIt($this->model->get())
+        'data'  => $this->model->codeIt($contentArr)
       ),
       $this->view->getTemplatePath('front','index')
     );

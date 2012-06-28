@@ -67,7 +67,7 @@ class Login_controller extends Controller {
 
     if($profile) {
       $this->session->setProfile($profile);
-      $this->redirect('admin');
+      $this->redirect('admin_content');
     } else {
       $this->redirect('login');
     }

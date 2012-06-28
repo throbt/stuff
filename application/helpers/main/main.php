@@ -4,6 +4,8 @@ class Main_helper extends View {
   
   public function init() {
     //print_r($this->scope->router->loader);
+
+    $this->url = '/' . implode('/',$this->scope->router->orders);
   }
 
   public function getSliderImages() {
@@ -84,30 +86,25 @@ class Main_helper extends View {
     }
 
     return $arr;
+  }
 
-    // return array(
-    //   "/upload/25/0fcdc0350faa3cc3cfdec31d4d1ed4ca.jpg",
-    //   "/upload/25/55667606dbadc099146a72b0a1d6cb3c.jpg",
-    //   "/upload/25/0fcdc0350faa3cc3cfdec31d4d1ed4ca.jpg",
-    //   "/upload/25/55667606dbadc099146a72b0a1d6cb3c.jpg",
-    //   "/upload/25/0fcdc0350faa3cc3cfdec31d4d1ed4ca.jpg",
-    //   "/upload/25/55667606dbadc099146a72b0a1d6cb3c.jpg"
-    // );
-
-    // return array(
-    //   "/img/bgs/bg2.jpg",
-    //   "/img/bgs/bg1.jpg",
-    //   "/img/bgs/bg3.jpg",
-    //   "/img/bgs/bg4.jpg",
-    //   "/img/bgs/bg5.jpg",
-    //   "/img/bgs/bg6.jpg"
-    // );
+  public function getSideBarItems() {  //print_r($this->scope->router->orders); die();
+    return array(
+      'Az Evolineról'         => '/cikkek/28',
+      'Cégünk tevékenysége'   => '/cikkek/27',
+      'Történetünk'           => '/cikkek/23',
+      'Értékeink'             => '/cikkek/25',
+      'A linepro cégcsoport'  => '/cikkek/24',
+      'active'                => $this->scope->router->link('/cikkek/28') //$this->scope->router->link($this->url)
+    );
   }
 
   public function getCfg() {
     $cfg = json_encode(array(
       'menubar'         => $this->getMenu(),
-      'happeningImages' => $this->happeningImages()
+      'happeningImages' => $this->happeningImages(),
+      'sidebar'         => ($this->scope->router->action == 'show' ? $this->getSideBarItems() : ''),
+      'thisLocation'    => $this->scope->router->link($this->url)
     ));
 
     return "<input type='hidden' id='cfg' value='{$cfg}' />";
@@ -135,7 +132,13 @@ class Main_helper extends View {
   }
 
   public function getScript() {
-    $arr      = array('jquery.js'/*,'main.js','calendar.js'*/ ,'jquery.nivo.slider.js','builder.js','slidercfg.js','main.js');
+
+    $main_js = array(
+      'index' => 'main.js',
+      'show'  => 'main_show.js'
+    );
+
+    $arr      = array('jquery.js','jquery.nivo.slider.js','builder.js','slidercfg.js',$main_js[$this->scope->router->action]);
     $scripts  = '';
     foreach($arr as $scriptName) {
       $scripts .= implode('',array(

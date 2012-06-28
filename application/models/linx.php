@@ -1,6 +1,6 @@
 <?php
 
-class Linx_model extends Node {
+class Linx_model extends Model {
   
   public function init() {
     $this->className  = $this->getClassName(get_class());

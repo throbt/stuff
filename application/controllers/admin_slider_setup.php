@@ -169,10 +169,22 @@
         )
       ));
 
+      $breadcrumb = '
+        <ul class="breadcrumb">
+          <li>
+            <a href="/admin_content">Admin Home</a>
+            <span class="divider">/</span>
+          </li>
+          <li class="active">
+            Slider setup
+          </li>
+        </ul>
+      ';
+
       echo $this->view->renderTemplate(
         array(
           'scope' => $this,
-          'data'  => $this->content
+          'data'  => $breadcrumb . $this->content
         ),
         $this->view->getTemplatePath('admin','main')
       );

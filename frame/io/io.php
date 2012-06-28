@@ -75,5 +75,14 @@ class Io {
 	public function ftpClose() {
 	  ftp_close($this->ftp);
 	}
+
+  public function fileGetContentLines($resource) {
+    $res  = array();
+    $fp   = fopen($resource,'rb');
+    while(($line = fgets($fp)) !== false) {
+      $res[] = $line;
+    }
+    return $res;
+  }
 	
 }

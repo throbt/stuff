@@ -67,13 +67,25 @@ class Article_model extends Node {
   }
 
 	public function codeIt($arr) {
-		//$stuff 	= $this->router->loader->get('Stuff');
 		$res 		= array();
 		$ar 		= array();
 		foreach($arr as $thisArr) {
 			$ar = array();
 			foreach($thisArr as $k => $val) {
 				$ar[$k] = urlencode($this->stuff->textCutter($val,300));
+			}
+			$res[] = $ar;
+		}
+		return $res;
+	}
+
+	public function codeItForContent($arr) {
+		$res 		= array();
+		$ar 		= array();
+		foreach($arr as $thisArr) {
+			$ar = array();
+			foreach($thisArr as $k => $val) {
+				$ar[$k] = urlencode($val);
 			}
 			$res[] = $ar;
 		}

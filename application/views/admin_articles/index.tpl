@@ -6,7 +6,7 @@
 <div class="row show-grid">
   <div class="span12">
     <div class="span2">
-      <a id="sbm" class="btn btn-primary save" href="/admin_articles/add" type="submit">Új cikk</a>
+      <a id="sbm" class="btn btn-primary" href="/node/add/articles" type="submit">Új cikk</a>
     </div>
   </div>
   <div class="span12">
@@ -35,20 +35,20 @@
           <strong>aktív</strong>
         </p>
       </div>
+      <!-- <div class="span1">
+        opció
+      </div> -->
       <div class="span1">
         opció
       </div>
-      <div class="span1">
-        opció
-      </div>
-    </div>
+    </div> <br /><br /><br />
 
     <div class="span12">&nbsp;</div>
 
     <?php foreach($this->var['data'] as $article): ?>
       <div class="span12">
         <div class="span2">
-          <h4><a class="" href="/admin_articles/<?php echo $article['id']; ?>"><?php echo $article['title']; ?></a></h4>
+          <h4><a class="" href="/node/update/articles/<?php echo $article['nid']; ?>"><?php echo $article['title']; ?></a></h4>
         </div>
         <div class="span2">
           <p>
@@ -62,25 +62,25 @@
         </div>
         <div class="span1">
         
-          <?php if($article['active'] == 'true'): ?>
-            <input model="Article" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" checked="true" class="active" />
+          <?php if($article['active'] == 1): ?>
+            <input model="Article" type="checkbox" rel="<?php echo $article['nid']; ?>" id="active<?php echo $article['nid']; ?>" checked="true" class="active" />
           <?php else: ?>
-            <input model="Article" type="checkbox" rel="<?php echo $article['id']; ?>" id="active<?php echo $article['id']; ?>" class="active" />
+            <input model="Article" type="checkbox" rel="<?php echo $article['nid']; ?>" id="active<?php echo $article['nid']; ?>" class="active" />
           <?php endif; ?>
         
       </div>
-        <div class="span1">
+        <!-- <div class="span1">
           <p>
-            <a class="btn btn-primary" href="/admin_articles/<?php echo $article['id']; ?>/edit">edit</a>
+            <a class="btn btn-primary" href="/admin_articles/<?php echo $article['nid']; ?>/edit">edit</a>
           </p>
-        </div>
+        </div> -->
         <div class="span1">
 
           <?php
             echo $form->render(array(
 
                 'form'      => array(
-                  'action'    => "/admin_articles/{$article['id']}",
+                  'action'    => "/admin_articles/{$article['nid']}",
                   'method'    => 'post',
                   'token'     => true,
                   '_method'   => 'delete',
@@ -94,7 +94,7 @@
                       'type'  => 'hidden',
                       'id'    => 'id',
                       'name'  => 'id',
-                      'value' => $article['id']
+                      'value' => $article['nid']
                     ),
                     array(
                       'type'  => 'submit',
@@ -107,11 +107,11 @@
           ?>
 
           <!--p>
-            <a class="btn btn-primary" href="/admin_articles/<?php echo $article['id']; ?>/edit">Törlés</a>
+            <a class="btn btn-primary" href="/admin_articles/<?php echo $article['nid']; ?>/edit">Törlés</a>
           </p-->
 
         </div>
-      </div>
+      </div> <br /><br /><br />
     <?php endforeach; ?>
 </div>
 

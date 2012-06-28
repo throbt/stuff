@@ -6,6 +6,16 @@
   $paginator = $this->var['paginator'];
 ?>
 
+<ul class="breadcrumb">
+  <li>
+    <a href="/admin_content">Admin Home</a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    Url maszkolás
+  </li>
+</ul>
+
 <script src="/js/SEO.js" type="text/javascript"></script>
 
 <div class="well form-horizontal"> 

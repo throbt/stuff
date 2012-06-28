@@ -52,7 +52,7 @@ class Model {
     // if(/*isset($this->debug) && $this->debug == true*/ 1 == 1) {
     // 	echo $query . "<br />\n";
     // 	print_r($params);
-    // 	print_r($sth->errorinfo()); die();
+    // 	print_r($sth->errorinfo()); //die();
     // }
   }
 

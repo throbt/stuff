@@ -1,4 +1,15 @@
 <script src="/js/languages.js" type="text/javascript"></script>
+
+<ul class="breadcrumb">
+  <li>
+    <a href="/admin_content">Admin Home</a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    Nyelvi elemek
+  </li>
+</ul>
+
 <div class="control-group input-xlarge">
   <label for="lang">Típusok</label>
   <div class="text">

@@ -1,4 +1,5 @@
-1/*
+
+/*
   main js for evoline, written by robThot(robthot@gmail.com)
   licensed under the terms of WFTPL (http://en.wikipedia.org/wiki/WTFPL)
 */
@@ -40,6 +41,14 @@ var evoline = {
         type  : 'div',
         id    : 'overlay',
         style : ['width:',evoline.dimensions['width'],'px;height:',evoline.dimensions['height'],'px;'].join('')
+      }]
+    });
+    $$.create({
+      type  : 'div',
+      id    : 'splicing',
+      arr   : [{
+        type  : 'div',
+        id    : 'splicing_inner'
       }]
     });
   },
@@ -125,17 +134,17 @@ var evoline = {
           type  : 'div',
           id    : 'logo_box1',
           cls   : 'page_logo_box',
-          html  : '<span>TANÁCSADÁS</span>'
+          html  : '<a href="/cikkek/21">TANÁCSADÁS</a>'
         },{
           type  : 'div',
           id    : 'logo_box2',
           cls   : 'page_logo_box',
-          html  : '<span>TECHNOLOGIA</span>'
+          html  : '<a href="/cikkek/21">TECHNOLOGIA</a>'
         },{
           type  : 'div',
           id    : 'logo_box3',
           cls   : 'page_logo_box',
-          html  : '<span>NEARSHORING</span>'
+          html  : '<a href="/cikkek/21">NEARSHORING</a>'
         }]
       },{
         type  : 'div',
@@ -150,62 +159,77 @@ var evoline = {
         type  : 'div',
         id    : 'content_wrapper_top_margin',
         cls   : 'page-container',
-        arr   : [{
-          type  : 'div',
-          id    : 'wrapper_boxes1'
-        },{
-          type  : 'div',
-          id    : 'wrapper_boxes2'
-        }]
+        arr   : []
       },{
         type  : 'div',
         id    : 'content_wrapper',
         arr   : [{
           type  : 'div',
-          id    : 'content_box_wrapper_container',
-					arr		: [{
-						type  : 'div',
-	          id    : 'content_box_wrapper'
-					}]
-        },{
-          type  : 'div',
-          id    : 'right_margin',
+          id    : 'subpage_content_wrapper_container',
+          cls   : 'page-container',
           arr   : [{
             type  : 'div',
-            id    : 'sider_label1',
-            cls   : 'sider_label on'
+            id    : 'subpage_content_wrapper'
           },{
             type  : 'div',
-            id    : 'sider_label2',
-            cls   : 'sider_label'
+            id    : 'subpage_sider_wrapper'
           }]
         }]
       }]
     });
 
     evoline.fillContent();
+    evoline.buildSideBar();
     evoline.setEventsUp();
+
+    evoline.finishLayoutSetup();
+  },
+
+  finishLayoutSetup: function() {
+    if($('#subpage_content_wrapper').height() > 400) {
+      var thisHeight = $('#subpage_content_wrapper').height() - 310;
+      
+      $($$.cache.splicing).css({
+        top         : evoline.dimensions['height']-100,
+        left        : 0,
+        width       : evoline.dimensions['width'],
+        height      : thisHeight-100,
+        paddingTop  : 100
+        // background  : 'black'
+      });
+
+      $($$.cache.splicing_inner).css({
+        width       : evoline.dimensions['width'],
+        height      : thisHeight-100,
+        background  : 'black'
+      });
+
+    }  //[].join('')
   },
 
   fillContent: function() {
-    
-		var thisContent = $.parseJSON($('#content').html()); 
+    var thisContent = $.parseJSON($('#content').html());
+    $$.create({
+      type  : 'div',
+      cls   : 'subpage_content_box_box',
+      html  : ['<span class="headline">',unescape(thisContent[0]['title']).replace(/\+/g, ' '),'</span><p class="">',unescape(thisContent[0]['body']).replace(/\+/g, ' '),'</p>'].join('')
+    },$$.cache.subpage_content_wrapper);
+  },
 
-		for(var i = 0,l = thisContent.length; i < l; i += 2) {
-			$$.create({
-				type  : 'div',
-        cls   : 'content_box_box',
-				arr		: [{
-					type	: 'div',
-					cls		: 'content_box',
-					html	: ['<a href="',unescape(thisContent[i]['link']).replace(/\+/g, ''),'" class="headline">',unescape(thisContent[i]['title']).replace(/\+/g, ' '),'</a><p class="">',unescape(thisContent[i]['body']).replace(/\+/g, ' '),'</p>'].join('')
-				},{
-					type	: 'div',
-					cls		: 'content_box',
-					html	: (typeof thisContent[i+1] != 'undefined' ? ['<a href="',unescape(thisContent[i+1]['link']).replace(/\+/g, ''),'" class="headline">',unescape(thisContent[i+1]['title']).replace(/\+/g, ' '),'</a><p class="">',unescape(thisContent[i+1]['body']).replace(/\+/g, ' '),'</p>'].join('') : '')
-				}]
-			},$$.cache.content_box_wrapper);
-		}
+  buildSideBar: function() {
+    var cfg = evoline.cfg.sidebar;
+    for(var i in cfg) {
+      if(i != 'active')
+        $$.create({
+          type  : 'p',
+          arr   : [{
+            type  : 'a',
+            cls   : 'sidebarLink' + (cfg['active'] == cfg[i] ? '_active' : ''),
+            href  : cfg[i],
+            html  : i
+          }]
+        },$$.cache.subpage_sider_wrapper);
+    }
   },
 
   setEventsUp: function() {
@@ -289,4 +313,8 @@ var evoline = {
       }
     }
   }
+}
+
+var animator = {
+  
 }

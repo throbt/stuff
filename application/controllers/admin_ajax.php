@@ -71,17 +71,29 @@ class Admin_ajax_controller extends Controller {
               from
                 images m
             left join
-                galleries g
+                node g
             on
               m.gallery = g.id
             where
-              g.title != 'index_action'
-            and
               m.gallery = ?
           ",
         array($this->get['gallery'])
       )
     ));
+    die();
+  }
+
+  public function delNode() {
+    $model = $this->router->loader->get('Node');
+    $model->delete($this->get['id']);
+    echo 1;
+    die();
+  }
+
+  public function deleteType() {
+    $model = $this->router->loader->get('Node');
+    $model->deletetype($this->get['id']);
+    echo 1;
     die();
   }
 
@@ -117,12 +129,15 @@ class Admin_ajax_controller extends Controller {
   }
   
   public function setActive() {
-    $model = $this->router->loader->get($this->get['model'],'model');
-    $model->update(
-      $this->get['id'],
-      array(
-      'active'  => $this->get['active']
-    ));
+    $model = $this->router->loader->get('Node');
+    $model->setActive($this->get['id'],$this->get['active']);
+
+    // $model = $this->router->loader->get($this->get['model'],'model');
+    // $model->update(
+    //   $this->get['id'],
+    //   array(
+    //   'active'  => $this->get['active']
+    // ));
   }
   
   public function getGalleries() {

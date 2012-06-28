@@ -34,6 +34,7 @@ class Router {
 		$this->loader->load('Controller');
 		$this->loader->load('Model');
 		$this->loader->load('Node');
+		$this->loader->load('Nodecontroller');
 		$this->params = new stdClass();
 		$this->setParams();
 		$this->route();

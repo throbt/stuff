@@ -11,17 +11,17 @@ class Model {
       throw new Exception("the db adapter is missisng: {$config->cfg['db.adapter']}");
       die();
     }
-    
-    $this->db 		= getPDO::get();
+
+    $this->db = getPDO::get();
     $this->db->query("set names 'utf8'");
 		$this->init();
   }
 
 	public function init() {
   }
-  
+
 	public function select($query,$params = array()) {
-    $sth = $this->db->prepare($query);  
+    $sth = $this->db->prepare($query);
     if(gettype($params) == 'array') {
       foreach($params as $index => $param) {
         $sth->bindValue(($index+1),$param);
@@ -64,10 +64,10 @@ class Model {
 			return strtolower($className);
 		}
 	}
-	
+
 	/*
 		@get method
-		
+
 		@id {integer}
 		@query (array) {
 			0 => {string(sql)},
@@ -114,7 +114,7 @@ class Model {
 
 	/*
 		@create method
-		
+
 		@column (array) {column => value pairs}
 		@query (array) {
 			0 => {string(sql)},
@@ -153,7 +153,7 @@ class Model {
 
 	/*
 		@update method
-		
+
 		@id {integer}
 		@column (array) {column => value pairs}
 		@query (array) {
@@ -191,13 +191,13 @@ class Model {
 						id = {$id};
 				",
 				$values
-			);  
+			);
 		}
   }
-	
+
 	/*
 		@delete method
-		
+
 		@id {integer}
 		@query (array) {
 			0 => {string(sql)},
@@ -223,7 +223,7 @@ class Model {
   }
 
   /*
-		@getAll method - use the simple get without id, if u dont need the paginator 
+		@getAll method - use the simple get without id, if u dont need the paginator
 
 		@$queryAll 		{string}
 		@$queryCount 	{string}
@@ -235,17 +235,17 @@ class Model {
   	$currentPage  = $page;
     $pagePerItem  = $pager;
     $queryArr[0]  = $queryCount;
-    $queryArr[1] = array();
-    
+    $queryArr[1] = $params;
+
     $paginator = $this->paginator($queryArr,$pagePerItem,$currentPage);
-  	
+
     $res = $this->select(
         "{$queryAll}"
         /*(preg_match('/where/',$queryAll) ? '' : (preg_match('/order/',$queryAll) ? '' : ' where '))*/
         ."{$paginator['limit']};",
         $params
     );
-    
+
     if(gettype($res) == 'array' && count($res) > 0) {
       return array(
         'result'  => $res,
@@ -272,7 +272,7 @@ class Model {
       $queryArr[0],
       $queryArr[1]
     );
-    $all      = $res[0]['counter'];
+    $all      = (isset($res[0]['counter']) ? $res[0]['counter'] : 0);
     $allPages = ceil((int)$all/(int)$pagePerItem);
 
     if($pager <= 0 || $pager > $allPages) {

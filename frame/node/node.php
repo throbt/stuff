@@ -4,7 +4,7 @@ class Node extends Model {
 
   public function getNodeById($id) {
     $t = $this->select('select type from node where id = ?',array($id));
-    
+
     if(isset($t[0])) {
       $r = $this->select(
         "
@@ -29,8 +29,15 @@ class Node extends Model {
     return null;
   }
 
-  public function getAllByType($type = '') {
+  public function getAllByType($type = '',$order = '',$thisWhere = '',$limit = '') {
     if($type != '') {
+
+      $where = " where n.type = '{$type}' ";
+
+      if($thisWhere != '') {
+        $where .= $thisWhere;
+      }
+
       $r = $this->select(
         "
           select
@@ -40,7 +47,13 @@ class Node extends Model {
             node n
           left join
             {$type} nt
-          on n.id = nt.nid;
+          on n.id = nt.nid
+
+          {$where}
+
+          {$order}
+
+          {$limit};
         ",
         array()
       );
@@ -166,6 +179,10 @@ class Node extends Model {
       'value' => 'Mentés'
     );
 
+    if($job == 'create') {
+      $form = $this->changeCreateForm($form,$type);
+    }
+
     return $form;
   }
 
@@ -184,7 +201,7 @@ class Node extends Model {
     $type   = $post['type'];
     $nType  = $this->getType($type);
     $cfg    = json_decode($nType['cfg']);
-    
+
     /*
       first of all we must create a new node
     */
@@ -256,7 +273,7 @@ class Node extends Model {
             $formArr['elements'][$k]['value']       = $index;
           } else if($el['name'] == 'lang') {
             $formArr['elements'][$k]['value']       = $node[0][$el['name']];
-          } 
+          }
 
           else if($el['name'] == 'gallery') {
             $formArr['elements'][$k]['options']     = $this->getGalleries();
@@ -274,16 +291,16 @@ class Node extends Model {
     /*
       render hook for update form
     */
-    $formArr = $this->changeForm($formArr,$index);
+    $formArr = $this->changeUpdateForm($formArr,$index);
 
     $formArr['form']['action'] = "/node/{$index}";
     return $formArr;
   }
 
-  public function saveUpdate($post) {
+  public function saveUpdate($post) { //print_r($post); die();
     $type   = $post['type'];
     $nType  = $this->getType($type);
-    $cfg    = json_decode($nType['cfg']);
+    $cfg    = json_decode($nType['cfg']); //print_r($cfg); die();
     $cfgArr = array();
     foreach($cfg as $c) {
       $cfgArr[] = $c->name;
@@ -314,7 +331,7 @@ class Node extends Model {
               active            = ?,
               edited            = now()
           where
-            id = ? 
+            id = ?
       ",
       array(
         $post['date_from'],
@@ -348,20 +365,60 @@ class Node extends Model {
             set
              {$updStr}
           where
-            nid = ? 
+            nid = ?
       ",
       $updArr
-    );
+    ); //print_r($updArr); die();
   }
 
   public function delete($id) {
     $thisNode = $this->getNodeById($id);
+
+    if($thisNode[0]['type'] == 'gallery') {
+      $res = $this->select("
+        select right_id from node_node where left_id = ? and left_type = 'gallery';
+      ",
+      array($id)
+      );
+
+      if(isset($res[0]['right_id'])) {
+        $this->query("delete from node_node where left_id = ? and (right_type = 'images')",array($res[0]['right_id']));
+      }
+    }
+
+    if($thisNode[0]['type'] == 'sidebar') {
+      $res = $this->select("
+        select right_id from node_node where left_id = ? and left_type = 'sidebar';
+      ",
+      array($id)
+      );
+
+      if(isset($res[0]['right_id'])) {
+        $this->query("delete from node_node where left_id = ? and (right_type = 'articles')",array($res[0]['right_id']));
+      }
+    }
+
+    if($thisNode[0]['type'] == 'home') {
+      $res = $this->select("
+        select right_id from node_node where left_id = ? and left_type = 'home';
+      ",
+      array($id)
+      );
+
+      if(isset($res[0]['right_id'])) {
+        $this->query("delete from node_node where left_id = ? and (right_type = 'articles' or right_type = 'images')",array($res[0]['right_id']));
+      }
+    }
+
     $this->query("delete from node where id = ?",array($id));
     $this->query("delete from {$thisNode[0]['type']} where nid = ?",array($id));
+
+#    $this->query("delete from node_node where left_id = ?",array($id));
+#    $this->query("delete from node_node where right_id = ?",array($id));
   }
 
   public function setActive($id,$state) {
-    $thisState = ($state == 'true' ? 1 : 0); echo "update node set active = ? where id = ?";
+    $thisState = ($state == 'true' ? 1 : 0);// echo "update node set active = ? where id = ?";
     $this->query("update node set active = ? where id = ?",array($thisState,$id));
   }
 
@@ -375,7 +432,7 @@ class Node extends Model {
         case 'images':
           $stuff    = $loader->get('Stuff');
           $thisName = md5(microtime());
-          
+
           if($newFile = $stuff->moveUpload('name',$thisName,UPLOAD.$post['gallery'])) {
             $this->query("update images set name = '{$newFile}' where nid = {$id}",array());
           }
@@ -400,6 +457,38 @@ class Node extends Model {
     }
   }
 
+  public function getNodeConnection($direction,$id) {
+    $sql = '';
+    switch($direction) {
+      case 'left':
+        $sql = "
+          select
+            right_id,
+            right_type
+              from
+                node_node
+          where
+            left_id = ?
+        ";
+      break;
+      case 'right':
+        $sql = "
+          select
+            right_id,
+            right_type
+              from
+                node_node
+          where
+            right_id = ?
+        ";
+      break;
+    }
+    if($sql != '') {
+      return $this->select($sql,array($id));
+    }
+    return null;
+  }
+
   /*
     extra params hook
   */
@@ -409,49 +498,104 @@ class Node extends Model {
         case 'images':
           if(count($nodes) > 0) {
             foreach($nodes as $index => $r) {
-              $thisGallery = $this->getNodeById($r['gallery']); 
+              $thisGallery = $this->getNodeById($r['gallery']);
               $nodes[$index]['params'] = $thisGallery[0];
             }
           }
         break;
+
+        case 'sidebar':
+          if(count($nodes) > 0) {
+            foreach($nodes as $index => $r) {
+              $arr        = explode('|',$r['nodes']);
+              if(isset($arr[0])) {
+                $main_node                = $this->getNodeById($arr[0]);
+                $nodes[$index]['params']  = $main_node[0];
+              }
+            }
+          }
+        break;
+
+        case 'gallery':
+          if(count($nodes) > 0) {
+            foreach($nodes as $index => $r) {
+              $arr        = explode('|',$r['nodes']);
+              if(isset($arr[0])) {
+                $main_node                = $this->getNodeById($arr[0]);
+                $nodes[$index]['params']  = $main_node[0];
+              }
+            }
+          }
+        break;
+
+        case 'home':
+          if(count($nodes) > 0) {
+            foreach($nodes as $index => $r) {
+              $arr        = explode('|',$r['nodes']);
+              if(isset($arr[0])) {
+                $main_node                = $this->getNodeById($arr[0]);
+                $nodes[$index]['params']  = $main_node[0];
+              }
+            }
+          }
+        break;
+
       }
     }
     return $nodes;
   }
 
+  /*
+    render hook for create form
+  */
+  public function changeCreateForm($form,$type) {
+    global $loader;
+    $thisView = $loader->get('View');
+    $elements = array();
+    foreach($form['elements'] as $el) {
+      switch($type) {
+        case 'menu':
+          if($el['type'] == 'hidden') {
+            if($el['name'] == 'action') {
+              $elements[] = array(
+                'type'  => 'special',
+                'src'   => 'sample_menu'
+              );
+              $elements[] = $el;
+            } else {
+              $elements[] = $el;
+            }
+          } else {
+            $elements[] = $el;
+          }
+          $form['elements'] = $elements;
+        break;
+      }
+    }
+    return $form;
+  }
 
   /*
     render hook for update form
   */
-  public function changeForm($form,$id) {
+  public function changeUpdateForm($form,$id) {
     global $loader;
     $thisView = $loader->get('View');
     $node     = $this->getNodeById($id);
-
-    /*if($node[0]['type'] == 'menu') {
-      $elArr = array();
-      foreach($form['elements'] as $el) {
-
-      }
-    }*/
 
     $elements = array();
     foreach($form['elements'] as $el) {
       switch($node[0]['type']) {
         case 'menu':
-          if($el['type'] == 'textarea') {
-            if($el['name'] == 'config') {
+          if($el['type'] == 'hidden') {
+            if($el['name'] == 'action') {
               $elements[] = array(
                 'type'  => 'special',
-                'html'  => '
-                  <label>kép</label>
-                ' . $thisView->getFileContent('node','sample_menu')
+                'src'   => 'sample_menu'
               );
-              $elements[] = array(
-                'type'  => 'hidden',
-                'name'  => 'config',
-                'value' =>  $node[0]['config']
-              );
+              $elements[] = $el;
+            } else {
+              $elements[] = $el;
             }
           } else {
             $elements[] = $el;
@@ -483,6 +627,29 @@ class Node extends Model {
       }
     }
     return $form;
+  }
+
+  public function getImagesByGallery($gallery_id) {
+    $r = $this->select(
+      "
+        select
+          n.*,
+          nt.*
+        from
+          node n
+        left join
+          images nt
+        on n.id = nt.nid
+
+        where
+          nt.gallery = ?
+        and
+          n.active = 1;
+      ",
+      array($gallery_id)
+    );
+
+    return $r;
   }
 
   public function getGalleries() {
@@ -524,6 +691,21 @@ class Node extends Model {
     return null;
   }
 
+  public function getNodeTypeById($id) {
+    $node = $this->select(
+      "
+        select
+          type
+            from
+              node
+        where
+          id = ?
+      ",
+      array($id)
+    );
+    return $node[0]['type'];
+  }
+
   public function getNodeTypes() {
     $res = $this->select(
       "select * from node_type where name != 'menu';",
@@ -538,9 +720,180 @@ class Node extends Model {
   public function deletetype($id) {
     $thisType = $this->getTypeById($id);
     $tbl      = $thisType[0]['name'];
+
     $this->query("drop table {$tbl}",array());
     $this->query("delete from node_type where id = ?",array($id));
     $this->query("delete from node where type = '{$tbl}'",array());
+  }
+
+  public function saveSidebarItem($left_id,$ids) {
+    $sidebarId  = $this->create(array('type'=>'sidebar'));
+    $arr        = array($left_id);
+    foreach($ids as $id) {
+      $arr[] = $id;
+    }
+
+    $thisString = implode('|',$arr);
+    $this->query("
+      update sidebar set nodes = ? where nid = ?
+    ",array($thisString,$sidebarId));
+  }
+
+  public function updateSidebarItem($left_id,$ids) {
+   $res = $this->select("
+      select
+        nid
+          from
+            sidebar
+      where nodes like '{$left_id}%'
+    ",array());
+
+    $sidebarId = $res[0]['nid'];
+
+    $arr = array($left_id);
+    foreach($ids as $id) {
+      $arr[] = $id;
+    }
+    $thisString = implode('|',$arr);
+    $this->query("
+      update sidebar set nodes = ? where nid = ?
+    ",array($thisString,$sidebarId));
+  }
+
+  public function getMenuByRoute($route) {
+    $res = $this->select("
+      select
+        m.*
+          from
+
+            menu m
+      join node n
+        on m.nid = n.id
+
+      where
+        url = ?
+      and
+        n.active != 10
+    ",array($route));
+    if(isset($res[0])) {
+      return $res[0];
+    }
+
+    return null;
+  }
+
+  public function saveGalleryItem($left_id,$ids) {
+    $sidebarId = $this->create(array('type'=>'gallery'));
+    $arr = array($left_id);
+    foreach($ids as $id) {
+      $arr[] = $id;
+    }
+    $thisString = implode('|',$arr);
+    $this->query("
+      update gallery set nodes = ? where nid = ?
+    ",array($thisString,$sidebarId));
+  }
+
+  public function updateGalleryItem($left_id,$ids) {
+    $res = $this->select("
+      select
+        nid
+          from
+            gallery
+      where nodes like '{$left_id}%'
+    ",array());
+
+    $sidebarId = $res[0]['nid'];
+
+    $arr = array($left_id);
+    foreach($ids as $id) {
+      $arr[] = $id;
+    }
+    $thisString = implode('|',$arr);
+    $this->query("
+      update gallery set nodes = ? where nid = ?
+    ",array($thisString,$sidebarId));
+  }
+
+  public function saveHomeItem($left_id,$ids) {
+    $sidebarId  = $this->create(array('type'=>'home'));
+    $arr        = array($left_id);
+    foreach($ids as $id) {
+      $arr[] = $id;
+    }
+
+    $thisString = implode('|',$arr);
+    $this->query("
+      update home set nodes = ? where nid = ?
+    ",array($thisString,$sidebarId));
+  }
+
+  public function updateHomeItem($left_id,$ids) {
+   $res = $this->select("
+      select
+        nid
+          from
+            home
+      where nodes like '{$left_id}%'
+    ",array());
+
+    $sidebarId = $res[0]['nid'];
+
+    $arr = array($left_id);
+    foreach($ids as $id) {
+      $arr[] = $id;
+    }
+    $thisString = implode('|',$arr);
+    $this->query("
+      update home set nodes = ? where nid = ?
+    ",array($thisString,$sidebarId));
+  }
+
+  public function urlLookup($node) {
+    /*
+      1., search in the show actions of menu node
+    */
+    $res = $this->select(
+      "
+        select
+          *
+          from
+            menu
+          where
+            content = ?
+      ",
+      array($node['nid'])
+    );
+
+    if(isset($res[0])) { //print_r($res[0]);
+      $node['link'] = '/'.$this->link("content/menu/{$res[0]['url']}");
+    } else {
+    /*
+      2., if it fails ( 1 ), generate a content/menu/type/id url
+    */
+      $node['link'] = '/'.$this->link("content/menu/{$node['type']}/{$node['nid']}");
+    }
+    return $node;
+  }
+
+  public function link($link) {
+    global $loader;
+    if(!isset($this->linkModel)) {
+      $this->linkModel = $loader->get('linx','model');
+    }
+
+    if(!isset($this->linx)) {
+      $linx = $this->linkModel->get();
+      foreach($linx as $l) {
+        $this->linx[$l['params']] = $l['thisorder'];
+      }
+    }
+
+    if(isset($this->linx[$link])) {
+      return $this->linx[$link];
+    } else {
+      return $link;
+    }
   }
 
   // public function script() {

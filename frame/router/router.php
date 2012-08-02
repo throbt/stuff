@@ -22,7 +22,7 @@ class getRouter {
 	Read		 {get}		(controller/[:index]) - simple get
 	Update	 {put}		(controller/[:index]) - http post method with variable _method=put
 	Delete	 {delete} (controller/[:index]) - http post method with variable _method=delete
-	
+
 	crud instead of rest
 */
 class Router {
@@ -35,15 +35,17 @@ class Router {
 		$this->loader->load('Model');
 		$this->loader->load('Node');
 		$this->loader->load('Nodecontroller');
+		$this->loader->load('Taxonomy');
+		$this->loader->load('Taxonomycontroller');
 		$this->params = new stdClass();
 		$this->setParams();
 		$this->route();
 	}
-	
+
 	private function route() {
 
 		$this->setOrder();
-		
+
 		/*
 			doing the necessary preinit stuff
 
@@ -68,9 +70,9 @@ class Router {
 				$this->params->index = (int)$this->orders[1];
 			}
 		}
-		
+
 		if($this->orders[0] == '') {
-			$this->scope 	= 'Front';
+			$this->scope 	= 'Home';
 			$home 				= $this->link(strtolower($this->scope));
 			header("location: /{$home}");
 		} else {
@@ -91,33 +93,37 @@ class Router {
 			break;
 			case 'POST':
 				if($this->params->post) {
-					switch($this->params->post['_method']) {
-						case 'create':
-							$action = 'create';
-						break;
-						case 'update':
-							if(isset($this->params->index)) {
-								$action = 'update';
-							} else {
-								$this->scope = 'page404';
-							}
-						break;
-						case 'delete':
-							if(isset($this->params->index)) {
-								$action = 'delete';
-							} else {
-								$this->scope = 'page404';
-							}
-						break;
-						default:
-							if(isset($this->orders[1])) {
-								$action = $this->orders[1];
-							} else {
-								$this->scope = 'page404';
-							}
-						break;
+					if(isset($this->params->post['_method'])) {
+						switch($this->params->post['_method']) {
+							case 'create':
+								$action = 'create';
+							break;
+							case 'update':
+								if(isset($this->params->index)) {
+									$action = 'update';
+								} else {
+									$this->scope = 'page404';
+								}
+							break;
+							case 'delete':
+								if(isset($this->params->index)) {
+									$action = 'delete';
+								} else {
+									$this->scope = 'page404';
+								}
+							break;
+							default:
+								if(isset($this->orders[1])) {
+									$action = $this->orders[1];
+								} else {
+									$this->scope = 'page404';
+								}
+							break;
+						}
+					} else {
+						$action = $this->orders[1];
 					}
-				} 
+				}
 			break;
 		}
 
@@ -127,7 +133,7 @@ class Router {
 		if($this->scope != 'page404') {
 			try {
 				$this->action = $action;
-				$controller 	= $this->loader->get($this->scope,'controller',$this); //print_r($controller); die();
+				$controller 	= $this->loader->get($this->scope,'controller',$this);
 			} catch (Exception $e) {
 				$this->scope 	= 'page404';
 			}
@@ -167,8 +173,8 @@ class Router {
 			return $link;
 		}
 	}
-	
-	public function setOrder() {  
+
+	public function setOrder() {
 		$parts				= explode('?',$_SERVER['REQUEST_URI']);
 		$this->orders = array_slice(explode('/',$parts[0]),1);
 	}
@@ -176,17 +182,16 @@ class Router {
 	public function getOrder() {
 		return $this->orders;
 	}
-	
+
 	private function setParams() {
 		$this->params->post = $_POST;
 		$this->params->get	= $_GET;
 		unset($_POST);
 		unset($_GET);
 	}
-	
+
 	public function getParams() {
 		return $this->params;
 	}
-	
-}
 
+}

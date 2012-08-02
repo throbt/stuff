@@ -38,7 +38,11 @@ class Form {
   	foreach($cfg['elements'] as $arr) {
   	
   	  if($arr['type'] == 'special') {
-  	    $this->content .= $arr['html'];
+        if(isset($arr['src'])) {
+          $this->content .= file_get_contents(ini_get('include_path')."/form/tpl/special/{$arr['src']}.tpl");
+        } else if(isset($arr['html'])) {
+          $this->content .= $arr['html'];
+        }
   	  }
   	
   		if(/*method_exists($this,$el)*/ in_array($arr['type'],$this->inputs)) {

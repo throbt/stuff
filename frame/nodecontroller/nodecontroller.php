@@ -3,6 +3,17 @@
 class Nodecontroller extends Controller {
 
   public function indexAction($type) {
+
+    $order = '';
+    switch($type) {
+      case 'menu':
+        $order = ' order by menu_order asc, n.lang ';
+      break;
+      default:
+        $order = ' order by created, edited ';
+      break;
+    }
+
     $res = $this->model->getAll(
       "
         select
@@ -10,14 +21,14 @@ class Nodecontroller extends Controller {
           nt.*
         from
           node n
-        left join
+        join
           {$type} nt
         on n.id = nt.nid
 
         where
           n.type = '{$type}'
 
-        order by created, edited
+        {$order}
       ",
 
       "select
@@ -52,7 +63,7 @@ class Nodecontroller extends Controller {
       $thisType       = $this->router->orders[2];
       $form           = $this->router->loader->get('Form');
       $this->title    = "add {$thisType}";
-      
+
       $thisForm = $this->view->renderTemplate(
         array(
           'scope' => $this,
@@ -61,7 +72,7 @@ class Nodecontroller extends Controller {
         ),
         $this->view->getTemplatePath('node',(file_exists(VIEWS."node/{$thisType}_add.tpl")?"{$thisType}_add":'node_add'))
       );
-    
+
       echo $this->view->renderTemplate(
         array(
           'scope' => $this,
@@ -102,9 +113,9 @@ class Nodecontroller extends Controller {
           'type'  => $type,
           'node'  => $node
         ),
-        $this->view->getTemplatePath('node',(file_exists(VIEWS."node/{$type}_add.tpl")?"{$type}_add":'node_add'))
+        $this->view->getTemplatePath('node',(file_exists(VIEWS."node/{$type}_update.tpl")?"{$type}_update":'node_update'))
       );
-    
+
       echo $this->view->renderTemplate(
         array(
           'scope' => $this,
@@ -140,7 +151,7 @@ class Nodecontroller extends Controller {
     $types    = $this->model->getTypes();
 
     if(in_Array($thisType,$types)) {
-      
+
       $this->title    = "lista - {$thisType}";
       $res            = $this->indexAction($thisType);
 
@@ -224,7 +235,7 @@ class Nodecontroller extends Controller {
 
   public function saveNewType() {
     $defaultCfg = '[{"name":"title","type":"text"},{"name":"lead","type":"text"},{"name":"body","type":"textarea"}]';
-    
+
     $this->model->query(
       "
         CREATE TABLE IF NOT EXISTS `{$this->post['name']}` (

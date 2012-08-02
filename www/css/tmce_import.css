@@ -1,0 +1,41 @@
+.headline {
+  color: #F8B800;
+  font-family: 'MavenProRegular';
+  font-size: 15pt;
+  line-height: 30px;
+}
+.inner_headline {
+  color: #F8B800;
+  font-family: 'Ariel Regulat';
+  font-size: 13pt;
+}
+.date {
+  color:          #F8B800;
+  font-size:      7pt;
+  font-family:    'Arial';
+  line-height:    25px;
+}
+.body {
+  font-family: Arial Narrow;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 14px;
+}
+.lead {
+  font-family: Arial Narrow;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 14px;
+}
+.category {
+  color:          #666666;
+  font-size:      7pt;
+  font-family:    'Arial';
+  line-height:    25px;
+}
+.imageText {
+  color:          #F8B800;
+  font-size:      7pt;
+  font-family:    'Arial';
+  line-height:    25px;
+}

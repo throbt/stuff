@@ -1,0 +1,1 @@
+var sliderCfg = {"slider":{"effect":null,"boxRows":null,"boxCols":null,"slices":null,"animSpeed":"1000","pauseTime":"7000","directionNav":false,"controlNav":false,"keyboardNav":true},"layout":{"layout":"05","opacity":"0"}};

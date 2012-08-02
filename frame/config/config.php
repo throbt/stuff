@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class getConfig {
   static function &get($ini='') {
@@ -13,9 +13,9 @@ class getConfig {
 class Config {
 
   function __construct($iniPath) {
-	
+
 		$this->vars['env'] = $_SERVER['env'];
-	
+
 		if(file_exists($iniPath)) {
 			$ini 				= parse_ini_file($iniPath, true);
 			$this->cfg 	= $ini[$this->vars['env']];
@@ -23,7 +23,7 @@ class Config {
 			echo "wrong application.ini path or the file(application.ini) does not exist";
 			die();
 		}
-		
+
 		if(isset($this->cfg)) {
 			$this->vars['db'] = array(
 	      "host"  => $this->cfg['db.host'],
@@ -31,12 +31,13 @@ class Config {
 	      "user"  => $this->cfg['db.username'],
 	      "psw"   => $this->cfg['db.password']
 	    );
-		
+
 			define('HOST',          $this->cfg['host']);
 	    define('ROOT',          $this->cfg['doc_root']);
-	
+
 	    define('APPLICATION',   $this->cfg['application']);
-      
+
+      define('CONFIG',        APPLICATION . 'config'      . DIRECTORY_SEPARATOR);
 	    define('CONTROLLERS',   APPLICATION . 'controllers' . DIRECTORY_SEPARATOR);
 			define('MODELS',        APPLICATION . 'models' 			. DIRECTORY_SEPARATOR);
 			define('VIEWS',        	APPLICATION . 'views' 			. DIRECTORY_SEPARATOR);
@@ -50,7 +51,7 @@ class Config {
       define('UPLOAD',        WWW         . 'upload'      . DIRECTORY_SEPARATOR);
 		}
   }
-  
+
   public function get($key) {
     return $this->vars[$key];
   }

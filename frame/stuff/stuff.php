@@ -14,13 +14,13 @@ class Stuff {
 
   function __construct() {
   }
-  
+
   public function debug($stuff) {
 		echo "<pre>";
 			print_r($stuff);
 		echo "</pre>";
 	}
-	
+
 	public function getBaseUriForPaginator() {
     $url = $_SERVER['REQUEST_URI'];
     if(preg_match('/(.*)(page)/',$url,$matches)) {
@@ -29,11 +29,11 @@ class Stuff {
         $url = $matches[0];
       } else if(preg_match("/(.*)(\?)/",$url,$matches)) {
         $url = $matches[0];
-      } 
+      }
     } else if(preg_match("/(.*)(\?)/",$url,$matches)) {
       $url .= '&';
     } else {
-      $url .= '?'; 
+      $url .= '?';
     }
     return $url;
   }
@@ -84,19 +84,27 @@ class Stuff {
       '12' => 'DEC'
     );
     $arr = explode('-',$thisDate);
-    
+
     return array($arr[0],$thisMonths[$arr[1]],$arr[2]);
   }
 
   public function textCutter($text, $length) {
     $out = '';
     foreach(explode(' ',$text) as $part) {
-      if(strlen($out . " {$part}") < $length) { 
+      if(strlen($out . " {$part}") < $length) {
         $out .= " {$part}";
       } else {
         return $out;
       }
     }
     return $out;
+  }
+
+  public function sesc($str) {
+    return str_replace("'","\'",$str);
+  }
+
+  public function sunesc($str) {
+    return str_replace("\'","'",$str);
   }
 }

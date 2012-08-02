@@ -1,0 +1,395 @@
+<?php
+
+class Admin_ajax_controller extends Controller {
+
+  public function init() {
+    global $session;
+    if($session->checkProfile('ajax')) {
+      $this->model = $this->router->loader->get('Langelements','model');
+    } else {
+      echo 'false';
+      die();
+    }
+
+  }
+
+  public function sortableMenu() {
+    foreach ($this->get['menus'] as $k => $item) {
+      $this->model->query(
+        "
+          update
+            menu
+              set
+                menu_order = ?
+            where
+              nid = ?
+        ",
+        array($k,$item)
+      );
+    }
+  }
+
+  public function test_mail() {
+
+    $emails = $this->router->loader->get('newsletter_emails','model');
+    $mailer = $this->router->loader->get('Mailer');
+    $body   = $this->view->renderTemplate(
+        array(
+          'scope'   => $this,
+          'data'    => $emails->get($this->get['id'])
+        ),
+      $this->view->getTemplatePath('admin_newsletter','mail')
+    );
+
+    //die();
+
+    foreach($this->get as $k => $email) {
+      if($k != $id)
+        $mailer->simpleSend($email,'test','Manna hírlevél',trim($body));
+    }
+    die();
+  }
+
+  public function getImagesForAction() {
+    $action = $this->get['action'];
+    $model = $this->router->loader->get('Node');
+    $types = $model->getTypes();
+    switch($action) {
+      case 'index':
+        $result = array();
+        foreach ($types as $type) {
+          if($type != 'menu' && $type != 'images') {
+            $result[] = $type;
+          }
+        }
+        echo json_encode($result);
+        die();
+      break;
+      case 'show':
+        $result = array();
+        foreach ($types as $type) {
+
+          if($type != 'menu' && $type != 'images') {
+            $res = $model->select("
+              select nid,title from {$type};
+            ",array());
+            foreach($res as $k => $r) {
+              $res[$k]['type'] = "{$type}";
+            }
+            $result = array_merge($result,$res);
+          }
+
+          if($type == 'images') {
+            $res = $model->select("
+              select
+                i.*,
+                g.title as galleryTitle
+                  from
+                    images i
+                join
+                  galleries g
+                on i.gallery = g.nid;
+            ",array());
+            foreach($res as $k => $r) {
+              $res[$k]['type'] = "{$type}";
+            }
+            $result = array_merge($result,$res);
+          }
+        }
+        echo json_encode($result);
+        die();
+      break;
+    }
+  }
+
+  public function getStuffForAction() {
+    $action = $this->get['action'];
+    $model = $this->router->loader->get('Node');
+    $types = $model->getTypes();
+    switch($action) {
+      case 'index':
+        $result = array();
+        foreach ($types as $type) {
+          if($type != 'menu' && $type != 'images') {
+            $result[] = $type;
+          }
+        }
+        echo json_encode($result);
+        die();
+      break;
+      case 'show':
+        $result = array();
+        foreach ($types as $type) {
+          if($type != 'menu' && $type != 'images') {
+            $res = $model->select("
+              select nid,title from {$type};
+            ",array());
+            foreach($res as $k => $r) {
+              $res[$k]['type'] = "{$type}";
+            }
+            $result = array_merge($result,$res);
+          }
+        }
+        echo json_encode($result);
+        die();
+      break;
+    }
+  }
+
+  public function getLangElementsByType() {
+    echo json_encode($this->model->get(
+      '',
+      array(
+        "
+        select
+          *
+            from
+              langelements
+        where
+          type = ?
+        ",
+        array($this->get['type'])
+      )
+    ));
+    die();
+  }
+
+  public function getSidebarMainArticle() {
+    $model  = $this->router->loader->get('Node');
+    $res    = $model->getNodeById($this->get['id']);
+    $arr    = explode('|',$res[0]['nodes']);
+    echo $arr[0];
+    die();
+  }
+
+  public function getSidebarItem() {
+    $result   = array();
+    $model  = $this->router->loader->get('Node');
+    $res    = $model->getNodeById($this->get['id']);
+    $arr    = explode('|',$res[0]['nodes']);
+    array_shift($arr);
+    foreach($arr as $r) {
+      $re       = $model->getNodeById($r);
+      $result[] = $re[0];
+    }
+    echo json_encode($result);
+    die();
+  }
+
+  public function getGalleryItem() {
+    $result   = array();
+    $model  = $this->router->loader->get('Node');
+    $res    = $model->getNodeById($this->get['id']);
+    $arr    = explode('|',$res[0]['nodes']);
+    array_shift($arr);
+    foreach($arr as $r) {
+      $re       = $model->getNodeById($r);
+      $result[] = $re[0];
+    }
+    echo json_encode($result);
+    die();
+  }
+
+  public function saveSidebarItem() {
+    $model    = $this->router->loader->get('Node');
+    $left_id  = $this->get['id'];
+    $model->saveSidebarItem($left_id,$this->get['data']);
+    die();
+  }
+
+  public function updateSidebarItem() {
+    $model    = $this->router->loader->get('Node');
+    $left_id  = $this->get['id'];
+    $model->updateSidebarItem($left_id,$this->get['data']);
+    die();
+  }
+
+  public function saveGalleryItem() {
+    $model    = $this->router->loader->get('Node');
+    $left_id  = $this->get['id'];
+    $model->saveGalleryItem($left_id,$this->get['data']);
+    die();
+  }
+
+  public function updateGalleryItem() {
+    $model    = $this->router->loader->get('Node');
+    $left_id  = $this->get['id'];
+    $model->updateGalleryItem($left_id,$this->get['data']);
+    die();
+  }
+
+  public function saveHomeItem() {
+    $model    = $this->router->loader->get('Node');
+    $left_id  = $this->get['id'];
+    $model->saveHomeItem($left_id,$this->get['data']);
+    die();
+  }
+
+  public function updateHomeItem() {
+    $model    = $this->router->loader->get('Node');
+    $left_id  = $this->get['id'];
+    $model->updateHomeItem($left_id,$this->get['data']);
+    die();
+  }
+
+  public function delNewsLetEmail() {
+    $emails = $this->router->loader->get('Newsletter_emails','model');
+    $emails->delete($this->get['id']);
+    echo 'true';
+    die();
+  }
+
+  public function getGalleriesByGallery() {
+    $images = $this->router->loader->get('Images','model');
+    echo json_encode($images->get(
+      '',
+      array(
+        "
+          select
+            m.*
+              from
+                images m
+            left join
+                node g
+            on
+              m.gallery = g.id
+            where
+              m.gallery = ?
+          ",
+        array($this->get['gallery'])
+      )
+    ));
+    die();
+  }
+
+  public function delNode() {
+    $model = $this->router->loader->get('Node');
+    $model->delete($this->get['id']);
+    echo 1;
+    die();
+  }
+
+  public function deleteType() {
+    $model = $this->router->loader->get('Node');
+    $model->deletetype($this->get['id']);
+    echo 1;
+    die();
+  }
+
+  public function delImage() {
+    $images = $this->router->loader->get('Images','model');
+    $images->delete($this->get['id']);
+    echo 1;
+    die();
+  }
+
+  public function saveImage() {
+    $images = $this->router->loader->get('Images','model');
+    $images->update(
+      $this->get['id'],
+      array(
+      'lead'    => $this->get['lead'],
+      'title'   => $this->get['title']
+    ));
+    echo 1;
+    die();
+  }
+
+  public function saveLangElements() {
+    $model = $this->router->loader->get('Langelements','model');
+    $model->query(
+      "
+        update
+          langelements
+
+        set
+          hu = ?,
+          en = ?,
+          de = ?
+
+        where
+          id = ?
+      ",
+      array(
+        $this->get['hu'],
+        $this->get['en'],
+        $this->get['de'],
+        $this->get['id']
+      )
+    );
+
+    echo 1;
+    die();
+  }
+
+  public function setActive() {
+
+    /* old stuff - newsletter */
+
+    if(isset($this->get['model'])) {
+      switch($this->get['model']) {
+        case 'Newsletter':
+          $model = $this->router->loader->get('Newsletter','model');
+          $model->update(
+            $this->get['id'],
+            array(
+            'active'  => $this->get['active']
+          ));
+        break;
+        default:
+        break;
+      }
+    }
+
+    $model = $this->router->loader->get('Node');
+    $model->setActive($this->get['id'],$this->get['active']);
+
+    // $model = $this->router->loader->get($this->get['model'],'model');
+    // $model->update(
+    //   $this->get['id'],
+    //   array(
+    //   'active'  => $this->get['active']
+    // ));
+  }
+
+  public function setActiveSpec() {
+    $model = $this->router->loader->get($this->get['model'],'model');
+    $model->setActive($this->get['id'],$this->get['active']);
+  }
+
+  public function getGalleries() {
+    $galleryModel = $this->router->loader->get('Galleries','model');
+    echo json_encode($galleryModel->get());
+    die();
+  }
+
+  public function saveSEO() {
+    $linx_model = $this->router->loader->get('Linx','model');
+    //print_r($this->get);
+
+    $linx_model->update(
+      $this->get['id'],
+      array(
+      'thisorder'   => $this->get['order'],
+      'params'      => $this->get['params']
+    ));
+    echo 1;
+    die();
+  }
+
+  public function saveNewSEO() {
+    $linx_model = $this->router->loader->get('Linx','model');
+    $linx_model->create(array(
+      'thisorder'         => $this->get['order'],
+      'params'            => $this->get['params']
+    ));
+
+    echo 1;
+    die();
+  }
+
+  public function delSEO() {
+    $linx_model = $this->router->loader->get('Linx','model');
+    $linx_model->delete($this->get['id']);
+  }
+}

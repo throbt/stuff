@@ -32,10 +32,10 @@
                 $target       = '';
 					    }
 
-					    if($menu['url'] == $this->scope->router->scope) {
+					    if($menu['url'] == implode('/',$this->scope->router->orders) /*$this->scope->router->orders[0]*/ /*implode('/',$this->scope->router->orders)*/) {
 					      $liclass .= (strlen($liclass) == 0 ? 'active' : ' active');
 					    } else {
-					      $liclass      = '';
+					      $liclass  .= (strlen($liclass) == 0 ? '' : '');
 					    }
 
 					  ?>
@@ -68,6 +68,13 @@
             </li>
 
           <?php
+
+            $liclass      = '';
+            $aclass       = '';
+            $data_toggle  = '';
+            $liid         = '';
+            $target       = '';
+
             $counter++;
           ?>
 					<?php endforeach; ?>

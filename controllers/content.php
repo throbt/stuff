@@ -206,6 +206,11 @@ class Content_controller extends Controller {
       $this->menu   = array('url' => '');
       if($id == '193') {
         $this->menu   = array('url' => 'cv');
+
+        if(isset($this->get['pos'])) {
+          $Positions  = $this->router->loader->get('Positions','model');
+          $position   = $Positions->get($this->get['pos']);
+        }
       }
       if($id == '399') {
         $this->getAllasHirdetesek(399);
@@ -217,10 +222,15 @@ class Content_controller extends Controller {
       if($this->node != null) {
         $this->title = $this->node[0]['title'];
 
+        if(isset($position)) {
+          $this->node[0]['posid']     = $position[0]['id'];
+          $this->node[0]['postitle']  = $position[0]['title'];
+        }
+
         $this->content = $this->view->renderTemplate(
           array(
-            'scope' => $this,
-            'data'  => $this->codeItForContent($this->node)
+            'scope'     => $this,
+            'data'      => $this->codeItForContent($this->node)
           ),
           $this->view->getTemplatePath('content','show')
         );
@@ -399,36 +409,47 @@ class Content_controller extends Controller {
   }
 
   public function email_add() {
-#    if(isset($this->post['name']) && $this->post['name'] != '' && isset($this->post['mail']) && $this->post['mail'] != '') {
-#      $this->model->query(
-#        "
-#          insert
-#            into
-#              contacts
-#                (name,mail)
-#              values
-#                (?,?)
-#        ",
-#        array($this->post['name'],$this->post['mail'])
-#      );
-#    }
+    global $session;
+    $session->setSysMessages('email','Az adatait sikeresen elmentettük.');
+    $messages_model = $this->router->loader->get('Messages','model');
+
+    $messages_model->query("
+        insert
+          into
+            messages(name,email,subject,message)
+        values(?,?,?,?)
+      ",array(
+        $this->post['name'],
+        $this->post['mail'],
+        $this->post['subject'],
+        $this->post['message']
+      ));
+
     $this->redirect('email');
   }
 
   public function cv_add() {
-#    if(isset($this->post['name']) && $this->post['name'] != '' && isset($this->post['mail']) && $this->post['mail'] != '') {
-#      $this->model->query(
-#        "
-#          insert
-#            into
-#              contacts
-#                (name,mail)
-#              values
-#                (?,?)
-#        ",
-#        array($this->post['name'],$this->post['mail'])
-#      );
-#    }
+    global $session;
+    $candidates_model = $this->router->loader->get('Candidates','model');
+    if($newFile = $this->stuff->moveUpload('file',md5(microtime()),UPLOAD.'cv')) {
+      $candidates_model->query("
+        insert
+          into
+            candidates(name,email,phone,message,file,position)
+        values(?,?,?,?,?,?)
+      ",array(
+        $this->post['name'],
+        $this->post['mail'],
+        $this->post['phone'],
+        $this->post['message'],
+        $newFile,
+        (isset($this->get['pos']) ? $this->get['pos'] : 0)
+      ));
+
+      $session->setSysMessages('cv','Az adatait sikeresen elmentettük.');
+    } else {
+      $session->setSysMessages('cv','Nem sikerült elmenteni az adatait.');
+    }
     $this->redirect('cv');
   }
 

@@ -17,6 +17,26 @@
       </ul>
     </div>
   </div>
+
+
+
+  <div class="span4">
+    <div class="hero-unit hovered hero-unit-users">
+      <h2>Felhasználók</h2>
+      <ul>
+
+        <li>
+          <h4><a href="/admin_candidates">Állásokra jelentkezők</a></h4>
+        </li>
+
+        <li>
+          <h4><a href="/admin_messages">Felhasználói üzenetek</a></h4>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
   <!-- <div class="span4">
     <div class="hero-unit hovered">
       <h3>Tartalom</h3>
@@ -35,6 +55,10 @@
     </div>
   </div>
 
+</div>
+
+<div class="row">
+
   <div class="span4">
     <div class="hero-unit hovered">
       <h2>SEO</h2>
@@ -46,9 +70,7 @@
     </div>
   </div>
 
-</div>
 
-<div class="row">
   <!-- <div class="span4">
     <div class="hero-unit hovered">
       <h2>SEO</h2>

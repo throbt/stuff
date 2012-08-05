@@ -483,20 +483,30 @@ var evoline = {
       }]
     },$$.cache.main_menu_wrapper_footer);
 
+    var absHeight   = evoline.dimensions['height'],
+        relHeight   = $('#page-wrapper').height() + 44,
+        thisHeight  = 0;
+
+    if(relHeight < absHeight) {
+      thisHeight = evoline.dimensions['height'];
+    } else {
+      thisHeight = $('#page-wrapper').height() + 46;
+    }
+
     $($$.cache.footer_menu_wrapper).css({
-      top        :  evoline.dimensions['height'] + 10
+      top        :  thisHeight
     });
 
     $($$.cache.overlay).css({
-      height        :  evoline.dimensions['height']
+      height        :  thisHeight
     });
 
     $($$.cache.happening).css({
-      height        :  evoline.dimensions['height']
+      height        :  thisHeight
     });
 
     $($$.cache.viewport).css({
-      height        :  evoline.dimensions['height']
+      height        :  thisHeight
     });
   },
 
@@ -533,8 +543,15 @@ var evoline = {
     $$.create({
       type  : 'div',
       cls   : 'subpage_content_box_box',
-      html  : ['<span class="headline contact">',decodeURIComponent(thisContent[0]['title']).replace(/\+/g, ' '),'</span><p class="">',decodeURIComponent(thisContent[0]['body']).replace(/\+/g, ' '),'</p>'].join('')
+      html  : ['<span class="headline contact">',decodeURIComponent(thisContent[0]['title']).replace(/\+/g, ' '),'</span><p class="">',decodeURIComponent(thisContent[0]['body']).replace(/\+/g, ' '),'</p><h2 id="sysMess"></h2>'].join('')
     },$$.cache.subpage_content_wrapper);
+
+    /*
+      messages
+    */
+    if(evoline.cfg.messages) {
+      $('#sysMess').html(evoline.cfg.messages.email);
+    }
 
 //    $$.create({
 //      type  : 'div',
@@ -600,7 +617,7 @@ var evoline = {
             cls   : 'field_wrapper_cv',
             html  : [
               ['<div class="label_wr"><label id="phone"></label></div>'].join(''),
-              ['<input type="text" style="margin-left:20px;" name="phone" id="phone" class="newsl_inp" />'].join('')
+              ['<input type="text" style="margin-left:20px;" name="subject" id="phone" class="newsl_inp" />'].join('')
             ].join('')
           },{
             type  : 'div',

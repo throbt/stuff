@@ -34,6 +34,24 @@ class Preinit_hook {
       sys
     */
     $this->setSiteParams();
+
+    /*
+      messages
+    */
+    $this->setSysMessages();
+  }
+
+  public function setSysMessages() {
+    if(isset($_SESSION['messages'])) {
+      foreach($_SESSION['messages'] as $key => $message) {
+        if($_SESSION['messages'][$key]->displayed > 0) {
+          unset($_SESSION['messages'][$key]);
+        } else {
+          $_SESSION['messages'][$key]->displayed++;
+        }
+      }
+      $this->scope->messages = $_SESSION['messages'];
+    }
   }
 
   public function setSiteParams() {

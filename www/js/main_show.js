@@ -445,7 +445,7 @@ var evoline = {
     }
 
     $($$.cache.footer_menu_wrapper).css({
-      top        :  thisHeight  //evoline.dimensions['height']-40  //thisHeight //$('#page-wrapper').height() + 44  //evoline.dimensions['height']-40
+      top        :  thisHeight
     });
 
     $($$.cache.overlay).css({
@@ -459,8 +459,6 @@ var evoline = {
     $($$.cache.viewport).css({
       height        :  thisHeight
     });
-
-//    console.log($$.cache.overlay);
   },
 
   finishSetup: function() {

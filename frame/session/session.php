@@ -14,12 +14,12 @@ class Session {
   function __construct($scope = '') {
     $this->scope = $scope;
   }
-  
+
   public function checkProfile($job='') {
     if (!isset($_SESSION['profile'])) {
       return false;
     } else {
-    
+
       /*
         an hour
       */
@@ -46,11 +46,11 @@ class Session {
     }
     $_SESSION['profile']->lastCheck = time();
   }
-  
+
   public function setToken() {
     $_SESSION['token'] = md5(time());
   }
-  
+
   public function checkToken($token) {
     if(isset($_SESSION['token'])) {
       if($_SESSION['token'] == $token) {
@@ -75,5 +75,15 @@ class Session {
         $_SESSION['language'] = 'hu';
       }
     }
+  }
+
+  public function setSysMessages($key,$message) {
+    $_SESSION['messages'][$key]             = new stdClass();
+    $_SESSION['messages'][$key]->message    = $message;
+    $_SESSION['messages'][$key]->displayed  = 0;
+  }
+
+  public function getSysMessages($key) {
+    return $_SESSION['messages'][$key];
   }
 }

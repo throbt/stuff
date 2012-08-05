@@ -127,3 +127,12 @@ li {
   padding-left:   60px;
   padding-right:  60px;
 }
+.hero-unit-users {
+  padding-bottom: 41px;
+  padding-top:    60px;
+  padding-left:   60px;
+  padding-right:  60px;
+}
+.ui-state-hover {
+/*  display:none;*/
+}

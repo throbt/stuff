@@ -46,7 +46,7 @@ class Admin_helper extends View {
 
       array(
         'hu'  => 'Tartalom',
-        'url' => $this->scope->router->link('admin_content'),
+        'url' => $this->scope->router->link('node'),
         'sub' => array(
           array(
             'hu'  => 'Új tartalom típus',
@@ -62,6 +62,22 @@ class Admin_helper extends View {
           )
         )
       ),
+
+      array(
+        'hu'  => 'Felhasználók',
+        'url' => $this->scope->router->link(''),
+        'sub' => array(
+          array(
+            'hu'  => 'Állásokra jelentkezők',
+            'url' => $this->scope->router->link('admin_candidates'),
+          ),
+          array(
+            'hu'  => 'Felhasználói üzenetek',
+            'url' => $this->scope->router->link('admin_messages'),
+          )
+        )
+      ),
+
 			array(
 				'hu'  => 'Effectek',
 				'url' => $this->scope->router->link('admin_slider_setup')
@@ -112,7 +128,7 @@ class Admin_helper extends View {
   }
 
   public function getStyle() {
-    $arr      = array('bootstrap.css','bootstrap-responsive.css','datepicker.css','admin.css'/*,'jquery.window.css'*/);
+    $arr      = array('bootstrap.css','jquery-ui-1.8.17.custom.css','bootstrap-responsive.css','datepicker.css','admin.css'/*,'jquery.window.css'*/);
     $styles   = '';
     foreach($arr as $scriptName) {
       $styles .= implode('',array(

@@ -393,7 +393,7 @@ class Main_helper extends View {
     if($this->scope->router->orders[0] == 'positions') {
       $this->getBreadCrumb(189);
     } else {
-      $this->getBreadCrumb();
+      $this->getBreadCrumb('');
     }  //print_r($this->breadcrumb);
 
     $cfg = json_encode(array(
@@ -406,10 +406,21 @@ class Main_helper extends View {
       'pageMenu'        => $this->getPageMenu(),
       'pageInfo'        => $this->getPageInfo(),
       'breadcrumb'      => $this->breadcrumb,
-      'translate'       => $this->translate()
+      'translate'       => $this->translate(),
+      'messages'        => $this->getSysMess()
     ));
 
     return "<div id='cfg' class='hiddenStuff'>{$cfg}</div>";
+  }
+
+  public function getSysMess() {
+    $result = array();
+    if(isset($_SESSION['messages'])) {
+      foreach($_SESSION['messages'] as $k => $message) {
+        $result[$k] = $message->message;
+      }
+      return $result;
+    }
   }
 
   public function translate() {
@@ -459,22 +470,22 @@ class Main_helper extends View {
 
     switch($this->scope->menu['url']) {
       case 'newsletter':
-        $arr = array('jquery.js','evoline_gallery.js','builder.js','slidercfg.js','main_newsletter.js');
+        $arr = array('jquery.js','evoline_gallery.js','builder.js','stuff.js','slidercfg.js','main_newsletter.js');
       break;
       case 'contact':
-        $arr      = array('jquery.js','evoline_gallery.js','builder.js','slidercfg.js','main_contact.js');
+        $arr      = array('jquery.js','evoline_gallery.js','builder.js','stuff.js','slidercfg.js','main_contact.js');
       break;
       case 'positions':
-        $arr      = array('jquery.js','evoline_gallery.js','builder.js','slidercfg.js','main_position.js');
+        $arr      = array('jquery.js','evoline_gallery.js','builder.js','stuff.js','slidercfg.js','main_position.js');
       break;
       case 'cv':
-        $arr      = array('jquery.js','evoline_gallery.js','builder.js','slidercfg.js','main_cv.js');
+        $arr      = array('jquery.js','evoline_gallery.js','builder.js','stuff.js','slidercfg.js','main_cv.js');
       break;
       case 'position':
-        $arr      = array('jquery.js','evoline_gallery.js','builder.js','slidercfg.js','main_positions.js');
+        $arr      = array('jquery.js','evoline_gallery.js','builder.js','stuff.js','slidercfg.js','main_positions.js');
       break;
       default:
-        $arr = array('jquery.js','evoline_gallery.js','builder.js','slidercfg.js',$main_js[$this->scope->router->action]);
+        $arr = array('jquery.js','evoline_gallery.js','builder.js','stuff.js','slidercfg.js',$main_js[$this->scope->router->action]);
       break;
     }
 

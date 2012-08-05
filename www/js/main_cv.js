@@ -482,21 +482,47 @@ var evoline = {
       }]
     },$$.cache.main_menu_wrapper_footer);
 
+    var absHeight   = evoline.dimensions['height'],
+        relHeight   = $('#page-wrapper').height() + 44,
+        thisHeight  = 0;
+
+    if(relHeight < absHeight) {
+      thisHeight = evoline.dimensions['height'];
+    } else {
+      thisHeight = $('#page-wrapper').height() + 46;
+    }
+
     $($$.cache.footer_menu_wrapper).css({
-      top        :  evoline.dimensions['height'] + 40
+      top        :  thisHeight
     });
 
     $($$.cache.overlay).css({
-      height        :  evoline.dimensions['height'] + 40
+      height        :  thisHeight
     });
 
     $($$.cache.happening).css({
-      height        :  evoline.dimensions['height'] + 40
+      height        :  thisHeight
     });
 
     $($$.cache.viewport).css({
-      height        :  evoline.dimensions['height'] + 40
+      height        :  thisHeight
     });
+
+//    $($$.cache.footer_menu_wrapper).css({
+//      top        :  evoline.dimensions['height'] + 40
+//    });
+
+//    $($$.cache.overlay).css({
+//      height        :  evoline.dimensions['height'] + 40
+//    });
+
+//    $($$.cache.happening).css({
+//      height        :  evoline.dimensions['height'] + 40
+//    });
+
+//    $($$.cache.viewport).css({
+//      height        :  evoline.dimensions['height'] + 40
+//    });
   },
 
   finishSetup: function() {
@@ -532,8 +558,24 @@ var evoline = {
     $$.create({
       type  : 'div',
       cls   : 'subpage_content_box_box',
-      html  : ['<span class="headline contact">',decodeURIComponent(thisContent[0]['title']).replace(/\+/g, ' '),'</span><p class="">',decodeURIComponent(thisContent[0]['body']).replace(/\+/g, ' '),'</p>'].join('')
+      html  : ['<span class="headline contact">',decodeURIComponent(thisContent[0]['title']).replace(/\+/g, ' '),'</span><p class="">',decodeURIComponent(thisContent[0]['body']).replace(/\+/g, ' '),'</p><h2 id="sysMess"></h2><span class="inner_headline" id="postTitle" style="padding-top:0px;"></span>'].join('')
     },$$.cache.subpage_content_wrapper);
+
+
+    /*
+      messages
+    */
+    if(evoline.cfg.messages) {
+      $('#sysMess').html(evoline.cfg.messages.cv);
+    }
+
+    /*
+      the position
+    */
+    if(thisContent[0].postitle) {
+      $('#postTitle').html(['Ön a következő állásra jelentkezik: ',decodeThis(thisContent[0].postitle)].join(''));
+    }
+
 
     /*$$.create({
       type  : 'div',
@@ -568,15 +610,16 @@ var evoline = {
       id    : 'form_wrapper',
       style : 'position:relative;height:400px;margin-top:10px;',
       arr   : [{
-        type  : 'div',
-        id    : 'cv_form',
-        style : 'position:absolute;width:100%;height:420px;left:0px;top:10px;',
-        arr   : [{
-          type  : 'form',
-          id    : 'cv',
-          action: '/content/menu/cv_add',
-          method: 'post',
-          arr   : [{
+        type      : 'div',
+        id        : 'cv_form',
+        style     : 'position:absolute;width:100%;height:420px;left:0px;top:10px;',
+        arr       : [{
+          type      : 'form',
+          id        : 'cv',
+          enctype   : 'multipart/form-data',
+          action    : ['/content/menu/cv_add',(thisContent[0].postitle ? '?pos=' + thisContent[0].posid : '')].join(''),
+          method    : 'post',
+          arr       : [{
             type  : 'div',
             id    : 'field_name_wrapper',
             cls   : 'field_wrapper_cv',
@@ -631,7 +674,7 @@ var evoline = {
             cls   : 'field_wrapper_cv',
             html  : [
               ['<div class="label_wr"><label id="send"></label></div>'].join(''),
-              ['<input type="submit" style="margin-left:30px;" name="sbm" id="news_subm" class="newsl_subm" value=""  />'].join('')
+              ['<input type="submit" style="margin-left:5px;" name="sbm" id="news_subm" class="newsl_subm" value=""  />'].join('')
             ].join('')
           }]
         }]

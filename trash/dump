@@ -1,0 +1,957 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.1.3
+-- Dumped by pg_dump version 9.1.3
+-- Started on 2012-05-27 16:02:15 CEST
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 8 (class 2615 OID 16417)
+-- Name: rcis; Type: SCHEMA; Schema: -; Owner: rcis
+--
+
+CREATE SCHEMA rcis;
+
+
+ALTER SCHEMA rcis OWNER TO rcis;
+
+--
+-- TOC entry 7 (class 2615 OID 16386)
+-- Name: rvm; Type: SCHEMA; Schema: -; Owner: rcis
+--
+
+CREATE SCHEMA rvm;
+
+
+ALTER SCHEMA rvm OWNER TO rcis;
+
+--
+-- TOC entry 184 (class 3079 OID 11683)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2007 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = rcis, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 171 (class 1259 OID 16431)
+-- Dependencies: 8
+-- Name: collector; Type: TABLE; Schema: rcis; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE collector (
+    id integer NOT NULL,
+    collector_name text NOT NULL
+);
+
+
+ALTER TABLE rcis.collector OWNER TO rcis;
+
+--
+-- TOC entry 170 (class 1259 OID 16429)
+-- Dependencies: 8 171
+-- Name: collector_id_seq; Type: SEQUENCE; Schema: rcis; Owner: rcis
+--
+
+CREATE SEQUENCE collector_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rcis.collector_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2008 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: collector_id_seq; Type: SEQUENCE OWNED BY; Schema: rcis; Owner: rcis
+--
+
+ALTER SEQUENCE collector_id_seq OWNED BY collector.id;
+
+
+--
+-- TOC entry 2009 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: collector_id_seq; Type: SEQUENCE SET; Schema: rcis; Owner: rcis
+--
+
+SELECT pg_catalog.setval('collector_id_seq', 1, false);
+
+
+--
+-- TOC entry 169 (class 1259 OID 16420)
+-- Dependencies: 8
+-- Name: log; Type: TABLE; Schema: rcis; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE log (
+    id bigint NOT NULL,
+    modul smallint NOT NULL,
+    data text NOT NULL,
+    created timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE rcis.log OWNER TO rcis;
+
+--
+-- TOC entry 168 (class 1259 OID 16418)
+-- Dependencies: 8 169
+-- Name: log_id_seq; Type: SEQUENCE; Schema: rcis; Owner: rcis
+--
+
+CREATE SEQUENCE log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rcis.log_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2010 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: log_id_seq; Type: SEQUENCE OWNED BY; Schema: rcis; Owner: rcis
+--
+
+ALTER SEQUENCE log_id_seq OWNED BY log.id;
+
+
+--
+-- TOC entry 2011 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: log_id_seq; Type: SEQUENCE SET; Schema: rcis; Owner: rcis
+--
+
+SELECT pg_catalog.setval('log_id_seq', 1, false);
+
+
+SET search_path = rvm, pg_catalog;
+
+--
+-- TOC entry 164 (class 1259 OID 16389)
+-- Dependencies: 7
+-- Name: message_in; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE message_in (
+    id bigint NOT NULL,
+    rvm_id bigint NOT NULL,
+    received timestamp without time zone NOT NULL,
+    m_type smallint NOT NULL,
+    m_length smallint NOT NULL,
+    message bytea NOT NULL
+);
+
+
+ALTER TABLE rvm.message_in OWNER TO rcis;
+
+--
+-- TOC entry 163 (class 1259 OID 16387)
+-- Dependencies: 7 164
+-- Name: message_in_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE message_in_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.message_in_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2012 (class 0 OID 0)
+-- Dependencies: 163
+-- Name: message_in_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE message_in_id_seq OWNED BY message_in.id;
+
+
+--
+-- TOC entry 2013 (class 0 OID 0)
+-- Dependencies: 163
+-- Name: message_in_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('message_in_id_seq', 1, false);
+
+
+--
+-- TOC entry 166 (class 1259 OID 16400)
+-- Dependencies: 7
+-- Name: message_out; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE message_out (
+    id bigint NOT NULL,
+    rvm_id bigint NOT NULL,
+    sent timestamp without time zone NOT NULL,
+    m_type smallint NOT NULL,
+    m_length smallint NOT NULL,
+    message bytea NOT NULL
+);
+
+
+ALTER TABLE rvm.message_out OWNER TO rcis;
+
+--
+-- TOC entry 165 (class 1259 OID 16398)
+-- Dependencies: 7 166
+-- Name: message_out_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE message_out_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.message_out_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2014 (class 0 OID 0)
+-- Dependencies: 165
+-- Name: message_out_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE message_out_id_seq OWNED BY message_out.id;
+
+
+--
+-- TOC entry 2015 (class 0 OID 0)
+-- Dependencies: 165
+-- Name: message_out_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('message_out_id_seq', 1, false);
+
+
+--
+-- TOC entry 173 (class 1259 OID 16442)
+-- Dependencies: 7
+-- Name: rvm; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE rvm (
+    id integer NOT NULL,
+    ip text NOT NULL,
+    address text NOT NULL,
+    retailer integer NOT NULL,
+    compactor integer,
+    head integer,
+    printer integer,
+    panel integer
+);
+
+
+ALTER TABLE rvm.rvm OWNER TO rcis;
+
+--
+-- TOC entry 177 (class 1259 OID 16465)
+-- Dependencies: 7
+-- Name: rvm_beneficiary; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE rvm_beneficiary (
+    id integer NOT NULL,
+    rvm_id integer NOT NULL,
+    beneficiary text NOT NULL
+);
+
+
+ALTER TABLE rvm.rvm_beneficiary OWNER TO rcis;
+
+--
+-- TOC entry 176 (class 1259 OID 16463)
+-- Dependencies: 177 7
+-- Name: rvm_beneficiary_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE rvm_beneficiary_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.rvm_beneficiary_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2016 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: rvm_beneficiary_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE rvm_beneficiary_id_seq OWNED BY rvm_beneficiary.id;
+
+
+--
+-- TOC entry 2017 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: rvm_beneficiary_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('rvm_beneficiary_id_seq', 1, false);
+
+
+--
+-- TOC entry 172 (class 1259 OID 16440)
+-- Dependencies: 173 7
+-- Name: rvm_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE rvm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.rvm_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2018 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: rvm_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE rvm_id_seq OWNED BY rvm.id;
+
+
+--
+-- TOC entry 2019 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: rvm_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('rvm_id_seq', 1, false);
+
+
+--
+-- TOC entry 175 (class 1259 OID 16453)
+-- Dependencies: 7
+-- Name: rvm_profile; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE rvm_profile (
+    id bigint NOT NULL,
+    rvm_id integer NOT NULL,
+    parameter1 text,
+    parameter2 text,
+    parameter3 text,
+    parameter4 text,
+    parameter5 text,
+    parameter6 text,
+    parameter7 text,
+    parameter8 text,
+    parameter9 text,
+    parameter10 text,
+    parameter11 text,
+    parameter12 text,
+    parameter13 text,
+    parameter14 text,
+    parameter15 text,
+    parameter16 text,
+    parameter17 text,
+    parameter18 text,
+    parameter19 text,
+    parameter20 text,
+    parameter21 text,
+    changed timestamp without time zone,
+    changer integer NOT NULL
+);
+
+
+ALTER TABLE rvm.rvm_profile OWNER TO rcis;
+
+--
+-- TOC entry 174 (class 1259 OID 16451)
+-- Dependencies: 7 175
+-- Name: rvm_profile_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE rvm_profile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.rvm_profile_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2020 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: rvm_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE rvm_profile_id_seq OWNED BY rvm_profile.id;
+
+
+--
+-- TOC entry 2021 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: rvm_profile_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('rvm_profile_id_seq', 1, false);
+
+
+--
+-- TOC entry 167 (class 1259 OID 16409)
+-- Dependencies: 7
+-- Name: rvm_tracker; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE rvm_tracker (
+    rvm_id bigint NOT NULL,
+    received timestamp without time zone NOT NULL,
+    state bit varying NOT NULL
+);
+
+
+ALTER TABLE rvm.rvm_tracker OWNER TO rcis;
+
+--
+-- TOC entry 179 (class 1259 OID 16476)
+-- Dependencies: 7
+-- Name: state; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE state (
+    id bigint NOT NULL,
+    rvm_id integer NOT NULL,
+    state1 boolean,
+    state2 boolean,
+    state3 boolean,
+    state4 boolean,
+    state5 boolean,
+    state6 boolean,
+    state7 boolean,
+    state8 boolean,
+    state9 boolean,
+    state10 boolean,
+    state11 boolean,
+    state12 boolean,
+    state13 boolean,
+    state14 boolean,
+    state15 boolean,
+    state16 boolean
+);
+
+
+ALTER TABLE rvm.state OWNER TO rcis;
+
+--
+-- TOC entry 178 (class 1259 OID 16474)
+-- Dependencies: 7 179
+-- Name: state_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE state_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.state_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2022 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: state_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE state_id_seq OWNED BY state.id;
+
+
+--
+-- TOC entry 2023 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: state_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('state_id_seq', 1, false);
+
+
+--
+-- TOC entry 181 (class 1259 OID 16484)
+-- Dependencies: 7
+-- Name: transaction; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE transaction (
+    id bigint NOT NULL,
+    rvm_id integer NOT NULL,
+    code text NOT NULL,
+    created timestamp without time zone NOT NULL,
+    summa integer NOT NULL,
+    target integer NOT NULL
+);
+
+
+ALTER TABLE rvm.transaction OWNER TO rcis;
+
+--
+-- TOC entry 180 (class 1259 OID 16482)
+-- Dependencies: 181 7
+-- Name: transaction_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE transaction_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.transaction_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2024 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE transaction_id_seq OWNED BY transaction.id;
+
+
+--
+-- TOC entry 2025 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: transaction_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('transaction_id_seq', 1, false);
+
+
+--
+-- TOC entry 183 (class 1259 OID 16495)
+-- Dependencies: 7
+-- Name: transaction_item; Type: TABLE; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+CREATE TABLE transaction_item (
+    id bigint NOT NULL,
+    transaction_id bigint NOT NULL,
+    packaging_type integer NOT NULL,
+    count integer NOT NULL,
+    unit_price integer NOT NULL
+);
+
+
+ALTER TABLE rvm.transaction_item OWNER TO rcis;
+
+--
+-- TOC entry 182 (class 1259 OID 16493)
+-- Dependencies: 7 183
+-- Name: transaction_item_id_seq; Type: SEQUENCE; Schema: rvm; Owner: rcis
+--
+
+CREATE SEQUENCE transaction_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rvm.transaction_item_id_seq OWNER TO rcis;
+
+--
+-- TOC entry 2026 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: transaction_item_id_seq; Type: SEQUENCE OWNED BY; Schema: rvm; Owner: rcis
+--
+
+ALTER SEQUENCE transaction_item_id_seq OWNED BY transaction_item.id;
+
+
+--
+-- TOC entry 2027 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: transaction_item_id_seq; Type: SEQUENCE SET; Schema: rvm; Owner: rcis
+--
+
+SELECT pg_catalog.setval('transaction_item_id_seq', 1, false);
+
+
+SET search_path = rcis, pg_catalog;
+
+--
+-- TOC entry 1962 (class 2604 OID 16434)
+-- Dependencies: 171 170 171
+-- Name: id; Type: DEFAULT; Schema: rcis; Owner: rcis
+--
+
+ALTER TABLE ONLY collector ALTER COLUMN id SET DEFAULT nextval('collector_id_seq'::regclass);
+
+
+--
+-- TOC entry 1961 (class 2604 OID 16423)
+-- Dependencies: 168 169 169
+-- Name: id; Type: DEFAULT; Schema: rcis; Owner: rcis
+--
+
+ALTER TABLE ONLY log ALTER COLUMN id SET DEFAULT nextval('log_id_seq'::regclass);
+
+
+SET search_path = rvm, pg_catalog;
+
+--
+-- TOC entry 1959 (class 2604 OID 16392)
+-- Dependencies: 163 164 164
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY message_in ALTER COLUMN id SET DEFAULT nextval('message_in_id_seq'::regclass);
+
+
+--
+-- TOC entry 1960 (class 2604 OID 16403)
+-- Dependencies: 166 165 166
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY message_out ALTER COLUMN id SET DEFAULT nextval('message_out_id_seq'::regclass);
+
+
+--
+-- TOC entry 1963 (class 2604 OID 16445)
+-- Dependencies: 173 172 173
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY rvm ALTER COLUMN id SET DEFAULT nextval('rvm_id_seq'::regclass);
+
+
+--
+-- TOC entry 1965 (class 2604 OID 16468)
+-- Dependencies: 177 176 177
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY rvm_beneficiary ALTER COLUMN id SET DEFAULT nextval('rvm_beneficiary_id_seq'::regclass);
+
+
+--
+-- TOC entry 1964 (class 2604 OID 16456)
+-- Dependencies: 174 175 175
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY rvm_profile ALTER COLUMN id SET DEFAULT nextval('rvm_profile_id_seq'::regclass);
+
+
+--
+-- TOC entry 1966 (class 2604 OID 16479)
+-- Dependencies: 179 178 179
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY state ALTER COLUMN id SET DEFAULT nextval('state_id_seq'::regclass);
+
+
+--
+-- TOC entry 1967 (class 2604 OID 16487)
+-- Dependencies: 180 181 181
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY transaction ALTER COLUMN id SET DEFAULT nextval('transaction_id_seq'::regclass);
+
+
+--
+-- TOC entry 1968 (class 2604 OID 16498)
+-- Dependencies: 182 183 183
+-- Name: id; Type: DEFAULT; Schema: rvm; Owner: rcis
+--
+
+ALTER TABLE ONLY transaction_item ALTER COLUMN id SET DEFAULT nextval('transaction_item_id_seq'::regclass);
+
+
+SET search_path = rcis, pg_catalog;
+
+--
+-- TOC entry 1995 (class 0 OID 16431)
+-- Dependencies: 171
+-- Data for Name: collector; Type: TABLE DATA; Schema: rcis; Owner: rcis
+--
+
+COPY collector (id, collector_name) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1994 (class 0 OID 16420)
+-- Dependencies: 169
+-- Data for Name: log; Type: TABLE DATA; Schema: rcis; Owner: rcis
+--
+
+COPY log (id, modul, data, created) FROM stdin;
+\.
+
+
+SET search_path = rvm, pg_catalog;
+
+--
+-- TOC entry 1991 (class 0 OID 16389)
+-- Dependencies: 164
+-- Data for Name: message_in; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY message_in (id, rvm_id, received, m_type, m_length, message) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1992 (class 0 OID 16400)
+-- Dependencies: 166
+-- Data for Name: message_out; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY message_out (id, rvm_id, sent, m_type, m_length, message) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1996 (class 0 OID 16442)
+-- Dependencies: 173
+-- Data for Name: rvm; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY rvm (id, ip, address, retailer, compactor, head, printer, panel) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1998 (class 0 OID 16465)
+-- Dependencies: 177
+-- Data for Name: rvm_beneficiary; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY rvm_beneficiary (id, rvm_id, beneficiary) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1997 (class 0 OID 16453)
+-- Dependencies: 175
+-- Data for Name: rvm_profile; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY rvm_profile (id, rvm_id, parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7, parameter8, parameter9, parameter10, parameter11, parameter12, parameter13, parameter14, parameter15, parameter16, parameter17, parameter18, parameter19, parameter20, parameter21, changed, changer) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1993 (class 0 OID 16409)
+-- Dependencies: 167
+-- Data for Name: rvm_tracker; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY rvm_tracker (rvm_id, received, state) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1999 (class 0 OID 16476)
+-- Dependencies: 179
+-- Data for Name: state; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY state (id, rvm_id, state1, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12, state13, state14, state15, state16) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2000 (class 0 OID 16484)
+-- Dependencies: 181
+-- Data for Name: transaction; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY transaction (id, rvm_id, code, created, summa, target) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2001 (class 0 OID 16495)
+-- Dependencies: 183
+-- Data for Name: transaction_item; Type: TABLE DATA; Schema: rvm; Owner: rcis
+--
+
+COPY transaction_item (id, transaction_id, packaging_type, count, unit_price) FROM stdin;
+\.
+
+
+SET search_path = rcis, pg_catalog;
+
+--
+-- TOC entry 1978 (class 2606 OID 16439)
+-- Dependencies: 171 171
+-- Name: collector_pkey; Type: CONSTRAINT; Schema: rcis; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY collector
+    ADD CONSTRAINT collector_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1976 (class 2606 OID 16428)
+-- Dependencies: 169 169
+-- Name: log_pkey; Type: CONSTRAINT; Schema: rcis; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY log
+    ADD CONSTRAINT log_pkey PRIMARY KEY (id);
+
+
+SET search_path = rvm, pg_catalog;
+
+--
+-- TOC entry 1970 (class 2606 OID 16397)
+-- Dependencies: 164 164
+-- Name: message_in_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY message_in
+    ADD CONSTRAINT message_in_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1972 (class 2606 OID 16408)
+-- Dependencies: 166 166
+-- Name: message_out_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY message_out
+    ADD CONSTRAINT message_out_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1984 (class 2606 OID 16473)
+-- Dependencies: 177 177
+-- Name: rvm_beneficiary_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY rvm_beneficiary
+    ADD CONSTRAINT rvm_beneficiary_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1980 (class 2606 OID 16450)
+-- Dependencies: 173 173
+-- Name: rvm_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY rvm
+    ADD CONSTRAINT rvm_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1982 (class 2606 OID 16461)
+-- Dependencies: 175 175
+-- Name: rvm_profile_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY rvm_profile
+    ADD CONSTRAINT rvm_profile_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1974 (class 2606 OID 16416)
+-- Dependencies: 167 167
+-- Name: rvm_tracker_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY rvm_tracker
+    ADD CONSTRAINT rvm_tracker_pkey PRIMARY KEY (rvm_id);
+
+
+--
+-- TOC entry 1986 (class 2606 OID 16481)
+-- Dependencies: 179 179
+-- Name: state_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY state
+    ADD CONSTRAINT state_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1990 (class 2606 OID 16500)
+-- Dependencies: 183 183
+-- Name: transaction_item_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY transaction_item
+    ADD CONSTRAINT transaction_item_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1988 (class 2606 OID 16492)
+-- Dependencies: 181 181
+-- Name: transaction_pkey; Type: CONSTRAINT; Schema: rvm; Owner: rcis; Tablespace: 
+--
+
+ALTER TABLE ONLY transaction
+    ADD CONSTRAINT transaction_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2006 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2012-05-27 16:02:16 CEST
+
+--
+-- PostgreSQL database dump complete
+--
+

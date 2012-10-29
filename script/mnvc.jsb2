@@ -1,0 +1,34 @@
+{
+    projectName: 'M N V C',
+    deployDir: '../www/lib/mnvc/build/',
+    licenseText: "mnvc javascript framework, written by thRobt(robthot@gmail.com)\nlicensed under the terms of WFTPL (http://en.wikipedia.org/wiki/WTFPL)",
+    pkgs: [{
+    	name: 'M N V C',
+      file: 'mnvc.js',
+      isDebug: true,
+      fileIncludes: [{
+        text: 'builder.js',
+        path: '../www/lib/mnvc/lib/'
+      },{
+        text: 'stuff.js',
+        path: '../www/lib/mnvc/lib/'
+      },{
+        text: 'effect.js',
+        path: '../www/lib/mnvc/lib/'
+      },{
+        text: 'component.js',
+        path: '../www/lib/mnvc/lib/'
+      },{
+        text: 'initializer.js',
+        path: '../www/lib/mnvc/lib/'
+      }]   
+    },{
+      name: 'mnvc.css',
+      file: 'mnvc.css',
+      fileIncludes: [{
+        text: 'mnvc.css',
+        path: '../www/lib/mnvc/css/'
+      }]
+    }],
+	resources: []
+}

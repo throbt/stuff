@@ -1,0 +1,1 @@
+<input value="<?php echo isset($this->var['value']) ? $this->var['value'] : ''; ?>" type="hidden" id="<?php echo isset($this->var['id']) ? $this->var['id'] : ''; ?>" class="input  <?php echo isset($this->var['class']) ? $this->var['class'] : ''; ?>" name="<?php echo isset($this->var['name']) ? $this->var['name'] : ''; ?>" />

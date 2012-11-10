@@ -17,6 +17,11 @@ var Initializer = (function() {
       obj.arrayUnique = Stuff.arrayUnique;
     }
     $.extend(obj);
+    if(typeof Grid !== 'undefined') {
+      $.fn.extend({
+        grid: Grid
+      });
+    }
   };
   if(typeof $ == 'undefined' || typeof jQuery == 'undefined') {
     alert('jquery is missing');

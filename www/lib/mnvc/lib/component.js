@@ -61,19 +61,15 @@ var Form = Component.extend(_construct,{
   build: function() {
     this.reference = $.create({
       type: 'div',
-      cls: this.cls,
-      arr: [{
-        type: 'form',
-        action: this.action,
-        method: this.method,
-        enctype: (this.multipart ? 'multipart/form-data' : ''),
-        id: this.id
-      }]
+      cls: this.cls
     },this.parent);
     this.body = $.create({
-      type: 'fieldset',
-      id: [this.id,'_fieldset'].join('')
-    },$(['#',this.id].join(''))[0]);
+      type: 'form',
+      action: this.action,
+      method: this.method,
+      enctype: (this.multipart ? 'multipart/form-data' : ''),
+      id: this.id
+    },this.reference);
   },
   /*
     @method _construct
@@ -88,6 +84,40 @@ var Form = Component.extend(_construct,{
     this.parent    = (this.cfg.parent     ? this.cfg.parent : '');
     this.cls       = (this.cfg.cls        ? this.cfg.cls : '');
     this.multipart = (this.cfg.multipart  ? this.cfg.multipart : false);
+    this.build();
+  }
+});
+
+/*
+  Component Fieldset
+*/
+var Fieldset = Component.extend(_construct,{
+  /*
+    @method build
+    @return no return
+  */
+  build: function() {
+    this.body = $.create({
+      type: 'fieldset',
+      cls: this.cls,
+      id: [this.id,'_fieldset'].join(''),
+      arr: [{
+        type: 'legend',
+        html: this.legend
+      }]
+    },this.parent);
+  },
+  /*
+    @method _construct
+    @param cfg object
+    @return no return
+  */
+  _construct: function(cfg) {
+    this.cfg       = cfg[0] || {};
+    this.id        = (this.cfg.id         ? this.cfg.id : '');
+    this.parent    = (this.cfg.parent     ? this.cfg.parent : '');
+    this.cls       = (this.cfg.cls        ? this.cfg.cls : '');
+    this.legend    = (this.cfg.legend     ? this.cfg.legend : '');
     this.build();
   }
 });
@@ -638,7 +668,7 @@ var MultipleNumber = Component.extend(FormEl,{
     for(var i in this.value) {
       str += ' ' + this.value[i];
     }
-    return str.substring(1,str.length-1);
+    return str.substring(1,str.length);
   },
   /*
     @method build
@@ -972,7 +1002,8 @@ var RadioMatrix = Component.extend(FormEl,{
     $.create({
       type: 'tr',
       id: ['tr_head'].join(''),
-      arr: this.getTableHead()
+      arr: this.getTableHead(),
+      cls: 'tr_head'
     },$(['#',this.id,'_table'].join(''))[0]);
     for(var i=0,l=this.rows.length;i<l;++i) {
       thisRow = this.rows[i];
@@ -1024,7 +1055,11 @@ var RadioMatrix = Component.extend(FormEl,{
       arr: [{
         type: 'label',
         cls: 'control-label',
-        html: thisRow
+        arr: [{
+          type: 'span',
+          cls: 'head_label',
+          html: thisRow
+        }]
       }]
     });
     for(var i=0,l=this.columns.length;i<l;++i) {
@@ -1040,6 +1075,197 @@ var RadioMatrix = Component.extend(FormEl,{
           id: [iter,'_input_',this.id,'_',i].join(''),
           cls: ['input input-xlarge ',this.id,'_r_listener'].join(''),
           name: [this.id,'_name_',iter].join(''),
+          value: column
+        }]
+      });
+    }
+    return thisArr;
+  },
+  /*
+    @method cleanUp
+    @return no return
+  */
+  cleanUp: function() {
+    $(['#',this.id,'_table'].join('')).remove();
+  },
+  /*
+    @method setUp
+    @return no return
+  */
+  setUp: function() {
+    var self = this;
+    $(['.',this.id,'_r_listener'].join('')).unbind();
+    $(['.',this.id,'_r_listener'].join('')).click(function() {
+      self.change(self);
+    });
+  },
+  /*
+    @method _construct
+    @param cfg object
+    @return no return
+  */
+  _construct: function(cfg) {
+    this.cfg      = cfg[0] || {};
+    this.change   = (this.cfg.change  ? this.cfg.change   : function() {});
+    this.columns  = (this.cfg.columns ? this.cfg.columns  : []);
+    this.rows     = (this.cfg.rows    ? this.cfg.rows     : []);
+    this.cls      = (this.cfg.cls     ? this.cfg.cls      : '');
+    this.values   = {};
+    this.wrapper();
+    this.build();
+    this.setUp();
+  }
+});
+
+/*
+  Component CheckboxMatrix
+*/
+var CheckboxMatrix = Component.extend(FormEl,{
+  type : 'radiomatrix',
+  /*
+    @method getValue
+    @return object
+  */
+  getValue: function() {
+    var self = this, row = '',column = '', selector = '', thisObj = {};
+    for(var i=0,l=this.rows.length;i<l;++i) {
+      row               = this.rows[i];
+      thisObj[row]  = [];
+      for(var c=0,len=this.columns.length;c<len;++c) {
+        column    = this.columns[c];
+        selector  = ['#',i,'_input_',self.id,'_',c].join('');
+        if($(selector).is(':checked')) {
+          thisObj[row].push(column);
+        }
+      }
+    }
+    this.values = thisObj;
+    return this.values;
+  },
+  /*
+    @method addRows
+    @return no return
+  */
+  addRows: function(rows) {
+    this.values = {};
+    this.rows   = $.arrayUnique(rows);
+    this.cleanUp();
+    this.build();
+    this.setUp();
+  },
+  /*
+    @method addColumns
+    @return no return
+  */
+  addColumns: function(columns) {
+    this.values   = {};
+    this.columns  = $.arrayUnique(columns);
+    this.cleanUp();
+    this.build();
+    this.setUp();
+  },
+  /*
+    @method wrapper
+    @return no return
+  */
+  wrapper: function() {
+    this.parent = (this.cfg.parent  ? this.cfg.parent : '');
+    this.label  = (this.cfg.label   ? this.cfg.label : '');
+    this.id     = (this.cfg.id      ? this.cfg.id : '');
+    this.value  = (this.cfg.value   ? this.cfg.value : '');
+    this.reference = $.create({
+      type  : 'div',
+      cls   : 'control-group',
+      id    : [this.id,'_group'].join('')
+    },this.parent);
+  },
+  /*
+    @method build
+    @return no return
+  */
+  build: function() {
+    $.create({
+      type: 'table',
+      cls: this.cls,
+      id: [this.id,'_table'].join('')
+    },$(['#',this.id,'_group'].join(''))[0]);
+    var thisRow = '';
+    $.create({
+      type: 'tr',
+      id: ['tr_head'].join(''),
+      arr: this.getTableHead(),
+      cls: 'tr_head'
+    },$(['#',this.id,'_table'].join(''))[0]);
+    for(var i=0,l=this.rows.length;i<l;++i) {
+      thisRow = this.rows[i];
+      $.create({
+        type: 'tr',
+        id: ['tr_',i].join(''),
+        arr: this.buildRow(i,thisRow)
+      },$(['#',this.id,'_table'].join(''))[0]);
+    }
+  },
+  /*
+    @method getTableHead
+    @return object
+  */
+  getTableHead: function() {
+    var column = '', thisArr = [];
+    thisArr.push({
+      type: 'td',
+      id: ['td_head_',i].join(''),
+      cls: 'td_label',
+      html: ''
+    });
+    for(var i=0,l=this.columns.length;i<l;++i) {
+      column = this.columns[i];
+      thisArr.push({
+        type: 'td',
+        id: ['td_head_',i].join(''),
+        arr: [{
+          type: 'span',
+          cls: 'head_label',
+          html: column
+        }]
+      });
+    }
+    return thisArr;
+  },
+  /*
+    @method buildRow
+    @param iter     number
+    @param thisRow  string
+    @return object
+  */
+  buildRow: function(iter,thisRow) {
+    var column = '', thisArr = [];
+    thisArr.push({
+      type: 'td',
+      id: ['td_',iter,'_label'].join(''),
+      cls: 'td_label',
+      arr: [{
+        type: 'label',
+        cls: 'control-label',
+        arr: [{
+          type: 'span',
+          cls: 'head_label',
+          html: thisRow
+        }]
+      }]
+    });
+    for(var i=0,l=this.columns.length;i<l;++i) {
+      column = this.columns[i];
+      thisArr.push({
+        type: 'td',
+        cls: 'cell',
+        id: ['td_',iter,'_',i].join(''),
+        arr: [{
+          type: 'input',
+          iType: 'checkbox',
+          rel: [iter,'|',i].join(''),
+          id: [iter,'_input_',this.id,'_',i].join(''),
+          cls: ['input input-xlarge ',this.id,'_r_listener'].join(''),
+          name: [iter,'_name_',this.id,'_',i].join(''),
           value: column
         }]
       });

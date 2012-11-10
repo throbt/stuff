@@ -2,41 +2,22 @@
  * mnvc javascript framework, written by thRobt(robthot@gmail.com)
  * licensed under the terms of WFTPL (http://en.wikipedia.org/wiki/WTFPL)
  */
-.col1 {
-	width:30px;
+.col1 { width: 30px; }
+.col2 { width: 60px; }
+.col3 { width: 90px; }
+.col4 { width: 120px; }
+.col5 { width: 150px; }
+.col6 { width: 180px; }
+.multiple { margin-right: 7px; }
+.form-horizontal .table .td_label {
+	padding: 				0px;
+	padding-right: 			18px;
+	text-align: 			right;
+	width: 					160px;
 }
-.col2 {
-	width:60px;
+.form-inline .table .td_label {
+	width: 					160px;
 }
-.col3 {
-	width:90px;
-}
-.col4 {
-	width:120px;
-}
-.col5 {
-	width:150px;
-}
-.col6 {
-	width:180px;
-}
-.multiple {
-	margin-right:7px;
-}
-.table .td_label {
-	width: 160px;
-	text-align:right;
-	padding: 0px;
-	padding-right:18px;
-}
-.head_label {
-	font-weight:bold;
-	/*padding:3px;*/
-	margin-right:5px;
-}
-.table .cell {
-	text-align:center;
-}
-#tr_head td {
-	text-align:center;
-}
+.head_label { font-weight: bold; margin-right: 5px; /*padding 3px*/ }
+.table .cell { text-align: center; }
+.tr_head td { text-align: center; }

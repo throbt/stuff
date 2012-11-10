@@ -19,6 +19,9 @@
         text: 'component.js',
         path: '../www/lib/mnvc/lib/'
       },{
+        text: 'grid.js',
+        path: '../www/lib/mnvc/lib/'
+      },{
         text: 'initializer.js',
         path: '../www/lib/mnvc/lib/'
       }]   

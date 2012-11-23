@@ -120,7 +120,7 @@ var DomBuilder = (function () {
             //   return DomBuilder.getClassName();
             // else
             //   return el.getAttribute(prop);
-            return $(el)[0].attr(prop);
+            return $(el).attr(prop);
           }
           return null;
         };
@@ -130,7 +130,7 @@ var DomBuilder = (function () {
           if(typeof prop == 'undefined' && type == current.tagName) {
             return current;
           } else if(DomBuilder.getAttrib(current,prop) !== null /*|| DomBuilder.getAttrib(current,prop) != 'null'*/) {
-            if(DomBuilder.getAttrib(current,prop) == name) {
+            if(DomBuilder.getAttrib(current,prop).match(name)) {
               return current;
             }
           }
@@ -141,10 +141,51 @@ var DomBuilder = (function () {
       }
       return null;
     }
+    /*
+      @method hasClassName
+      @param className string
+      @return no return
+    */
+    function hasClassName(className) {
+      var thisClassName = $(this).attr('class');
+      if(typeof thisClassName != 'undefined' && thisClassName.match(className)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    /*
+      @method addClassName
+      @param className string
+      @return no return
+    */
+    function addClassName(className) {
+      var thisClassName = $(this).attr('class');
+      if(typeof thisClassName != 'undefined' && !thisClassName.match(className)) {
+        $(this).attr('class',[thisClassName,' ',className].join(''));
+      }
+    }
+    /*
+      @method removeClassName
+      @param className string
+      @return no return
+    */
+    function removeClassName(className) {
+      var thisClassName = $(this).attr('class');
+      if(typeof thisClassName != 'undefined' && thisClassName.match(className)) {
+        var arr = thisClassName.split(className),
+            newClassName = [arr[0],' ',arr[1]].join('');
+        $(this).attr('class',newClassName);
+      }
+    }
+
     return {
-      cache     : cache,
-      create    : create,
-      remove    : remove,
-      getParent : getParent
+      hasClassName    : hasClassName,
+      addClassName    : addClassName,
+      removeClassName : removeClassName,
+      cache           : cache,
+      create          : create,
+      remove          : remove,
+      getParent       : getParent
     };
 })();

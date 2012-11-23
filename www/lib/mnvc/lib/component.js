@@ -103,7 +103,8 @@ var Fieldset = Component.extend(_construct,{
       id: [this.id,'_fieldset'].join(''),
       arr: [{
         type: 'legend',
-        html: this.legend
+        html: this.legend,
+        cls: this.legendCls
       }]
     },this.parent);
   },
@@ -118,6 +119,7 @@ var Fieldset = Component.extend(_construct,{
     this.parent    = (this.cfg.parent     ? this.cfg.parent : '');
     this.cls       = (this.cfg.cls        ? this.cfg.cls : '');
     this.legend    = (this.cfg.legend     ? this.cfg.legend : '');
+    this.legendCls = (this.cfg.legendCls     ? this.cfg.legendCls : '');
     this.build();
   }
 });
@@ -234,7 +236,7 @@ var Text = Component.extend(FormEl,{
   */
   setup: function() {
     var self = this;
-    $(['#',this.id,'_input'].join('')).keyup(function() { 
+    $(['#',this.id,'_input'].join('')).keyup(function() {
       self.setValue($(this).val());
       self.change(self);
     });
@@ -625,12 +627,12 @@ var Button = Component.extend(FormEl,{
     this.body = $.create(obj,$(['#',this.id,'_wrap'].join(''))[0]);
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
-    $(this.body).click(function() { alert("clicked");
+    $(this.body).click(function() {
       self.pressed(self);
       return false;
     });
@@ -650,7 +652,7 @@ var Button = Component.extend(FormEl,{
     this.target   = (this.cfg.target  ? this.cfg.target : '');
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });
 
@@ -737,10 +739,10 @@ var MultipleNumber = Component.extend(FormEl,{
     }
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.id].join('')).change(function() {
       self.setValue($(this).attr('id'),$(this).val());
@@ -760,7 +762,7 @@ var MultipleNumber = Component.extend(FormEl,{
     this.value    = {};
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });
 
@@ -847,7 +849,7 @@ var Radio = Component.extend(FormEl,{
     this.removeOptions();
     this.options.push(val);
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method addOptions
@@ -861,7 +863,7 @@ var Radio = Component.extend(FormEl,{
     else {
       this.removeOptions();
       this.build();
-      this.setUp();
+      this.setup();
     }
   },
   /*
@@ -895,10 +897,10 @@ var Radio = Component.extend(FormEl,{
     });
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.listener_class].join('')).click(function() {
       self.setValue($(this).val());
@@ -918,7 +920,7 @@ var Radio = Component.extend(FormEl,{
     if(this.cfg.id && this.cfg.parent && this.cfg.label) {
       this.wrapper();
       this.build();
-      this.setUp();
+      this.setup();
     }
     if(this.selected) {
       this.setValue(this.selected);
@@ -960,7 +962,7 @@ var RadioMatrix = Component.extend(FormEl,{
     this.rows   = $.arrayUnique(rows);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method addColumns
@@ -971,7 +973,7 @@ var RadioMatrix = Component.extend(FormEl,{
     this.columns  = $.arrayUnique(columns);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method wrapper
@@ -1089,10 +1091,10 @@ var RadioMatrix = Component.extend(FormEl,{
     $(['#',this.id,'_table'].join('')).remove();
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.id,'_r_listener'].join('')).unbind();
     $(['.',this.id,'_r_listener'].join('')).click(function() {
@@ -1113,7 +1115,7 @@ var RadioMatrix = Component.extend(FormEl,{
     this.values   = {};
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });
 
@@ -1151,7 +1153,7 @@ var CheckboxMatrix = Component.extend(FormEl,{
     this.rows   = $.arrayUnique(rows);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method addColumns
@@ -1162,7 +1164,7 @@ var CheckboxMatrix = Component.extend(FormEl,{
     this.columns  = $.arrayUnique(columns);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method wrapper
@@ -1280,10 +1282,10 @@ var CheckboxMatrix = Component.extend(FormEl,{
     $(['#',this.id,'_table'].join('')).remove();
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.id,'_r_listener'].join('')).unbind();
     $(['.',this.id,'_r_listener'].join('')).click(function() {
@@ -1304,6 +1306,6 @@ var CheckboxMatrix = Component.extend(FormEl,{
     this.values   = {};
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });

@@ -154,7 +154,7 @@ class Test_helper extends View {
       // MNVC                . 'lib/component.js',
       // MNVC                . 'lib/initializer.js',
 
-      MNVC                . 'build/mnvc.js'
+      MNVC                . 'build/mnvc-debug.js'
     );
     if($thisRoute == 'order') {
       $arr[] = '/js/form.js';

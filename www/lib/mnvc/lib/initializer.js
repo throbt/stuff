@@ -10,16 +10,31 @@ var Initializer = (function() {
     }
     var obj = {};
     if(typeof DomBuilder !== 'undefined') {
-      obj.create    = DomBuilder.create;
-      obj.getParent = DomBuilder.getParent;
+      obj.create          = DomBuilder.create;
+      obj.getParent       = DomBuilder.getParent;
+      $.fn.extend({
+        addClassName: DomBuilder.addClassName
+      });
+      $.fn.extend({
+        removeClassName: DomBuilder.removeClassName
+      });
+      $.fn.extend({
+        hasClassName: DomBuilder.hasClassName
+      });
     }
     if(typeof Stuff !== 'undefined') {
       obj.arrayUnique = Stuff.arrayUnique;
+      obj.getRndRGB   = Stuff.getRndRGB;
     }
     $.extend(obj);
     if(typeof Grid !== 'undefined') {
       $.fn.extend({
-        grid: Grid
+        grid: Grid.init
+      });
+    }
+    if(typeof Dragger !== 'undefined') {
+      $.fn.extend({
+        draggable: Dragger.drag
       });
     }
   };

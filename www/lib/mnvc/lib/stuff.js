@@ -12,8 +12,18 @@ var Stuff = (function() {
     }
     return cache;
   };
+  var getRndRGB = function() {
+    var p = function() {
+      var str = Math.ceil(Math.random()*256).toString(16);
+      if(str.length == 1)
+        str += '0';
+      return str;
+    };
+    return ['#',p(),p(),p()].join('');
+  };
   return {
-    arrayUnique: arrayUnique
+    arrayUnique     : arrayUnique,
+    getRndRGB       : getRndRGB
   };
 })();
 /*

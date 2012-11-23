@@ -1,61 +1,37 @@
-<link rel="stylesheet" type="text/css" href="http://releases.flowplayer.org/5.1.1/skin/minimalist.css" />
-
-
+<!-- <link rel="stylesheet" type="text/css" href="http://releases.flowplayer.org/5.1.1/skin/minimalist.css" /> -->
 <script src="/js/formtest.js"></script>
 
-<!--div class="player" data-engine="flash">
-   <video poster="jeans.jpg">
-      <source type="video/flv" src="http://defaulter.dyndns.hu/oflaDemo/streams/avatar.flv"/>
-   </video>
+<style>
+.block {
+	/*width:500px;
+	height:120px;
+	opacity:0.2;*/
+}
+.half {
+	/*height:60px;*/
+}
+.thisAnchor {
+	/*width:400px;
+	height:30px;
+	margin: 0 auto;
+	margin-top:10px;
+	background:black;*/
+}
+</style>
+
+<div class="row">
+	<div id='debugger' class="span3  controllers" style="position:fixed;">
+	</div>
+	<div id="pageWrapper" class="span9" style="margin-left:320px;">
+
+		
+		<div class="gridElement block"><div class="thisAnchor anchor"></div></div>
+		<div class="gridElement block half"><div class="thisAnchor anchor"></div></div>
+		<div class="gridElement block half"><div class="thisAnchor anchor"></div></div>
+		<div class="gridElement block half"><div class="thisAnchor anchor"></div></div>
+
+	</div>
 </div>
- 
-<script>
-$(".player").flowplayer({ swf: "/swf/flowplayer/flowplayer.swf" });
-</script-->
-<!--script src="/swf/flowplayer/flowplayer-3.2.11.min.js"></script>
 
-<a href="http://defaulter.dyndns.hu:5080/oflaDemo/streams/avatar.flv"
-   style="display:block;width:425px;height:300px;"
-   id="player">
-</a>
-<br /><br />
-<a href="http://defaulter.dyndns.hu:5080/oflaDemo/streams/avatar.flv"
-   style="display:block;width:425px;height:300px;"
-   id="thisplayer">
-</a>
-
-<script>
-  flowplayer("player", "/swf/flowplayer/flowplayer-3.2.15.swf", {
-      clip:  {
-		  provider: 'rtmp',
-          autoPlay: false,
-          autoBuffering: true,
-          url: 'toystory3-vp6' 
-      },
-      plugins: {  
-	  rtmp: {  
-		url: '/swf/flowplayer/flowplayer.rtmp-3.2.11.swf',			
-		netConnectionUrl: 'rtmp://defaulter.dyndns.hu:5080/oflaDemo/'
-	  } 
-	}  
-  });
-</script>
-
-<script>
-  flowplayer("thisplayer", "/swf/flowplayer/flowplayer-3.2.15.swf", {
-      clip:  {
-		  provider: 'rtmp',
-          autoPlay: false,
-          autoBuffering: true,
-          url: 'avatar' 
-      },
-      plugins: {  
-	  rtmp: {  
-		url: '/swf/flowplayer/flowplayer.rtmp-3.2.11.swf',			
-		netConnectionUrl: 'rtmp://defaulter.dyndns.hu:5080/oflaDemo/'
-	  } 
-	}  
-  });
-</script-->
 
 

@@ -124,7 +124,7 @@ var DomBuilder = (function () {
             //   return DomBuilder.getClassName();
             // else
             //   return el.getAttribute(prop);
-            return $(el)[0].attr(prop);
+            return $(el).attr(prop);
           }
           return null;
         };
@@ -134,7 +134,7 @@ var DomBuilder = (function () {
           if(typeof prop == 'undefined' && type == current.tagName) {
             return current;
           } else if(DomBuilder.getAttrib(current,prop) !== null /*|| DomBuilder.getAttrib(current,prop) != 'null'*/) {
-            if(DomBuilder.getAttrib(current,prop) == name) {
+            if(DomBuilder.getAttrib(current,prop).match(name)) {
               return current;
             }
           }
@@ -145,11 +145,52 @@ var DomBuilder = (function () {
       }
       return null;
     }
+    /*
+      @method hasClassName
+      @param className string
+      @return no return
+    */
+    function hasClassName(className) {
+      var thisClassName = $(this).attr('class');
+      if(typeof thisClassName != 'undefined' && thisClassName.match(className)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    /*
+      @method addClassName
+      @param className string
+      @return no return
+    */
+    function addClassName(className) {
+      var thisClassName = $(this).attr('class');
+      if(typeof thisClassName != 'undefined' && !thisClassName.match(className)) {
+        $(this).attr('class',[thisClassName,' ',className].join(''));
+      }
+    }
+    /*
+      @method removeClassName
+      @param className string
+      @return no return
+    */
+    function removeClassName(className) {
+      var thisClassName = $(this).attr('class');
+      if(typeof thisClassName != 'undefined' && thisClassName.match(className)) {
+        var arr = thisClassName.split(className),
+            newClassName = [arr[0],' ',arr[1]].join('');
+        $(this).attr('class',newClassName);
+      }
+    }
+
     return {
-      cache     : cache,
-      create    : create,
-      remove    : remove,
-      getParent : getParent
+      hasClassName    : hasClassName,
+      addClassName    : addClassName,
+      removeClassName : removeClassName,
+      cache           : cache,
+      create          : create,
+      remove          : remove,
+      getParent       : getParent
     };
 })();
 /*
@@ -166,8 +207,18 @@ var Stuff = (function() {
     }
     return cache;
   };
+  var getRndRGB = function() {
+    var p = function() {
+      var str = Math.ceil(Math.random()*256).toString(16);
+      if(str.length == 1)
+        str += '0';
+      return str;
+    };
+    return ['#',p(),p(),p()].join('');
+  };
   return {
-    arrayUnique: arrayUnique
+    arrayUnique     : arrayUnique,
+    getRndRGB       : getRndRGB
   };
 })();
 /*
@@ -246,7 +297,7 @@ var Dispatcher = (function () {
   Class Effect
 */
 var Effect = (function() {
-  function bounce(pos) {
+  var bounce = function(pos) {
     if (pos < (1 / 2.75)) {
       return (7.5625 * pos * pos);
     } else if (pos < (2 / 2.75)) {
@@ -256,9 +307,131 @@ var Effect = (function() {
     } else {
       return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
     }
-  }
+  };
   return {
-    bounce  : bounce
+    bounce: bounce
+  };
+})();/*
+  Class Dragger
+*/
+var Dragger = (function() {
+  var mouseListener = false,
+      callback      = '',
+      cfg           = {},
+      mousePos;
+  var mouseCoords = function(ev) {
+    if(ev.pageX || ev.pageY){
+      return {
+        x:  ev.pageX,
+        y:  ev.pageY
+      };
+    }
+    return {
+      x:  ev.clientX+document.body.scrollLeft-document.body.clientLeft,
+      y:  ev.clientY+document.body.scrollTop-document.body.clientTop
+    };
+  };
+  var mouseMove = function(ev) {
+    ev                = ev || window.event;
+    Dragger.mousePos  = mouseCoords(ev);
+    if(typeof Dragger.callback == 'function') {
+      Dragger.callback(ev);
+    }
+  };
+  var drag = function(arr,cfg) {
+    Dragger.cfg = cfg || {};
+    if(arr.length > 0) {
+      Dragger.selector = $(arr[0]).attr('class');
+      if(!mouseListener) {
+        $(document).mousemove(mouseMove);
+        mouseListener = true;
+      }
+      for(var i=0,l=arr.length;i<l;++i) {
+        draggable(arr[i]);
+        $(arr[i]).mouseover(function(event) {
+          if(Dragger.mouseover_hook) {
+            Dragger.mouseover_hook(this,event);
+          }
+        });
+        $(arr[i]).mouseout(function(event) {
+          if(Dragger.mouseout_hook) {
+            Dragger.mouseout_hook(this,event);
+          }
+        });
+      }
+    }
+  };
+  var draggable = function(el) {
+    var self    = this,
+        anchor  = $(el).find('.anchor');
+    $(anchor).mouseover(function(event) {
+      if(Dragger.anchor_mouseover_hook) {
+        Dragger.anchor_mouseover_hook(this,event);
+      }
+    });
+    $(anchor).mouseover(function(event) {
+      if(Dragger.anchor_mouseout_hook) {
+        Dragger.anchor_mouseout_hook(this,event);
+      }
+    });
+    $(anchor).mousedown(function(event) {
+      Dragger.el          = $.getParent(this,'LI','class',Dragger.selector);
+      if(!$(Dragger.el).hasClassName('dragged')) {
+        Dragger.leftDis   = (Number(Dragger.mousePos.x)-parseInt($(Dragger.el).css('left'),10));
+        Dragger.topDis    = (Number(Dragger.mousePos.y)-parseInt($(Dragger.el).css('top'),10));
+        $(Dragger.el).addClassName('dragged');
+        Dragger.callback  = Dragger.dragThis;
+        if(Dragger.mousedown_hook) {
+          Dragger.mousedown_hook(Dragger.el,event);
+        }
+      }
+      return false;
+    });
+    $(anchor).mouseup(function(event) {
+      Dragger.callback = '';
+      $(Dragger.el).removeClassName('dragged');
+      if(Dragger.mouseup_hook) {
+        Dragger.mouseup_hook(Dragger.el,event);
+      }
+      return false;
+    });
+  };
+  var dragThis = function() {
+    if(Dragger.mousemove_listener) {
+      Dragger.mousemove_listener(this);
+    }
+    if(Dragger.cfg.move) {
+      switch(Dragger.cfg.move) {
+        case 'vertical':
+          $(Dragger.el).css({
+            'top'   : Dragger.mousePos.y-Dragger.topDis
+          });
+        break;
+        case 'horizontal':
+          $(Dragger.el).css({
+            'left'  : Dragger.mousePos.x-Dragger.leftDis
+          });
+        break;
+        case 'both':
+          $(Dragger.el).css({
+            'top'   : Dragger.mousePos.y-Dragger.topDis,
+            'left'  : Dragger.mousePos.x-Dragger.leftDis
+          });
+        break;
+      }
+    } else {
+      $(Dragger.el).css({
+        'top'   : Dragger.mousePos.y-Dragger.topDis,
+        'left'  : Dragger.mousePos.x-Dragger.leftDis
+      });
+    }
+  };
+  return {
+    selector    : '',
+    cfg         : cfg,
+    callback    : callback,
+    dragThis    : dragThis,
+    drag        : function(cfg) {drag(this,cfg);}
   };
 })();/*
   Class Component, written by thRobt(robthot@gmail.com)
@@ -365,7 +538,8 @@ var Fieldset = Component.extend(_construct,{
       id: [this.id,'_fieldset'].join(''),
       arr: [{
         type: 'legend',
-        html: this.legend
+        html: this.legend,
+        cls: this.legendCls
       }]
     },this.parent);
   },
@@ -380,6 +554,7 @@ var Fieldset = Component.extend(_construct,{
     this.parent    = (this.cfg.parent     ? this.cfg.parent : '');
     this.cls       = (this.cfg.cls        ? this.cfg.cls : '');
     this.legend    = (this.cfg.legend     ? this.cfg.legend : '');
+    this.legendCls = (this.cfg.legendCls     ? this.cfg.legendCls : '');
     this.build();
   }
 });
@@ -496,7 +671,7 @@ var Text = Component.extend(FormEl,{
   */
   setup: function() {
     var self = this;
-    $(['#',this.id,'_input'].join('')).keyup(function() { 
+    $(['#',this.id,'_input'].join('')).keyup(function() {
       self.setValue($(this).val());
       self.change(self);
     });
@@ -887,12 +1062,12 @@ var Button = Component.extend(FormEl,{
     this.body = $.create(obj,$(['#',this.id,'_wrap'].join(''))[0]);
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
-    $(this.body).click(function() { alert("clicked");
+    $(this.body).click(function() {
       self.pressed(self);
       return false;
     });
@@ -912,7 +1087,7 @@ var Button = Component.extend(FormEl,{
     this.target   = (this.cfg.target  ? this.cfg.target : '');
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });
 
@@ -999,10 +1174,10 @@ var MultipleNumber = Component.extend(FormEl,{
     }
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.id].join('')).change(function() {
       self.setValue($(this).attr('id'),$(this).val());
@@ -1022,7 +1197,7 @@ var MultipleNumber = Component.extend(FormEl,{
     this.value    = {};
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });
 
@@ -1109,7 +1284,7 @@ var Radio = Component.extend(FormEl,{
     this.removeOptions();
     this.options.push(val);
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method addOptions
@@ -1123,7 +1298,7 @@ var Radio = Component.extend(FormEl,{
     else {
       this.removeOptions();
       this.build();
-      this.setUp();
+      this.setup();
     }
   },
   /*
@@ -1157,10 +1332,10 @@ var Radio = Component.extend(FormEl,{
     });
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.listener_class].join('')).click(function() {
       self.setValue($(this).val());
@@ -1180,7 +1355,7 @@ var Radio = Component.extend(FormEl,{
     if(this.cfg.id && this.cfg.parent && this.cfg.label) {
       this.wrapper();
       this.build();
-      this.setUp();
+      this.setup();
     }
     if(this.selected) {
       this.setValue(this.selected);
@@ -1222,7 +1397,7 @@ var RadioMatrix = Component.extend(FormEl,{
     this.rows   = $.arrayUnique(rows);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method addColumns
@@ -1233,7 +1408,7 @@ var RadioMatrix = Component.extend(FormEl,{
     this.columns  = $.arrayUnique(columns);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method wrapper
@@ -1351,10 +1526,10 @@ var RadioMatrix = Component.extend(FormEl,{
     $(['#',this.id,'_table'].join('')).remove();
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.id,'_r_listener'].join('')).unbind();
     $(['.',this.id,'_r_listener'].join('')).click(function() {
@@ -1375,7 +1550,7 @@ var RadioMatrix = Component.extend(FormEl,{
     this.values   = {};
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
 });
 
@@ -1413,7 +1588,7 @@ var CheckboxMatrix = Component.extend(FormEl,{
     this.rows   = $.arrayUnique(rows);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method addColumns
@@ -1424,7 +1599,7 @@ var CheckboxMatrix = Component.extend(FormEl,{
     this.columns  = $.arrayUnique(columns);
     this.cleanUp();
     this.build();
-    this.setUp();
+    this.setup();
   },
   /*
     @method wrapper
@@ -1542,10 +1717,10 @@ var CheckboxMatrix = Component.extend(FormEl,{
     $(['#',this.id,'_table'].join('')).remove();
   },
   /*
-    @method setUp
+    @method setup
     @return no return
   */
-  setUp: function() {
+  setup: function() {
     var self = this;
     $(['.',this.id,'_r_listener'].join('')).unbind();
     $(['.',this.id,'_r_listener'].join('')).click(function() {
@@ -1566,29 +1741,655 @@ var CheckboxMatrix = Component.extend(FormEl,{
     this.values   = {};
     this.wrapper();
     this.build();
-    this.setUp();
+    this.setup();
   }
-});var Grid = (function() {
+});/*
+  Class Grid
+*/
+var Grid = (function() {
 	var init = function(arr) {
 		if(arr.length > 1) {
 			rebuild(arr);
+			setup();
 		}
+	};
+	var _construct = function(cfg) {
+		this.cfg = cfg || {};
+	};
+	var elements	= [],
+			action		=	'',
+			dragged		=	'',
+			touched		=	'',
+			frame			= '',
+      elCounter = 0,
+      duration  = 10,
+      leftPos;
+	var rerender = function() {
+		var height = 0, grid = {}, iter = 0;
+		$('.gridEl').each(function() {
+			$(this).css({top:[height,'px'].join('')});
+			height += $(this).height();
+		});
 	};
 	var rebuild = function(arr) {
-		var els = [], thisParent = $(arr[0]).parent();
+		var el,els = [],thisParent = $(arr[0]).parent(),thisTop;
 		for(var i=0,l=arr.length;i<l;++i) {
 			els.push(arr[i]);
-			//$(arr[i]).remove();
+			$(arr[i]).remove();
 		}
-		for(var i=0,l=els.length;i<l;++i) {
-			//console.log();
+		this.body = $.create({
+			type	: 'ul',
+			id		: 'gridWrapper',
+			cls		: 'gridWrapper'
+		},$(thisParent)[0]);
+    Grid.elCounter = els.length;
+
+    var thisEl;
+		for(var c=0,len=els.length;c<len;++c) {
+			thisTop  = (c === 0 ? 0 : ($(['#draggable_',c-1].join('')).height()+parseInt($(['#draggable_',c-1].join('')).css('top'),10)));
+			thisEl   = new GridElement({
+				'top'			: thisTop,
+				'id'			: ['draggable_',c].join(''),
+				'data'		:	c,
+				'rel'			:	c,
+				'display'	: 'block',
+				'parent'	: this.body,
+				'content'	: els[c]
+			});
+      Grid.elements.push(thisEl);
 		}
-		console.log( thisParent );
-	}; 
-	return function() {
-		init(this);
+		Grid.frame = new EmptyFrame({
+			'top'			: $(['#draggable_',c-1].join('')).height()+parseInt($(['#draggable_',c-1].join('')).css('top'),10),
+			'id'			: 'empty_frame',
+			'data'		:	-1,
+			'rel'			:	-1,
+			'display'	: 'none',
+			'state'		:	'hidden',
+			'parent'	: this.body,
+			'content'	: ''
+		});
+		$('.draggable').draggable({'move':'both'});
 	};
-})();/*
+	var identity = function(obj) {
+		return Grid.elements[$(obj).attr('rel')];
+	};
+  var getOrder = function() {
+    var arr = [];
+    $('.gridEl').each(function() {
+      if($(this).attr('id') != 'empty_frame') {
+        arr.push(Grid.identity(this).getData());
+      }
+    });
+    return arr;
+  };
+  var debugOrder = function() {
+    var order, orig,thinked,str = '';
+    $('.gridEl').each(function() {
+      if($(this).attr('id') != 'empty_frame') {
+        order = $(this).attr('data');
+        orig  = $(this).attr('rel');
+        str += "order:  "+ ',' + order+ ',' + "  orig:  "+ ',' + orig+  '\n ';
+      }
+    });
+
+    debText.setValue(str);
+  };
+  var reSort = function() {
+    var sort=[],resorted=[],elements=[],el,top, debug = {};
+    $('.gridEl').each(function() {
+      if($(this).attr('id') != 'empty_frame' /*&& !$(this).attr('class').match(/dragged/)*/) {
+        el  = Grid.identity(this);
+        top = (el == Grid.dragged ? parseInt($(Grid.dragged.body).css('top'),10) : parseInt(el.getTop(),10));
+        sort.push(top);
+        resorted.push(top);
+        elements.push(el);
+      }
+    });
+
+
+    resorted.sort(function(a,b){return (a-b);});
+
+    debText2.setValue(sort+' \n '+resorted);
+
+
+    for(var i=0,l=resorted.length;i<l;++i) {
+      elements[i].setData($.inArray(resorted[i],sort));
+    }
+
+    sort=null;resorted=null;elements=null;el=null;top=null;
+  };
+	var setLayout = function() {
+    $('.sensor').css('z-index','12000');
+    $(Grid.dragged.sensor).css('z-index','100');
+    $(Grid.touched.sensor).css('z-index','100');
+    Grid.touched.overlapped();
+	};
+	var setup = function() {
+    $('.sensor').mouseover(function(event) {
+      if(Grid.action == 'mousedown') {
+        Grid.touched = Grid.identity(this);
+        Grid.touched.touched();
+        Grid.reSort();
+        Grid.setLayout();
+      }
+    });
+    $('.touched').live('mouseout',function() {
+      Grid.identity(this).detouched();
+    });
+		Dragger.mousedown_hook = function(obj,event) {
+			Grid.action		= 'mousedown';
+			Grid.dragged	= Grid.identity(obj);
+      Grid.leftPos  = Grid.dragged.getLeft();
+      Grid.topPos   = Grid.dragged.getTop();
+      $('.sensor').css('z-index','12000');
+      $(Grid.dragged.sensor).css('z-index','100');
+      Grid.dragged.dragStarted();
+		};
+		Dragger.mouseup_hook = function(obj,event) {
+			Grid.action		= 'mouseup';
+      $('.sensor').css('z-index','100');
+      Grid.dragged.dragStopped();
+		};
+	};
+
+	return {
+    getOrder        : getOrder,
+    debugOrder      : debugOrder,
+    leftPos         : leftPos,
+    duration        : duration,
+    reSort          : reSort,
+    elCounter       : elCounter,
+		identity				:	identity,
+		dragged					:	dragged,
+		touched					:	touched,
+		frame						:	frame,
+		setLayout				:	setLayout,
+		elements				: elements,
+		_construct			: _construct,
+		action					:	action,
+		rerender				: rerender,
+		init						: function() {return init(this);}
+	};
+})();
+
+/*
+  Component GridElement
+*/
+var GridElement = Component.extend(Grid._construct,{
+  /*
+    @method build
+    @return no return
+  */
+  build: function() {
+    var rgb = $.getRndRGB();
+		this.body = $.create({
+			type	: 'li',
+			id		: this.id,
+			style	: ['top:',this.top,'px;left:0px;background:',rgb,';display:',this.display].join(''),
+			data	: this.data,
+      rel   : this.data,
+			cls		: 'draggable gridEl'
+		},this.parent);
+		$(this.body).append(this.content);
+
+    var thisWidth   = this.getWidth()+20,
+        thisHeight  = this.getHeight();
+    this.sensor = $.create({
+      type  : 'li',
+      id    : ['sensor_',this.data].join(''),
+      style : ['top:',this.top,'px;left:0px;width:',thisWidth,'px;background:',rgb,';height:',thisHeight,'px;'].join(''),
+      data  : this.data,
+      rel   : this.data,
+      cls   : 'draggable sensor'
+    },this.parent);
+  },
+  /*
+    @method touched
+    @return no return
+  */
+  touched: function() {
+    //$(this.body).addClassName('touched');
+    $(this.sensor).addClassName('touched');
+  },
+  /*
+    @method detouched
+    @return no return
+  */
+  detouched: function() {
+    $(this.sensor).css('z-index','12000');
+    $(this.sensor).removeClassName('touched');
+  },
+  /*
+    @method getTop
+    @return no return
+  */
+  getTop: function() {
+    var top = parseInt($(this.body).css('top'),10);
+    this.setTop(top);
+    return this.top;
+  },
+  /*
+    @method setTop
+    @param top number
+    @return no return
+  */
+  setTop: function(top) {
+    if(top !== null && typeof top != 'undefined') {
+      this.top = top;
+    }
+  },
+  /*
+    @method getLeft
+    @return no return
+  */
+  getLeft: function() {
+    var left = parseInt($(this.body).css('left'),10);
+    this.setLeft(left);
+    return this.left;
+  },
+  /*
+    @method setLeft
+    @param top number
+    @return no return
+  */
+  setLeft: function(left) {
+    if(left !== null && typeof left != 'undefined') {
+      this.left = left;
+    }
+  },
+  /*
+    @method getHeight
+    @return no return
+  */
+  getHeight: function() {
+    return $(this.body).height();
+  },
+  /*
+    @method setHeight
+    @param height number
+    @return no return
+  */
+  setHeight: function(height) {
+		if(height	!== null && typeof height != 'undefined')
+			this.height = height;
+  },
+  /*
+    @method getData
+    @return no return
+  */
+  getData: function() {
+    return $(this.body).attr('data');
+  },
+  /*
+    @method setData
+    @param data number
+    @return no return
+  */
+  setData: function(data) {
+		if(data	!== null && typeof data != 'undefined') {
+      this.data = data;
+      $(this.body).attr('data',this.data);
+      $(this.sensor).attr('data',this.data);
+    }
+  },
+  /*
+    @method getWidth
+    @return no return
+  */
+  getWidth: function() {
+    return parseInt($(this.body).css('width'),10);
+  },
+  /*
+    @method setWidth
+    @return no return
+  */
+  setWidth: function(width) {
+    if(typeof width == 'number') {
+      $(this.body).css('width',width);
+    }
+  },
+  /*
+    @method gravity
+    @param y number
+    @param x number
+    @return no return
+  */
+  gravity: function(y,x,callback) {
+		var self  = this,
+        y     = (y == 'auto' ? 0 : y),
+        x     = (x == 'auto' ? 0 : x);
+    self.top = y;
+		self.callback = callback || (typeof callback == 'function' ? function() {callback(self);} : function() {});
+		emile(this.body,['top:',y,'px;left:',x,'px;'].join(''),{
+			duration: Grid.duration,
+			after: function() {
+        $(self.sensor).css('top',self.getTop());
+        $(self.sensor).css('left',self.getLeft());
+				if(typeof callback == 'function')
+          self.callback(self);
+			}
+		});
+  },
+  overlapped: function() {
+    var dragged       = Grid.dragged,
+        touched       = Grid.touched,
+        touchedTop    = touched.getTop(),
+        draggedTop    = dragged.getTop(),
+        touchedData   = touched.getData(),
+        draggedData   = dragged.getData(),
+        draggedHeight = dragged.getHeight(),
+        touchedHeight = touched.getHeight(),
+        touchedWidth  = touched.getWidth(),
+        touchedLeft   = Grid.leftPos;
+
+    console.log("touchedTop:  " + touchedTop,"draggedTop:  " + draggedTop);
+
+    //dragged.setData( touched.getData() );
+
+    $('.sensor').css('z-index','12000');
+    $(Grid.dragged.sensor).css('z-index','100');
+    $(Grid.touched.sensor).css('z-index','100');
+
+    Grid.debugOrder();
+
+    //thisDebugger.setValue(touchedData + ',' + draggedData);
+
+    if(touchedTop < draggedTop) { thisDebugger.setValue('felfele' + ' : dragged: ' + draggedTop + ' , touched: ' + touchedTop); //Grid.debugOrder();
+      this.gravity(
+        this.getTop()+draggedHeight,
+        touchedLeft,
+        function() {
+          Grid.frame.on(
+            touchedTop,
+            touchedLeft,
+            draggedHeight,
+            touchedWidth,
+            function(obj) {
+              Grid.reSort();
+            }
+          );
+        }
+      );
+    } else if(touchedTop > draggedTop) { thisDebugger.setValue('lefele' + ' : dragged: ' + draggedTop + ' , touched: ' + touchedTop); //Grid.debugOrder();
+      this.gravity(
+        Grid.frame.getTop(),
+        touchedLeft,
+        function() {
+          Grid.frame.on(
+            touchedTop+(touchedHeight-draggedHeight),
+            touchedLeft,
+            draggedHeight,
+            touchedWidth,
+            function(obj) {
+              Grid.reSort();
+            }
+          );
+        }
+      );
+    }
+  },
+  dragStarted: function() {
+    var startTop    = this.getTop(),
+        startLeft   = this.getLeft(),
+        startHeight = this.getHeight(),
+        startWidth = this.getWidth();
+    Grid.frame.on(
+      startTop,
+      startLeft,
+      startHeight,
+      startWidth,
+      function(obj) {
+      }
+    );
+  },
+
+  dragStopped: function() {
+    this.gravity(
+      Grid.frame.getTop(),
+      Grid.leftPos,
+      function() {
+        Grid.reSort();
+        Grid.frame.off();
+      }
+    );
+  },
+
+  /*
+    @method _construct
+    @param cfg object
+    @return no return
+  */
+  _construct: function(cfg) {
+    this.cfg      = cfg[0] || {};
+		this.top			= (this.cfg.top			?	this.cfg.top			:	0);
+    this.id				= (this.cfg.id			?	this.cfg.id				:	'');
+    this.data			= (this.cfg.data		?	this.cfg.data			: 0);
+    this.rel			= (this.cfg.rel			?	this.cfg.rel			: 0);
+    this.display	=	(this.cfg.display	?	this.cfg.display	: 'none');
+    this.content	= (this.cfg.content ? this.cfg.content	: {});
+    this.parent		= (this.cfg.parent  ? this.cfg.parent		: '');
+    this.build();
+    this.setHeight(parseInt($(this.body).height(),10));
+  }
+});
+
+/*
+  Component EmptyFrame
+*/
+var EmptyFrame = Component.extend(Grid._construct,{
+  /*
+    @method build
+    @return no return
+  */
+  build: function() {
+		this.body = $.create({
+			type	: 'li',
+			id		: this.id,
+			style	: ['top:',this.top,'px;left:0px;display:',this.display].join(''),
+			data	: this.data,
+			cls		: 'draggable gridEl'
+		},this.parent);
+		$(this.body).append(this.content);
+  },
+  /*
+    @method getTop
+    @return no return
+  */
+  getTop: function() {
+    var top = parseInt($(this.body).css('top'),10);
+    this.setTop(top);
+    return this.top;
+  },
+  /*
+    @method setTop
+    @param top number
+    @return no return
+  */
+  setTop: function(top) {
+    if(top !== null && typeof top != 'undefined') {
+      this.top = top;
+    }
+  },
+  /*
+    @method getLeft
+    @return no return
+  */
+  getLeft: function() {
+    var left = parseInt($(this.body).css('left'),10);
+    this.setLeft(left);
+    return this.left;
+  },
+  /*
+    @method setLeft
+    @param top number
+    @return no return
+  */
+  setLeft: function(left) {
+    if(left !== null && typeof left != 'undefined') {
+      this.left = left;
+    }
+  },
+  /*
+    @method getState
+    @return no return
+  */
+  getState: function() {
+		return this.state;
+  },
+  /*
+    @method setState
+		@param state string
+    @return no return
+  */
+  setState: function(state) {
+		if(state	!== null && typeof state != 'undefined') {
+			this.state = state;
+			switch(this.state) {
+				case 'hidden':
+          this.display = 'none';
+					$(this.body).css('display','none');
+				break;
+				case 'visible':
+          this.display = 'block';
+					$(this.body).css('display','block');
+				break;
+			}
+		}
+  },
+  /*
+    @method getHeight
+    @return no return
+  */
+  getHeight: function() {
+    var height = parseInt($(this.body).height(),10);
+    this.setHeight(height);
+		return this.height;
+  },
+  /*
+    @method setHeight
+    @param height number
+    @return no return
+  */
+  setHeight: function(height) {
+		if(height	!== null && typeof height != 'undefined') {
+			this.height = height;
+			//$(this.body).height(this.height);
+		}
+  },
+  /*
+    @method getData
+    @return no return
+  */
+  getData: function() {
+		this.data =	$(this.body).attr('data');
+    return this.data;
+  },
+  /*
+    @method setData
+    @param data number
+    @return no return
+  */
+  setData: function(data) {
+    if(data !== null && typeof data != 'undefined') {
+      this.data = data;
+      $(this.body).attr('data',this.data);
+    }
+  },
+  /*
+    @method on
+    @param y number
+    @param x number
+    @param height number
+    @param callback function
+    @return no return
+  */
+  on: function(y,x,height,width,callback) {
+    this.setState('visible');
+    this.gravity(y,x,height,width,callback);
+  },
+  /*
+    @method off
+    @return no return
+  */
+  off: function() {
+    this.setState('hidden');
+  },
+  /*
+    @method getWidth
+    @return no return
+  */
+  getWidth: function() {
+    return parseInt($(this.body).css('width'),10);
+  },
+  /*
+    @method setWidth
+    @return no return
+  */
+  setWidth: function(width) {
+    if(typeof width == 'number')
+      $(this.body).css('width',width);
+  },
+  /*
+    @method getRel
+    @return no return
+  */
+  getRel: function() {
+    return parseInt($(this.body).attr('rel'),10);
+  },
+  /*
+    @method setRel
+    @param data number
+    @return no return
+  */
+  setRel: function(data) {
+    if(typeof data == 'number')
+      $(this.body).attr('rel',data);
+  },
+  /*
+    @method gravity
+    @param y number
+    @param x number
+    @param height number
+    @param callback function
+    @return no return
+  */
+  gravity: function(y,x,height,width,callback) {
+		var self  = this,
+        y       = (y == 'auto' ? 0 : y),
+        x       = (x == 'auto' ? 0 : x),
+        height  = (height == 'auto' ? 0 : height),
+        width   = (width == 'auto' ? 0 : width);
+    self.top = y;
+		self.callback = callback || (typeof callback == 'function' ? function() {callback(self);} : function() {});
+		emile(this.body,['top: ',y,'px;left: ',x,'px;height: ',height,'px;width: ',width,'px;display: block;'].join(''),{
+			duration: Grid.duration,
+			after: function() {
+				if(typeof callback == 'function')
+          self.callback(self);
+			}
+		});
+  },
+  /*
+    @method _construct
+    @param cfg object
+    @return no return
+  */
+  _construct: function(cfg) {
+    this.cfg      = cfg[0] || {};
+		this.top			= (this.cfg.top			?	this.cfg.top			:	0);
+    this.id				= (this.cfg.id			?	this.cfg.id				:	'');
+    this.data			= (this.cfg.data		?	this.cfg.data			: 0);
+    this.rel			= (this.cfg.rel			?	this.cfg.rel			: 0);
+    this.display	=	(this.cfg.display	?	this.cfg.display	: 'none');
+    this.content	= (this.cfg.content ? this.cfg.content	: {});
+    this.parent		= (this.cfg.parent  ? this.cfg.parent		: '');
+    this.state		= (this.cfg.state		?	this.cfg.state		: '');
+    this.build();
+    this.setHeight(parseInt($(this.body).height(),10));
+    this.setState(this.state);
+  }
+});
+/*
   Class Initializer
 */
 var Initializer = (function() {
@@ -1600,16 +2401,31 @@ var Initializer = (function() {
     }
     var obj = {};
     if(typeof DomBuilder !== 'undefined') {
-      obj.create    = DomBuilder.create;
-      obj.getParent = DomBuilder.getParent;
+      obj.create          = DomBuilder.create;
+      obj.getParent       = DomBuilder.getParent;
+      $.fn.extend({
+        addClassName: DomBuilder.addClassName
+      });
+      $.fn.extend({
+        removeClassName: DomBuilder.removeClassName
+      });
+      $.fn.extend({
+        hasClassName: DomBuilder.hasClassName
+      });
     }
     if(typeof Stuff !== 'undefined') {
       obj.arrayUnique = Stuff.arrayUnique;
+      obj.getRndRGB   = Stuff.getRndRGB;
     }
     $.extend(obj);
     if(typeof Grid !== 'undefined') {
       $.fn.extend({
-        grid: Grid
+        grid: Grid.init
+      });
+    }
+    if(typeof Dragger !== 'undefined') {
+      $.fn.extend({
+        draggable: Dragger.drag
       });
     }
   };

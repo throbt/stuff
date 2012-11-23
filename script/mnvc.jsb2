@@ -16,6 +16,9 @@
         text: 'effect.js',
         path: '../www/lib/mnvc/lib/'
       },{
+        text: 'dragger.js',
+        path: '../www/lib/mnvc/lib/'
+      },{
         text: 'component.js',
         path: '../www/lib/mnvc/lib/'
       },{

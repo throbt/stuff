@@ -1,0 +1,12 @@
+<script>
+	var thisScript 	= document.getElementsByTagName('script')[0].parentNode,
+	    main 				= document.createElement('script'),
+	    thisStyle 	= document.createElement('link');
+  thisStyle.setAttribute("type", "text/css");
+	thisStyle.setAttribute("href", "lib/build/snake.css");
+	thisStyle.setAttribute("rel", "stylesheet");
+	main.setAttribute("type", "text/javascript");
+	main.setAttribute("src", "lib/build/snake-debug.js");
+	thisScript.appendChild(thisStyle);
+	thisScript.appendChild(main);
+</script>

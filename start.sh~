@@ -1,0 +1,3 @@
+#!/bin/bash
+
+setxkbmap -layout "hu, us" -option "grp:caps_toggle"

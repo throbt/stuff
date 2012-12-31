@@ -1,0 +1,8 @@
+tty-clock
+hwclock --hctosys
+hwclock --set --date="2012-10-02 19:50:00"
+
+date
+hwclock --show
+
+cmatrixreloaded

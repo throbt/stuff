@@ -1,8 +1,18 @@
-:color ekvoli "dw_green   "  
 :set number
 :set tabstop=2
 
-"call pathogen#infect()
+
+
+call pathogen#infect()
+
+"Bundle 'flazz/vim-colorschemes'
+
+"Bundle 'pangloss/vim-javascript'
+
+
+:color ekvoli
+
+
 syntax on
 filetype plugin indent on
 
@@ -90,3 +100,9 @@ map <F2> \c
 imap <f3> <c-n>
 map <f12> :NERDTree <enter>
 map <F4> :tabnew <enter>
+
+
+
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
